@@ -2,32 +2,54 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Link } from 'react-router-dom';
-import { Star, Truck, Shield, Award } from 'lucide-react';
+import { Star, Truck, Shield, Award, ArrowRight } from 'lucide-react';
+import kuchipudiDancer from '@/assets/kuchipudi-dancer.jpg';
 
 export default function Home() {
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-primary/10 via-accent/5 to-secondary/10 py-20 lg:py-32">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <Badge variant="secondary" className="mb-6">
+      {/* Hero Section with Motion Background */}
+      <section className="relative h-screen overflow-hidden">
+        {/* Animated Background */}
+        <div className="absolute inset-0">
+          <div 
+            className="absolute inset-0 bg-cover bg-center animate-[float_6s_ease-in-out_infinite]"
+            style={{
+              backgroundImage: `url(${kuchipudiDancer})`,
+              filter: 'brightness(0.3)'
+            }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/40 to-secondary/40" />
+          
+          {/* Floating Elements */}
+          <div className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-br from-accent/20 to-primary/20 rounded-full blur-xl animate-[float_4s_ease-in-out_infinite_reverse]" />
+          <div className="absolute bottom-32 right-16 w-24 h-24 bg-gradient-to-br from-secondary/20 to-accent/20 rounded-full blur-xl animate-[float_5s_ease-in-out_infinite]" />
+        </div>
+        
+        {/* Hero Content */}
+        <div className="relative z-10 container mx-auto px-4 h-full flex items-center justify-center text-center">
+          <div className="max-w-4xl">
+            <Badge variant="secondary" className="mb-6 bg-secondary/90 text-secondary-foreground">
               Authentic Indian Craftsmanship
             </Badge>
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-playfair font-bold text-foreground mb-6">
-              Elegance Woven in{' '}
-              <span className="text-primary">Tradition</span>
+            <h1 className="text-5xl md:text-7xl font-playfair font-bold text-white mb-6 animate-fade-in">
+              Elegance Woven in <span className="text-secondary">Tradition</span>
             </h1>
-            <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Discover our exquisite collection of handcrafted sarees and jewelry, 
-              where every thread tells a story of India's rich heritage.
+            <p className="text-xl md:text-2xl text-white/90 max-w-2xl mx-auto mb-8 animate-fade-in">
+              Discover authentic handcrafted sarees and jewelry from master artisans across India
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" asChild className="text-lg px-8">
-                <Link to="/sarees">Shop Sarees</Link>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in">
+              <Button asChild size="lg" className="text-lg px-8 bg-primary hover:bg-primary/90">
+                <Link to="/sarees">
+                  Shop Sarees
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Link>
               </Button>
-              <Button size="lg" variant="outline" asChild className="text-lg px-8">
-                <Link to="/jewelry">Explore Jewelry</Link>
+              <Button asChild variant="outline" size="lg" className="text-lg px-8 border-white text-white hover:bg-white hover:text-primary">
+                <Link to="/jewelry">
+                  Explore Jewelry
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Link>
               </Button>
             </div>
           </div>

@@ -145,26 +145,67 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Trust Indicators */}
+      {/* Customer Stories */}
       <section className="py-16 bg-background">
-        <div className="container mx-auto px-4 text-center">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-2xl md:text-3xl font-playfair font-bold text-foreground mb-8">
-              Trusted by Thousands Across India
+        <div className="container mx-auto px-4">
+          <div className="max-w-6xl mx-auto">
+            <h2 className="text-2xl md:text-3xl font-playfair font-bold text-center text-foreground mb-12">
+              Stories of Timeless Elegance
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div>
-                <div className="text-3xl font-bold text-primary mb-2">10,000+</div>
-                <p className="text-muted-foreground">Happy Customers</p>
-              </div>
-              <div>
-                <div className="text-3xl font-bold text-primary mb-2">500+</div>
-                <p className="text-muted-foreground">Artisan Partners</p>
-              </div>
-              <div>
-                <div className="text-3xl font-bold text-primary mb-2">15+</div>
-                <p className="text-muted-foreground">Years of Tradition</p>
-              </div>
+              <Card className="p-6">
+                <div className="flex items-center mb-4">
+                  <div className="flex text-secondary">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="h-4 w-4 fill-current" />
+                    ))}
+                  </div>
+                </div>
+                <blockquote className="text-muted-foreground mb-4 italic">
+                  "The silk quality is absolutely exquisite. You can feel the craftsmanship in every thread. 
+                  The saree drapes beautifully and feels luxurious against the skin."
+                </blockquote>
+                <div className="text-sm">
+                  <p className="font-semibold text-foreground">Priya Sharma</p>
+                  <p className="text-muted-foreground">Mumbai</p>
+                </div>
+              </Card>
+              
+              <Card className="p-6">
+                <div className="flex items-center mb-4">
+                  <div className="flex text-secondary">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="h-4 w-4 fill-current" />
+                    ))}
+                  </div>
+                </div>
+                <blockquote className="text-muted-foreground mb-4 italic">
+                  "I've never seen such intricate work on jewelry. The temple designs are so detailed and 
+                  the gold finish is perfect. It's clear these are made by master artisans."
+                </blockquote>
+                <div className="text-sm">
+                  <p className="font-semibold text-foreground">Anitha Reddy</p>
+                  <p className="text-muted-foreground">Hyderabad</p>
+                </div>
+              </Card>
+              
+              <Card className="p-6">
+                <div className="flex items-center mb-4">
+                  <div className="flex text-secondary">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="h-4 w-4 fill-current" />
+                    ))}
+                  </div>
+                </div>
+                <blockquote className="text-muted-foreground mb-4 italic">
+                  "The Banarasi saree I received exceeded all expectations. The zari work is authentic 
+                  and the colors are so vibrant. You can tell it's handwoven with love and care."
+                </blockquote>
+                <div className="text-sm">
+                  <p className="font-semibold text-foreground">Kavitha Nair</p>
+                  <p className="text-muted-foreground">Kochi</p>
+                </div>
+              </Card>
             </div>
           </div>
         </div>

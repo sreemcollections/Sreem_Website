@@ -150,23 +150,19 @@ export default function Sarees() {
             </div>
 
             <div>
-              <h3 className="font-semibold mb-3">Region</h3>
+              <h3 className="font-semibold mb-3">Discount</h3>
               <div className="space-y-2">
                 <div className="flex items-center space-x-2">
-                  <Checkbox id="banarasi" />
-                  <label htmlFor="banarasi" className="text-sm">Banarasi</label>
+                  <Checkbox id="discount-10" />
+                  <label htmlFor="discount-10" className="text-sm">10% and above</label>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Checkbox id="kanjivaram" />
-                  <label htmlFor="kanjivaram" className="text-sm">Kanjivaram</label>
+                  <Checkbox id="discount-20" />
+                  <label htmlFor="discount-20" className="text-sm">20% and above</label>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Checkbox id="chanderi" />
-                  <label htmlFor="chanderi" className="text-sm">Chanderi</label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Checkbox id="bandhani" />
-                  <label htmlFor="bandhani" className="text-sm">Bandhani</label>
+                  <Checkbox id="discount-30" />
+                  <label htmlFor="discount-30" className="text-sm">30% and above</label>
                 </div>
               </div>
             </div>

@@ -45,7 +45,7 @@ export default function Home() {
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
-              <Button asChild variant="outline" size="lg" className="text-lg px-8 border-white text-white hover:bg-white hover:text-primary">
+              <Button asChild variant="secondary" size="lg" className="text-lg px-8 bg-white/20 text-white border-white/30 hover:bg-white hover:text-primary">
                 <Link to="/jewelry">
                   Explore Jewelry
                   <ArrowRight className="ml-2 h-5 w-5" />

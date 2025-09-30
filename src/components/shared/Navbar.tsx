@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useCartStore } from '@/store/cartStore';
 import { useAuthStore } from '@/store/authStore';
+import elephantProcession from '@/assets/elephant-procession.png';
+import flowerPathway from '@/assets/flower-pathway.png';
 
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -22,8 +24,30 @@ export const Navbar = () => {
   };
 
   return (
-    <header className="border-b border-border/30 bg-background/95 backdrop-blur-sm sticky top-0 z-50 shadow-sm">
-      <div className="container mx-auto px-4 lg:px-8">
+    <header className="border-b border-border/30 bg-background/95 backdrop-blur-sm sticky top-0 z-50 shadow-sm overflow-hidden relative">
+      {/* Animated Elephant Procession */}
+      <div className="absolute inset-0 pointer-events-none">
+        {/* Flower pathway */}
+        <div 
+          className="absolute bottom-0 w-full h-16 opacity-30 animate-[slideLeft_20s_linear_infinite]"
+          style={{
+            backgroundImage: `url(${flowerPathway})`,
+            backgroundRepeat: 'repeat-x',
+            backgroundSize: 'auto 100%',
+          }}
+        />
+        {/* Elephant procession */}
+        <div 
+          className="absolute bottom-2 w-full h-16 opacity-40 animate-[slideLeft_30s_linear_infinite]"
+          style={{
+            backgroundImage: `url(${elephantProcession})`,
+            backgroundRepeat: 'repeat-x',
+            backgroundSize: 'auto 80%',
+          }}
+        />
+      </div>
+      
+      <div className="container mx-auto px-4 lg:px-8 relative z-10">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link 

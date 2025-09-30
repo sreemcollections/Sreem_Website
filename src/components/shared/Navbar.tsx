@@ -22,65 +22,71 @@ export const Navbar = () => {
   };
 
   return (
-    <header className="border-b bg-background sticky top-0 z-50">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
+    <header className="border-b border-border/30 bg-background/95 backdrop-blur-sm sticky top-0 z-50 shadow-sm">
+      <div className="container mx-auto px-4 lg:px-8">
+        <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link 
             to="/" 
-            className="text-2xl font-playfair font-bold text-primary hover:text-primary/80 transition-colors"
+            className="text-3xl font-playfair font-bold text-primary hover:text-primary/80 transition-all duration-300 hover:scale-105"
           >
             Mudhra
+            <span className="text-xs font-normal text-muted-foreground block leading-none mt-1 tracking-wider">
+              AUTHENTIC CRAFTSMANSHIP
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="hidden lg:flex items-center space-x-12">
             <Link 
               to="/sarees" 
-              className="text-foreground hover:text-primary transition-colors"
+              className="group relative text-foreground hover:text-primary transition-all duration-300 font-medium tracking-wide"
             >
               Sarees
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-secondary transition-all duration-300 group-hover:w-full"></span>
             </Link>
             <Link 
               to="/jewelry" 
-              className="text-foreground hover:text-primary transition-colors"
+              className="group relative text-foreground hover:text-primary transition-all duration-300 font-medium tracking-wide"
             >
               Jewelry
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-secondary transition-all duration-300 group-hover:w-full"></span>
             </Link>
             <Link 
               to="/collections" 
-              className="text-foreground hover:text-primary transition-colors"
+              className="group relative text-foreground hover:text-primary transition-all duration-300 font-medium tracking-wide"
             >
               Collections
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-secondary transition-all duration-300 group-hover:w-full"></span>
             </Link>
           </nav>
 
           {/* Search Bar */}
-          <form onSubmit={handleSearch} className="hidden md:flex items-center space-x-2 flex-1 max-w-md mx-8">
-            <div className="relative flex-1">
+          <form onSubmit={handleSearch} className="hidden lg:flex items-center flex-1 max-w-lg mx-12">
+            <div className="relative w-full">
               <Input
                 type="search"
                 placeholder="Search for sarees, jewelry..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10"
+                className="pl-12 pr-4 py-3 rounded-full border-border/40 bg-muted/30 focus:bg-background focus:border-primary/50 transition-all duration-300 placeholder:text-muted-foreground/70"
               />
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground/70" />
             </div>
           </form>
 
           {/* Action Buttons */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-3">
             {/* Cart */}
             <Button 
               variant="ghost" 
-              size="sm" 
-              className="relative"
+              size="lg" 
+              className="relative hover:bg-primary/10 transition-all duration-300"
               onClick={() => navigate('/cart')}
             >
-              <ShoppingCart className="h-5 w-5" />
+              <ShoppingCart className="h-6 w-6" />
               {totalItems > 0 && (
-                <span className="absolute -top-2 -right-2 bg-primary text-primary-foreground text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                <span className="absolute -top-1 -right-1 bg-gradient-to-r from-primary to-secondary text-white text-xs rounded-full h-6 w-6 flex items-center justify-center font-bold shadow-lg animate-pulse">
                   {totalItems}
                 </span>
               )}
@@ -89,60 +95,61 @@ export const Navbar = () => {
             {/* User Account */}
             <Button 
               variant="ghost" 
-              size="sm"
+              size="lg"
+              className="hover:bg-primary/10 transition-all duration-300"
               onClick={() => navigate(isAuthenticated ? '/profile' : '/login')}
             >
-              <User className="h-5 w-5" />
+              <User className="h-6 w-6" />
             </Button>
 
             {/* Mobile Menu Toggle */}
             <Button
               variant="ghost"
-              size="sm"
-              className="md:hidden"
+              size="lg"
+              className="lg:hidden hover:bg-primary/10 transition-all duration-300"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
-              {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </Button>
           </div>
         </div>
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden border-t py-4">
+          <div className="lg:hidden border-t border-border/30 py-6 animate-fade-in">
             {/* Mobile Search */}
-            <form onSubmit={handleSearch} className="mb-4">
+            <form onSubmit={handleSearch} className="mb-6">
               <div className="relative">
                 <Input
                   type="search"
                   placeholder="Search for sarees, jewelry..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10"
+                  className="pl-12 pr-4 py-3 rounded-full border-border/40 bg-muted/30 focus:bg-background focus:border-primary/50 transition-all duration-300"
                 />
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground/70" />
               </div>
             </form>
 
             {/* Mobile Navigation */}
-            <nav className="space-y-2">
+            <nav className="space-y-1">
               <Link 
                 to="/sarees" 
-                className="block py-2 text-foreground hover:text-primary transition-colors"
+                className="block py-4 px-4 text-foreground hover:text-primary hover:bg-primary/5 transition-all duration-300 rounded-lg font-medium tracking-wide"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Sarees
               </Link>
               <Link 
                 to="/jewelry" 
-                className="block py-2 text-foreground hover:text-primary transition-colors"
+                className="block py-4 px-4 text-foreground hover:text-primary hover:bg-primary/5 transition-all duration-300 rounded-lg font-medium tracking-wide"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Jewelry
               </Link>
               <Link 
                 to="/collections" 
-                className="block py-2 text-foreground hover:text-primary transition-colors"
+                className="block py-4 px-4 text-foreground hover:text-primary hover:bg-primary/5 transition-all duration-300 rounded-lg font-medium tracking-wide"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Collections

@@ -5,11 +5,27 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Filter, Grid, List } from 'lucide-react';
+import { Filter, Grid, List, Loader2 } from 'lucide-react';
+import { useCartStore } from '@/store/cartStore';
 
 export default function Sarees() {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [showFilters, setShowFilters] = useState(false);
+  const { isLoading, loadingItems, setLoading, setItemLoading } = useCartStore();
+
+  const handleQuickView = async (productId: string) => {
+    setItemLoading(productId, true);
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    setItemLoading(productId, false);
+  };
+
+  const handleLoadMore = async () => {
+    setLoading(true);
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    setLoading(false);
+  };
 
   return (
     <div className="min-h-screen">
@@ -164,42 +180,73 @@ export default function Sarees() {
                 : 'grid-cols-1'
             }`}>
               {/* Sample Products */}
-              {Array.from({ length: 12 }, (_, i) => (
-                <Card key={i} className="group overflow-hidden hover:shadow-lg transition-shadow">
-                  <CardContent className="p-0">
-                    <div className="aspect-[3/4] bg-gradient-to-br from-primary/10 to-secondary/10 relative">
-                      <Badge className="absolute top-3 left-3 bg-secondary text-secondary-foreground">
-                        New
-                      </Badge>
-                      <div className="absolute bottom-3 right-3">
-                        <Button size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity">
-                          Quick View
-                        </Button>
-                      </div>
-                    </div>
-                    
-                    <div className="p-4">
-                      <h3 className="font-semibold mb-1">Royal Banarasi Silk Saree</h3>
-                      <p className="text-sm text-muted-foreground mb-2">Handwoven with golden zari</p>
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <span className="text-lg font-bold text-primary">₹15,999</span>
-                          <span className="text-sm text-muted-foreground line-through">₹19,999</span>
-                        </div>
-                        <Badge variant="outline" className="text-xs">
-                          GST Included
+              {Array.from({ length: 12 }, (_, i) => {
+                const productId = `product-${i}`;
+                const isItemLoading = loadingItems.has(productId);
+                const discountPercentage = [20, 25, 15, 30, 10, 35][i % 6];
+                
+                return (
+                  <Card key={i} className="group overflow-hidden hover:shadow-lg transition-shadow">
+                    <CardContent className="p-0">
+                      <div className="aspect-[3/4] bg-gradient-to-br from-primary/10 to-secondary/10 relative">
+                        <Badge className="absolute top-3 left-3 bg-destructive text-destructive-foreground">
+                          {discountPercentage}% OFF
                         </Badge>
+                        <div className="absolute bottom-3 right-3">
+                          <Button 
+                            size="sm" 
+                            className="opacity-0 group-hover:opacity-100 transition-opacity"
+                            onClick={() => handleQuickView(productId)}
+                            disabled={isItemLoading}
+                          >
+                            {isItemLoading ? (
+                              <>
+                                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                                Loading
+                              </>
+                            ) : (
+                              'Quick View'
+                            )}
+                          </Button>
+                        </div>
                       </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
+                      
+                      <div className="p-4">
+                        <h3 className="font-semibold mb-1">Royal Banarasi Silk Saree</h3>
+                        <p className="text-sm text-muted-foreground mb-2">Handwoven with golden zari</p>
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <span className="text-lg font-bold text-primary">₹15,999</span>
+                            <span className="text-sm text-muted-foreground line-through">₹19,999</span>
+                          </div>
+                          <Badge variant="outline" className="text-xs">
+                            GST Included
+                          </Badge>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                );
+              })}
             </div>
 
             {/* Load More */}
             <div className="text-center mt-12">
-              <Button variant="outline" size="lg">
-                Load More Products
+              <Button 
+                variant="outline" 
+                size="lg"
+                onClick={handleLoadMore}
+                disabled={isLoading}
+                className="min-w-[200px]"
+              >
+                {isLoading ? (
+                  <>
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                    Loading Products
+                  </>
+                ) : (
+                  'Load More Products'
+                )}
               </Button>
             </div>
           </main>

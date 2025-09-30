@@ -12,18 +12,24 @@ export interface CartItem {
 
 interface CartState {
   items: CartItem[];
+  isLoading: boolean;
+  loadingItems: Set<string>;
   addItem: (item: Omit<CartItem, 'quantity'>) => void;
   removeItem: (id: string) => void;
   updateQuantity: (id: string, quantity: number) => void;
   clearCart: () => void;
   getTotalPrice: () => number;
   getTotalItems: () => number;
+  setLoading: (loading: boolean) => void;
+  setItemLoading: (itemId: string, loading: boolean) => void;
 }
 
 export const useCartStore = create<CartState>()(
   persist(
     (set, get) => ({
       items: [],
+      isLoading: false,
+      loadingItems: new Set(),
       
       addItem: (item) => set((state) => {
         const existingItem = state.items.find(i => i.id === item.id);
@@ -63,6 +69,18 @@ export const useCartStore = create<CartState>()(
         const { items } = get();
         return items.reduce((total, item) => total + item.quantity, 0);
       },
+      
+      setLoading: (loading) => set({ isLoading: loading }),
+      
+      setItemLoading: (itemId, loading) => set((state) => {
+        const newLoadingItems = new Set(state.loadingItems);
+        if (loading) {
+          newLoadingItems.add(itemId);
+        } else {
+          newLoadingItems.delete(itemId);
+        }
+        return { loadingItems: newLoadingItems };
+      }),
     }),
     {
       name: 'mudhra-cart',

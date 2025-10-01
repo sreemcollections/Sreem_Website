@@ -25,6 +25,19 @@ export const Navbar = () => {
 
   return (
     <header className="border-b border-border/30 bg-background/95 backdrop-blur-sm sticky top-0 z-50 shadow-sm relative">
+      {/* Elephant Animation Box - Behind Content */}
+      <div className="hidden lg:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-12 overflow-hidden rounded-lg border border-border/20 bg-muted/10 z-0 pointer-events-none">
+        <video 
+          autoPlay 
+          loop 
+          muted 
+          playsInline
+          className="w-full h-full object-cover opacity-60"
+        >
+          <source src="/elephants-loop.mp4" type="video/mp4" />
+        </video>
+      </div>
+      
       <div className="container mx-auto px-4 lg:px-8 relative z-10">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
@@ -37,19 +50,6 @@ export const Navbar = () => {
               AUTHENTIC CRAFTSMANSHIP
             </span>
           </Link>
-
-          {/* Elephant Animation Box */}
-          <div className="hidden lg:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-16 overflow-hidden rounded-lg border border-border/30 bg-muted/20">
-            <video 
-              autoPlay 
-              loop 
-              muted 
-              playsInline
-              className="w-full h-full object-cover"
-            >
-              <source src="/elephants-loop.mp4" type="video/mp4" />
-            </video>
-          </div>
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-12">

@@ -24,10 +24,122 @@ export const Navbar = () => {
   };
 
   return (
-    <header className="border-b-0 bg-background sticky top-0 z-50 shadow-md relative overflow-hidden">
-      {/* Main Header Content */}
-      <div className="container mx-auto px-4 lg:px-8 relative z-10">
-        <div className="flex items-center justify-between h-20">
+    <header className="border-b-0 bg-background sticky top-0 z-50 shadow-lg">
+      {/* Traditional Indian Decorative Border - Top Section */}
+      <div className="w-full bg-gradient-to-b from-primary via-primary to-primary/95 relative overflow-hidden">
+        
+        {/* Top geometric pattern */}
+        <div className="h-4 flex border-b border-secondary/30">
+          {[...Array(60)].map((_, i) => (
+            <svg key={`geo-${i}`} viewBox="0 0 30 16" className="flex-shrink-0" style={{ width: '30px', height: '16px' }}>
+              <path d="M15 2 L20 8 L15 14 L10 8 Z" fill="none" stroke="hsl(var(--secondary))" strokeWidth="0.8" opacity="0.7"/>
+              <circle cx="15" cy="8" r="1.5" fill="hsl(var(--secondary))" opacity="0.6"/>
+            </svg>
+          ))}
+        </div>
+        
+        {/* Middle ornate circular floral pattern */}
+        <div className="h-12 flex items-center border-b border-secondary/30 bg-primary/80">
+          {[...Array(20)].map((_, i) => (
+            <svg key={`floral-${i}`} viewBox="0 0 60 48" className="flex-shrink-0" style={{ width: '60px', height: '48px' }}>
+              {/* Circular frame */}
+              <circle cx="30" cy="24" r="18" fill="none" stroke="hsl(var(--secondary))" strokeWidth="1" opacity="0.8"/>
+              {/* Central tree/floral motif */}
+              <path d="M30 10 L30 38" stroke="hsl(var(--secondary))" strokeWidth="1.5" opacity="0.8"/>
+              <path d="M30 18 Q25 20, 25 24 T30 30" fill="hsl(var(--secondary))" opacity="0.6"/>
+              <path d="M30 18 Q35 20, 35 24 T30 30" fill="hsl(var(--secondary))" opacity="0.6"/>
+              <circle cx="30" cy="15" r="3" fill="hsl(var(--secondary))" opacity="0.7"/>
+              <circle cx="26" cy="24" r="2" fill="hsl(var(--secondary))" opacity="0.7"/>
+              <circle cx="34" cy="24" r="2" fill="hsl(var(--secondary))" opacity="0.7"/>
+              <path d="M22 24 L20 20 L24 22 Z" fill="hsl(var(--secondary))" opacity="0.6"/>
+              <path d="M38 24 L40 20 L36 22 Z" fill="hsl(var(--secondary))" opacity="0.6"/>
+            </svg>
+          ))}
+        </div>
+        
+        {/* Main elephant section */}
+        <div className="h-32 md:h-40 flex items-center justify-center py-4 relative">
+          <div className="flex items-center gap-8 md:gap-16 lg:gap-24">
+            {[...Array(3)].map((_, i) => (
+              <svg key={`elephant-main-${i}`} viewBox="0 0 120 80" className="w-24 h-20 md:w-32 md:h-28 lg:w-40 lg:h-32">
+                {/* Elephant body with detailed pattern */}
+                <ellipse cx="60" cy="50" rx="35" ry="22" fill="hsl(var(--secondary))" opacity="0.85"/>
+                <circle cx="40" cy="40" r="18" fill="hsl(var(--secondary))" opacity="0.85"/>
+                
+                {/* Trunk */}
+                <path d="M30 45 Q20 55, 25 65 T30 72" stroke="hsl(var(--secondary))" strokeWidth="5" fill="none" opacity="0.85"/>
+                
+                {/* Ear */}
+                <ellipse cx="35" cy="38" rx="8" ry="15" fill="hsl(var(--secondary))" opacity="0.7"/>
+                
+                {/* Decorative blanket with intricate patterns */}
+                <rect x="45" y="35" width="35" height="30" rx="2" fill="hsl(var(--accent))" opacity="0.6"/>
+                <rect x="48" y="38" width="29" height="5" fill="hsl(var(--secondary))" opacity="0.8"/>
+                <rect x="48" y="56" width="29" height="5" fill="hsl(var(--secondary))" opacity="0.8"/>
+                
+                {/* Geometric patterns on blanket */}
+                <circle cx="55" cy="50" r="3" fill="hsl(var(--background))" opacity="0.9"/>
+                <circle cx="63" cy="50" r="3" fill="hsl(var(--background))" opacity="0.9"/>
+                <circle cx="71" cy="50" r="3" fill="hsl(var(--background))" opacity="0.9"/>
+                <path d="M59 45 L63 50 L59 55 L55 50 Z" fill="hsl(var(--background))" opacity="0.8"/>
+                <path d="M67 45 L71 50 L67 55 L63 50 Z" fill="hsl(var(--background))" opacity="0.8"/>
+                
+                {/* Legs with anklets */}
+                <line x1="50" y1="72" x2="50" y2="80" stroke="hsl(var(--secondary))" strokeWidth="5" opacity="0.85"/>
+                <line x1="65" y1="72" x2="65" y2="80" stroke="hsl(var(--secondary))" strokeWidth="5" opacity="0.85"/>
+                <line x1="75" y1="72" x2="75" y2="80" stroke="hsl(var(--secondary))" strokeWidth="5" opacity="0.85"/>
+                <circle cx="50" cy="75" r="2" fill="hsl(var(--accent))" opacity="0.8"/>
+                <circle cx="65" cy="75" r="2" fill="hsl(var(--accent))" opacity="0.8"/>
+                <circle cx="75" cy="75" r="2" fill="hsl(var(--accent))" opacity="0.8"/>
+                
+                {/* Decorative stars around */}
+                {i === 1 && (
+                  <>
+                    <path d="M15 25 L17 30 L22 30 L18 33 L20 38 L15 35 L10 38 L12 33 L8 30 L13 30 Z" fill="hsl(var(--secondary))" opacity="0.6"/>
+                    <path d="M105 25 L107 30 L112 30 L108 33 L110 38 L105 35 L100 38 L102 33 L98 30 L103 30 Z" fill="hsl(var(--secondary))" opacity="0.6"/>
+                  </>
+                )}
+              </svg>
+            ))}
+          </div>
+          
+          {/* Scattered floral motifs */}
+          <div className="absolute inset-0 pointer-events-none">
+            {[...Array(12)].map((_, i) => (
+              <svg 
+                key={`scatter-${i}`} 
+                viewBox="0 0 20 20" 
+                className="absolute w-4 h-4 md:w-5 md:h-5"
+                style={{
+                  left: `${10 + (i * 8)}%`,
+                  top: `${20 + (i % 3) * 25}%`,
+                  opacity: 0.5
+                }}
+              >
+                <circle cx="10" cy="10" r="2" fill="hsl(var(--secondary))"/>
+                <circle cx="10" cy="5" r="1.5" fill="hsl(var(--secondary))"/>
+                <circle cx="10" cy="15" r="1.5" fill="hsl(var(--secondary))"/>
+                <circle cx="5" cy="10" r="1.5" fill="hsl(var(--secondary))"/>
+                <circle cx="15" cy="10" r="1.5" fill="hsl(var(--secondary))"/>
+              </svg>
+            ))}
+          </div>
+        </div>
+        
+        {/* Bottom decorative scalloped border */}
+        <div className="h-4 flex">
+          {[...Array(80)].map((_, i) => (
+            <svg key={`scallop-${i}`} viewBox="0 0 20 16" className="flex-shrink-0" style={{ width: '20px', height: '16px' }}>
+              <path d="M0 0 Q10 8, 20 0 L20 16 L0 16 Z" fill="hsl(var(--background))" opacity="1"/>
+            </svg>
+          ))}
+        </div>
+      </div>
+
+      {/* Main Navigation Section */}
+      <div className="bg-background border-b border-border/20">
+        <div className="container mx-auto px-4 lg:px-8">
+          <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link 
             to="/" 
@@ -116,7 +228,7 @@ export const Navbar = () => {
             </Button>
           </div>
         </div>
-
+        
         {/* Mobile Menu */}
         {isMenuOpen && (
           <div className="lg:hidden border-t border-border/30 py-6 animate-fade-in">
@@ -160,68 +272,6 @@ export const Navbar = () => {
             </nav>
           </div>
         )}
-      </div>
-      
-      {/* Traditional Indian Decorative Border */}
-      <div aria-hidden="true" className="w-full h-16 bg-gradient-to-b from-primary/90 to-primary relative overflow-hidden">
-        {/* Top ornate vine pattern */}
-        <div className="absolute top-0 left-0 right-0 h-5 flex">
-          {[...Array(30)].map((_, i) => (
-            <svg key={`vine-${i}`} viewBox="0 0 60 20" className="flex-shrink-0" style={{ width: '60px', height: '20px' }}>
-              <path d="M0 15 Q15 5, 30 10 T60 10" stroke="hsl(var(--secondary))" strokeWidth="1" fill="none" opacity="0.8"/>
-              <circle cx="15" cy="8" r="2" fill="hsl(var(--secondary))" opacity="0.7"/>
-              <circle cx="30" cy="10" r="2.5" fill="hsl(var(--secondary))" opacity="0.8"/>
-              <circle cx="45" cy="8" r="2" fill="hsl(var(--secondary))" opacity="0.7"/>
-              <path d="M30 10 L28 6 L32 6 Z" fill="hsl(var(--secondary))" opacity="0.6"/>
-            </svg>
-          ))}
-        </div>
-        
-        {/* Middle section with elephant motifs */}
-        <div className="absolute top-5 left-0 right-0 bottom-5 flex items-center justify-center">
-          <div className="flex items-center gap-4 md:gap-8 lg:gap-12">
-            {[...Array(5)].map((_, i) => (
-              <div key={`elephant-${i}`} className="flex items-center gap-2 md:gap-4">
-                {/* Elephant motif */}
-                <svg viewBox="0 0 50 30" className="w-10 h-6 md:w-14 md:h-8 lg:w-16 lg:h-10">
-                  {/* Elephant body */}
-                  <ellipse cx="25" cy="18" rx="12" ry="8" fill="hsl(var(--secondary))" opacity="0.9"/>
-                  {/* Elephant head */}
-                  <circle cx="15" cy="15" r="6" fill="hsl(var(--secondary))" opacity="0.9"/>
-                  {/* Trunk */}
-                  <path d="M12 18 Q8 22, 10 26" stroke="hsl(var(--secondary))" strokeWidth="2" fill="none" opacity="0.9"/>
-                  {/* Decorative blanket pattern */}
-                  <rect x="20" y="14" width="10" height="8" fill="hsl(var(--accent))" opacity="0.6"/>
-                  <circle cx="25" cy="18" r="1.5" fill="hsl(var(--background))" opacity="0.8"/>
-                  {/* Legs */}
-                  <line x1="20" y1="26" x2="20" y2="30" stroke="hsl(var(--secondary))" strokeWidth="2" opacity="0.9"/>
-                  <line x1="30" y1="26" x2="30" y2="30" stroke="hsl(var(--secondary))" strokeWidth="2" opacity="0.9"/>
-                </svg>
-                
-                {/* Decorative divider */}
-                {i < 4 && (
-                  <svg viewBox="0 0 20 30" className="w-4 h-6 md:w-6 md:h-8">
-                    <path d="M10 5 L10 25" stroke="hsl(var(--secondary))" strokeWidth="1" opacity="0.6"/>
-                    <circle cx="10" cy="10" r="2" fill="hsl(var(--secondary))" opacity="0.7"/>
-                    <circle cx="10" cy="20" r="2" fill="hsl(var(--secondary))" opacity="0.7"/>
-                    <path d="M10 15 L8 13 L12 13 Z" fill="hsl(var(--secondary))" opacity="0.6"/>
-                  </svg>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-        
-        {/* Bottom decorative border */}
-        <div className="absolute bottom-0 left-0 right-0 h-5 flex">
-          {[...Array(40)].map((_, i) => (
-            <svg key={`bottom-${i}`} viewBox="0 0 40 20" className="flex-shrink-0" style={{ width: '40px', height: '20px' }}>
-              <circle cx="10" cy="10" r="2" fill="hsl(var(--secondary))" opacity="0.7"/>
-              <circle cx="20" cy="10" r="2" fill="hsl(var(--secondary))" opacity="0.7"/>
-              <circle cx="30" cy="10" r="2" fill="hsl(var(--secondary))" opacity="0.7"/>
-              <path d="M5 15 L20 15" stroke="hsl(var(--secondary))" strokeWidth="0.5" opacity="0.5"/>
-            </svg>
-          ))}
         </div>
       </div>
     </header>

@@ -84,6 +84,12 @@ export const useCartStore = create<CartState>()(
     }),
     {
       name: 'mudhra-cart',
+      version: 2,
+      migrate: (persistedState) => {
+        const s: any = persistedState || {};
+        const items = Array.isArray(s?.items) ? s.items : [];
+        return { items };
+      },
       partialize: (state) => ({ items: state.items }),
     }
   )

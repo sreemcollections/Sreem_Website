@@ -178,7 +178,7 @@ export default function Sarees() {
               {/* Sample Products */}
               {Array.from({ length: 12 }, (_, i) => {
                 const productId = `product-${i}`;
-                const isItemLoading = loadingItems.has(productId);
+                const isItemLoading = loadingItems instanceof Set ? loadingItems.has(productId) : false;
                 const discountPercentage = [20, 25, 15, 30, 10, 35][i % 6];
                 
                 return (

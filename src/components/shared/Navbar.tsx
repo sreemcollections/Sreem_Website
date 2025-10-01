@@ -26,13 +26,13 @@ export const Navbar = () => {
   return (
     <header className="border-b border-border/30 bg-background/95 backdrop-blur-sm sticky top-0 z-50 shadow-sm relative">
       {/* Elephant Animation Box - Behind Content */}
-      <div aria-hidden="true" className="block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[320px] sm:w-[420px] md:w-[500px] lg:w-[560px] h-10 md:h-12 overflow-hidden rounded-lg border border-border/20 bg-muted/10 z-0 pointer-events-none">
+      <div aria-hidden="true" className="block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[320px] sm:w-[420px] md:w-[500px] lg:w-[560px] h-10 md:h-12 overflow-hidden rounded-md z-0 pointer-events-none">
         <video 
           autoPlay 
           loop 
           muted 
           playsInline
-          className="w-full h-full object-cover opacity-70"
+          className="w-full h-full object-contain bg-background"
         >
           <source src="/elephants-loop.mp4" type="video/mp4" />
         </video>

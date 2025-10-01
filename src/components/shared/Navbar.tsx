@@ -24,18 +24,25 @@ export const Navbar = () => {
   };
 
   return (
-    <header className="border-b border-border/30 bg-background/95 backdrop-blur-sm sticky top-0 z-50 shadow-sm relative">
-      {/* Elephant Animation Box - Behind Content */}
-      <div aria-hidden="true" className="block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[320px] sm:w-[420px] md:w-[500px] lg:w-[560px] h-10 md:h-12 overflow-hidden rounded-md z-0 pointer-events-none">
-        <video 
-          autoPlay 
-          loop 
-          muted 
-          playsInline
-          className="w-full h-full object-contain bg-background"
-        >
-          <source src="/elephants-loop.mp4" type="video/mp4" />
-        </video>
+    <header className="border-b border-border/30 bg-background/95 backdrop-blur-sm sticky top-0 z-50 shadow-sm relative overflow-hidden">
+      {/* Decorative Border Pattern */}
+      <div aria-hidden="true" className="absolute bottom-0 left-0 right-0 h-3 z-0 pointer-events-none">
+        {/* Ornate floral pattern repeating across */}
+        <div className="flex h-full">
+          {[...Array(20)].map((_, i) => (
+            <div key={i} className="flex-shrink-0 h-full flex items-center justify-center" style={{ width: '80px' }}>
+              <svg viewBox="0 0 80 12" className="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+                {/* Decorative floral/paisley motif */}
+                <path d="M40 2C42 2 44 4 44 6C44 8 42 10 40 10C38 10 36 8 36 6C36 4 38 2 40 2Z" fill="hsl(var(--secondary))" opacity="0.6"/>
+                <path d="M28 4L32 6L28 8M52 4L48 6L52 8" stroke="hsl(var(--secondary))" strokeWidth="0.5" opacity="0.5"/>
+                <circle cx="20" cy="6" r="1.5" fill="hsl(var(--secondary))" opacity="0.4"/>
+                <circle cx="60" cy="6" r="1.5" fill="hsl(var(--secondary))" opacity="0.4"/>
+                <path d="M10 6L15 4L20 6L15 8Z" fill="hsl(var(--secondary))" opacity="0.3"/>
+                <path d="M70 6L65 4L60 6L65 8Z" fill="hsl(var(--secondary))" opacity="0.3"/>
+              </svg>
+            </div>
+          ))}
+        </div>
       </div>
       
       <div className="container mx-auto px-4 lg:px-8 relative z-10">

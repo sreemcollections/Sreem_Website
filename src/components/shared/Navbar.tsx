@@ -92,7 +92,7 @@ export const Navbar = () => {
             </Button>
 
             {/* User Account */}
-            <Button variant="ghost" size="lg" className="hover:bg-primary/10 transition-all duration-300" onClick={() => navigate(isAuthenticated ? '/profile' : '/login')}>
+            <Button variant="ghost" size="lg" onClick={() => navigate(isAuthenticated ? '/profile' : '/login')} className="transition-all duration-300 text-red-800 bg-amber-100">
               <User className="h-6 w-6" />
             </Button>
 

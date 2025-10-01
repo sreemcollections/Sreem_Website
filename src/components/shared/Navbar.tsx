@@ -51,7 +51,7 @@ export const Navbar = () => {
           <div className="flex items-center justify-between h-20 mx-0 px-0">
           {/* Logo */}
           <Link to="/" className="text-3xl font-playfair font-bold text-primary hover:text-primary/80 transition-all duration-300 hover:scale-105 px-0 mx-[16px]">
-            Mudhra
+            Sreem
             <span className="text-xs font-normal text-muted-foreground block leading-none mt-1 tracking-wider">
               AUTHENTIC CRAFTSMANSHIP
             </span>

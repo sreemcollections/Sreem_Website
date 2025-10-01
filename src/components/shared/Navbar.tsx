@@ -35,7 +35,7 @@ export const Navbar = () => {
         
         
         {/* Bottom decorative scalloped border */}
-        <div className="h-4 flex">
+        <div className="h-4 flex bg-inherit">
           {[...Array(80)].map((_, i) => <svg key={`scallop-${i}`} viewBox="0 0 20 16" style={{
           width: '20px',
           height: '16px'
@@ -48,9 +48,9 @@ export const Navbar = () => {
       {/* Main Navigation Section */}
       <div className="bg-background border-b border-border/20">
         <div className="container lg:px-8 mx-0 px-[10px] py-0">
-          <div className="flex items-center justify-between h-20">
+          <div className="flex items-center justify-between h-20 mx-0 px-0">
           {/* Logo */}
-          <Link to="/" className="text-3xl font-playfair font-bold text-primary hover:text-primary/80 transition-all duration-300 hover:scale-105">
+          <Link to="/" className="text-3xl font-playfair font-bold text-primary hover:text-primary/80 transition-all duration-300 hover:scale-105 px-0 mx-[16px]">
             Mudhra
             <span className="text-xs font-normal text-muted-foreground block leading-none mt-1 tracking-wider">
               AUTHENTIC CRAFTSMANSHIP

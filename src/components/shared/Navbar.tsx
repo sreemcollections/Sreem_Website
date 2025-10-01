@@ -24,29 +24,7 @@ export const Navbar = () => {
   };
 
   return (
-    <header className="border-b border-border/30 bg-background/95 backdrop-blur-sm sticky top-0 z-50 shadow-sm overflow-hidden relative">
-      {/* Animated Elephant Procession */}
-      <div className="absolute inset-0 pointer-events-none">
-        {/* Flower pathway */}
-        <div 
-          className="absolute bottom-0 w-full h-16 opacity-30 animate-[slideLeft_20s_linear_infinite]"
-          style={{
-            backgroundImage: `url(${flowerPathway})`,
-            backgroundRepeat: 'repeat-x',
-            backgroundSize: 'auto 100%',
-          }}
-        />
-        {/* Elephant procession */}
-        <div 
-          className="absolute bottom-2 w-full h-16 opacity-40 animate-[slideLeft_30s_linear_infinite]"
-          style={{
-            backgroundImage: `url(${elephantProcession})`,
-            backgroundRepeat: 'repeat-x',
-            backgroundSize: 'auto 80%',
-          }}
-        />
-      </div>
-      
+    <header className="border-b border-border/30 bg-background/95 backdrop-blur-sm sticky top-0 z-50 shadow-sm relative">
       <div className="container mx-auto px-4 lg:px-8 relative z-10">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
@@ -59,6 +37,19 @@ export const Navbar = () => {
               AUTHENTIC CRAFTSMANSHIP
             </span>
           </Link>
+
+          {/* Elephant Animation Box */}
+          <div className="hidden lg:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-16 overflow-hidden rounded-lg border border-border/30 bg-muted/20">
+            <video 
+              autoPlay 
+              loop 
+              muted 
+              playsInline
+              className="w-full h-full object-cover"
+            >
+              <source src="/elephants-loop.mp4" type="video/mp4" />
+            </video>
+          </div>
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-12">

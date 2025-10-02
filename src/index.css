@@ -8,7 +8,7 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Mudhra Brand Colors */
+    /* Sreem Brand Colors */
     --background: 48 100% 97%; /* Ivory */
     --foreground: 0 0% 11%; /* Charcoal Black */
 
@@ -57,7 +57,7 @@ All colors MUST be HSL.
   }
 
   .dark {
-    /* Dark mode for Mudhra */
+    /* Dark mode for Sreem */
     --background: 0 0% 11%; /* Charcoal Black */
     --foreground: 48 100% 97%; /* Ivory */
 

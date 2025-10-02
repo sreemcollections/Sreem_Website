@@ -26,7 +26,7 @@ export const useAuthStore = create<AuthState>()(
       }),
     }),
     {
-      name: 'mudhra-auth',
+      name: 'Sreem-auth',
     }
   )
 );

@@ -119,7 +119,7 @@ export default function Home() {
             {/* Jewelry Collection Card */}
             <Card className="group overflow-hidden hover:shadow-2xl transition-all duration-500 hover:scale-[1.01] md:hover:scale-[1.02] cursor-pointer">
               <CardContent className="p-0 relative">
-                <div className="aspect-[4/3] bg-gradient-to-br from-secondary/25 via-secondary/15 to-secondary/30 flex items-center justify-center relative overflow-hidden">
+                <div className="aspect-[4/3] bg-gradient-to-br from-gray-50 via-white to-gray-100 flex items-center justify-center relative overflow-hidden">
                   {/* Background Image */}
                   <div className="absolute inset-0 opacity-35 group-hover:opacity-45 transition-opacity duration-500">
                     <img 
@@ -128,24 +128,24 @@ export default function Home() {
                       className="w-full h-full object-cover object-center scale-110 group-hover:scale-105 transition-transform duration-700 collection-image-blend"
                     />
                     {/* Overlay for better text visibility */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-secondary/40 via-secondary/20 to-secondary/35"></div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-gray-50/30 to-white/50"></div>
                   </div>
                   
                   {/* Background Pattern */}
                   <div className="absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity duration-500">
-                    <div className="absolute inset-0 bg-gradient-to-l from-secondary/40 via-transparent to-secondary/25 transform skew-y-12 -translate-y-8 group-hover:-translate-y-4 transition-transform duration-500"></div>
+                    <div className="absolute inset-0 bg-gradient-to-l from-gray-200/40 via-transparent to-gray-100/25 transform skew-y-12 -translate-y-8 group-hover:-translate-y-4 transition-transform duration-500"></div>
                   </div>
                   
                   {/* Floating Elements */}
-                  <div className="absolute top-4 left-3 md:top-6 md:left-4 w-8 h-8 md:w-12 md:h-12 bg-secondary/20 rounded-full opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-600 animate-pulse-subtle backdrop-blur-sm"></div>
-                  <div className="absolute bottom-3 right-4 md:bottom-4 md:right-6 w-7 h-7 md:w-10 md:h-10 bg-secondary/25 rounded-full opacity-50 group-hover:opacity-80 group-hover:scale-125 transition-all duration-800 animate-float-gentle backdrop-blur-sm" style={{ animationDelay: '0.5s' }}></div>
-                  <div className="absolute top-1/2 right-6 md:right-8 w-4 h-4 md:w-6 md:h-6 bg-secondary/15 rounded-full opacity-40 group-hover:opacity-70 group-hover:scale-150 transition-all duration-500 animate-pulse-subtle backdrop-blur-sm" style={{ animationDelay: '2s' }}></div>
+                  <div className="absolute top-4 left-3 md:top-6 md:left-4 w-8 h-8 md:w-12 md:h-12 bg-gray-200/30 rounded-full opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-600 animate-pulse-subtle backdrop-blur-sm"></div>
+                  <div className="absolute bottom-3 right-4 md:bottom-4 md:right-6 w-7 h-7 md:w-10 md:h-10 bg-gray-300/25 rounded-full opacity-50 group-hover:opacity-80 group-hover:scale-125 transition-all duration-800 animate-float-gentle backdrop-blur-sm" style={{ animationDelay: '0.5s' }}></div>
+                  <div className="absolute top-1/2 right-6 md:right-8 w-4 h-4 md:w-6 md:h-6 bg-gray-200/20 rounded-full opacity-40 group-hover:opacity-70 group-hover:scale-150 transition-all duration-500 animate-pulse-subtle backdrop-blur-sm" style={{ animationDelay: '2s' }}></div>
                   
                   {/* Content */}
                   <div className="text-center relative z-10 group-hover:transform group-hover:-translate-y-2 transition-transform duration-300 collection-content-glass rounded-xl md:rounded-2xl p-6 md:p-8 mx-3 md:mx-4">
-                    <h3 className="text-xl md:text-2xl font-playfair font-bold text-secondary mb-2 group-hover:text-secondary group-hover:scale-110 transition-all duration-300 drop-shadow-md">Jewelry</h3>
-                    <p className="text-sm md:text-base text-foreground/90 mb-4 group-hover:text-foreground transition-colors duration-300 font-medium drop-shadow-sm">Traditional & contemporary</p>
-                    <Button asChild variant="outline" size="sm" className="md:size-default border-secondary text-secondary hover:bg-secondary hover:text-white group-hover:scale-105 transition-all duration-300 shadow-md group-hover:shadow-lg bg-white/20 backdrop-blur-sm text-sm md:text-base px-6 md:px-8">
+                    <h3 className="text-xl md:text-2xl font-playfair font-bold text-primary mb-2 group-hover:text-primary group-hover:scale-110 transition-all duration-300 drop-shadow-md">Jewelry</h3>
+                    <p className="text-sm md:text-base text-gray-700 mb-4 group-hover:text-gray-900 transition-colors duration-300 font-medium drop-shadow-sm">Traditional & contemporary</p>
+                    <Button asChild variant="outline" size="sm" className="md:size-default border-primary text-primary hover:bg-primary hover:text-white group-hover:scale-105 transition-all duration-300 shadow-md group-hover:shadow-lg bg-white/20 backdrop-blur-sm text-sm md:text-base px-6 md:px-8">
                       <Link to="/jewelry">Explore Collection</Link>
                     </Button>
                   </div>

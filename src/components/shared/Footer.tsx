@@ -12,7 +12,7 @@ export const Footer = () => {
               to="/" 
               className="text-2xl font-playfair font-bold text-primary"
             >
-              Mudhra
+              Sreem
             </Link>
             <p className="text-muted-foreground text-sm">
               Elegance Woven in Tradition. Authentic Indian ethnic fashion with handcrafted sarees and jewelry.
@@ -56,7 +56,7 @@ export const Footer = () => {
               </div>
               <div className="flex items-center space-x-2">
                 <Mail className="h-4 w-4" />
-                <span>hello@mudhra.com</span>
+                <span>hello@Sreem.com</span>
               </div>
               <div className="flex items-center space-x-2">
                 <MapPin className="h-4 w-4" />
@@ -68,7 +68,7 @@ export const Footer = () => {
 
         {/* Bottom Bar */}
         <div className="border-t mt-8 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-muted-foreground">
-          <p>&copy; 2024 Mudhra. All rights reserved.</p>
+          <p>&copy; 2024 Sreem. All rights reserved.</p>
           <div className="flex space-x-6 mt-4 md:mt-0">
             <Link to="/privacy" className="hover:text-primary transition-colors">Privacy Policy</Link>
             <Link to="/terms" className="hover:text-primary transition-colors">Terms of Service</Link>

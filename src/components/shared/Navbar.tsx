@@ -34,51 +34,41 @@ export const Navbar = () => {
           <div className="flex items-center justify-between py-4 lg:py-5">
             {/* Logo */}
             <div className="flex-shrink-0">
-              <Link to="/" className="flex items-center gap-3 lg:gap-4 hover:opacity-90 transition-opacity duration-300 group">
-                <div className="relative">
-                  <img 
-                    src="/Sreem_Logo.png" 
-                    alt="Sreem" 
-                    className="h-14 sm:h-16 lg:h-20 w-auto object-contain"
-                    onError={(e) => {
-                      e.currentTarget.style.display = 'none';
-                      const fallback = e.currentTarget.nextElementSibling as HTMLElement;
-                      if (fallback) fallback.style.display = 'block';
-                    }}
-                  />
-                  <div className="hidden">
-                    <div className="text-2xl lg:text-3xl font-playfair font-bold text-primary">
-                      Sreem
-                    </div>
-                    <span className="text-[10px] font-medium text-gray-600 block leading-tight tracking-[0.2em] mt-1">
-                      AUTHENTIC CRAFTSMANSHIP
-                    </span>
-                  </div>
-                </div>
-                <div className="hidden sm:block">
-                  <div className="text-xl lg:text-2xl font-playfair font-bold text-primary tracking-tight">
+              <Link to="/" className="flex items-center hover:opacity-90 transition-opacity duration-300">
+                <img 
+                  src="/Sreem_Logo.png" 
+                  alt="Sreem - Authentic Craftsmanship" 
+                  className="h-12 sm:h-14 lg:h-16 w-auto object-contain"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                    const fallback = e.currentTarget.nextElementSibling as HTMLElement;
+                    if (fallback) fallback.style.display = 'block';
+                  }}
+                />
+                <div className="hidden">
+                  <div className="text-2xl lg:text-3xl font-playfair font-bold text-primary">
                     Sreem
                   </div>
-                  <div className="text-[9px] lg:text-[10px] font-medium text-gray-600 tracking-[0.25em] uppercase">
-                    Authentic Craftsmanship
-                  </div>
+                  <span className="text-[10px] font-medium text-gray-600 block leading-tight tracking-[0.2em] mt-1">
+                    AUTHENTIC CRAFTSMANSHIP
+                  </span>
                 </div>
               </Link>
             </div>
 
             {/* Desktop Navigation - Center */}
-            <nav className="hidden lg:flex items-center space-x-10 xl:space-x-14">
-              <Link to="/sarees" className="group relative text-gray-800 hover:text-primary transition-colors duration-300 font-medium tracking-wide text-sm xl:text-base uppercase">
+            <nav className="hidden lg:flex items-center space-x-8 xl:space-x-12">
+              <Link to="/sarees" className="group relative text-gray-800 hover:text-primary transition-all duration-300 font-medium tracking-widest text-sm uppercase">
                 Sarees
-                <span className="absolute -bottom-2 left-0 w-0 h-[2px] bg-primary transition-all duration-300 group-hover:w-full"></span>
+                <span className="absolute -bottom-2 left-0 w-0 h-[2px] bg-gradient-to-r from-primary to-secondary transition-all duration-300 group-hover:w-full"></span>
               </Link>
-              <Link to="/jewelry" className="group relative text-gray-800 hover:text-primary transition-colors duration-300 font-medium tracking-wide text-sm xl:text-base uppercase">
+              <Link to="/jewelry" className="group relative text-gray-800 hover:text-primary transition-all duration-300 font-medium tracking-widest text-sm uppercase">
                 Jewelry
-                <span className="absolute -bottom-2 left-0 w-0 h-[2px] bg-primary transition-all duration-300 group-hover:w-full"></span>
+                <span className="absolute -bottom-2 left-0 w-0 h-[2px] bg-gradient-to-r from-primary to-secondary transition-all duration-300 group-hover:w-full"></span>
               </Link>
-              <Link to="/designers" className="group relative text-gray-800 hover:text-primary transition-colors duration-300 font-medium tracking-wide text-sm xl:text-base uppercase">
+              <Link to="/designers" className="group relative text-gray-800 hover:text-primary transition-all duration-300 font-medium tracking-widest text-sm uppercase">
                 Designers
-                <span className="absolute -bottom-2 left-0 w-0 h-[2px] bg-primary transition-all duration-300 group-hover:w-full"></span>
+                <span className="absolute -bottom-2 left-0 w-0 h-[2px] bg-gradient-to-r from-primary to-secondary transition-all duration-300 group-hover:w-full"></span>
               </Link>
             </nav>
 
@@ -180,30 +170,39 @@ export const Navbar = () => {
         
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="lg:hidden border-t border-gray-200 bg-white">
-            <div className="container mx-auto px-4 py-4">
+          <div className="lg:hidden border-t border-gray-200 bg-gradient-to-b from-white to-gray-50 animate-fade-in">
+            <div className="container mx-auto px-4 py-6">
               {/* Mobile Navigation */}
-              <nav className="space-y-1">
+              <nav className="space-y-2">
                 <Link 
                   to="/sarees" 
-                  className="block py-3 px-4 text-gray-800 hover:bg-gray-50 hover:text-primary transition-colors duration-200 font-medium tracking-wide text-sm uppercase border-b border-gray-100" 
+                  className="block py-4 px-5 text-gray-800 hover:bg-white hover:text-primary hover:shadow-sm transition-all duration-300 font-medium tracking-widest text-sm uppercase rounded-lg border border-transparent hover:border-gray-200" 
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  Sarees
+                  <span className="flex items-center justify-between">
+                    Sarees
+                    <span className="text-xs text-primary opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+                  </span>
                 </Link>
                 <Link 
                   to="/jewelry" 
-                  className="block py-3 px-4 text-gray-800 hover:bg-gray-50 hover:text-primary transition-colors duration-200 font-medium tracking-wide text-sm uppercase border-b border-gray-100" 
+                  className="block py-4 px-5 text-gray-800 hover:bg-white hover:text-primary hover:shadow-sm transition-all duration-300 font-medium tracking-widest text-sm uppercase rounded-lg border border-transparent hover:border-gray-200" 
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  Jewelry
+                  <span className="flex items-center justify-between">
+                    Jewelry
+                    <span className="text-xs text-primary opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+                  </span>
                 </Link>
                 <Link 
                   to="/designers" 
-                  className="block py-3 px-4 text-gray-800 hover:bg-gray-50 hover:text-primary transition-colors duration-200 font-medium tracking-wide text-sm uppercase" 
+                  className="block py-4 px-5 text-gray-800 hover:bg-white hover:text-primary hover:shadow-sm transition-all duration-300 font-medium tracking-widest text-sm uppercase rounded-lg border border-transparent hover:border-gray-200" 
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  Designers
+                  <span className="flex items-center justify-between">
+                    Designers
+                    <span className="text-xs text-primary opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+                  </span>
                 </Link>
               </nav>
             </div>

@@ -76,8 +76,8 @@ export const Navbar = () => {
                 Jewelry
                 <span className="absolute -bottom-2 left-0 w-0 h-[2px] bg-primary transition-all duration-300 group-hover:w-full"></span>
               </Link>
-              <Link to="/collections" className="group relative text-gray-800 hover:text-primary transition-colors duration-300 font-medium tracking-wide text-sm xl:text-base uppercase">
-                Collections
+              <Link to="/designers" className="group relative text-gray-800 hover:text-primary transition-colors duration-300 font-medium tracking-wide text-sm xl:text-base uppercase">
+                Designers
                 <span className="absolute -bottom-2 left-0 w-0 h-[2px] bg-primary transition-all duration-300 group-hover:w-full"></span>
               </Link>
             </nav>
@@ -199,11 +199,11 @@ export const Navbar = () => {
                   Jewelry
                 </Link>
                 <Link 
-                  to="/collections" 
+                  to="/designers" 
                   className="block py-3 px-4 text-gray-800 hover:bg-gray-50 hover:text-primary transition-colors duration-200 font-medium tracking-wide text-sm uppercase" 
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  Collections
+                  Designers
                 </Link>
               </nav>
             </div>

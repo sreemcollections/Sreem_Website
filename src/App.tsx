@@ -12,6 +12,7 @@ import Jewelry from "./pages/Jewelry";
 import Cart from "./pages/Cart";
 import Login from "./pages/Login";
 import ProductDetail from "./pages/ProductDetail";
+import Designers from "./pages/Designers";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -29,7 +30,7 @@ const App = () => (
             <Route path="sarees" element={<Sarees />} />
             <Route path="jewelry" element={<Jewelry />} />
             <Route path="product/:slug" element={<ProductDetail />} />
-            <Route path="collections" element={<div>Collections (Phase 2)</div>} />
+            <Route path="designers" element={<Designers />} />
             <Route path="artisans" element={<div>Artisans (Phase 9)</div>} />
             <Route path="help" element={<div>Help & FAQ (Phase 7)</div>} />
             <Route path="returns" element={<div>Returns (Phase 7)</div>} />

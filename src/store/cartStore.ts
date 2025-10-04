@@ -83,7 +83,7 @@ export const useCartStore = create<CartState>()(
       }),
     }),
     {
-      name: 'mudhra-cart',
+      name: 'Sreem-cart',
       version: 2,
       migrate: (persistedState) => {
         const s: any = persistedState || {};

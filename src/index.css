@@ -8,7 +8,7 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Mudhra Brand Colors */
+    /* Sreem Brand Colors */
     --background: 48 100% 97%; /* Ivory */
     --foreground: 0 0% 11%; /* Charcoal Black */
 
@@ -57,7 +57,7 @@ All colors MUST be HSL.
   }
 
   .dark {
-    /* Dark mode for Mudhra */
+    /* Dark mode for Sreem */
     --background: 0 0% 11%; /* Charcoal Black */
     --foreground: 48 100% 97%; /* Ivory */
 
@@ -122,5 +122,89 @@ All colors MUST be HSL.
   }
   100% {
     transform: translateX(-100%);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-subtle {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes float-gentle {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Utility classes */
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 3s ease-in-out infinite;
+}
+
+.animate-float-gentle {
+  animation: float-gentle 4s ease-in-out infinite;
+}
+
+/* Collection card image blending */
+.collection-image-blend {
+  mix-blend-mode: soft-light;
+  filter: saturate(1.2) contrast(1.1);
+}
+
+.collection-content-glass {
+  backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+}
+
+/* Mobile touch optimizations */
+@media (max-width: 768px) {
+  .collection-content-glass {
+    backdrop-filter: blur(6px);
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+  }
+  
+  /* Reduce animations on mobile for better performance */
+  .animate-float-gentle,
+  .animate-pulse-subtle {
+    animation-duration: 6s;
+  }
+  
+  /* Better touch targets */
+  .group {
+    -webkit-tap-highlight-color: transparent;
   }
 }

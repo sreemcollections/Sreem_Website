@@ -1,195 +1,170 @@
-export default function Designers() {
+import kuchipudiDancer from '@/assets/kuchipudi-dancer.jpg';
+import elephantDesign from '@/assets/elephant_design.jpg';
+
+const Designers = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-amber-100 flex items-center justify-center p-4 relative overflow-hidden">
-      {/* Decorative Background Elements */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-10 left-10 w-32 h-32 border-2 border-primary rounded-full"></div>
-        <div className="absolute bottom-20 right-20 w-40 h-40 border-2 border-secondary rounded-full"></div>
-        <div className="absolute top-1/2 left-1/4 w-20 h-20 border border-accent rounded-full"></div>
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Motion Background - Similar to Home Page */}
+      <div className="absolute inset-0">
+        {/* Base animated background */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center animate-[float_8s_ease-in-out_infinite]"
+          style={{
+            backgroundImage: `url(${kuchipudiDancer})`,
+            filter: 'brightness(0.25) sepia(0.3) hue-rotate(10deg)'
+          }}
+        />
+        
+        {/* Overlay with saree/jewelry texture */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center opacity-20 mix-blend-overlay animate-[float_10s_ease-in-out_infinite_reverse]"
+          style={{
+            backgroundImage: `url(${elephantDesign})`,
+          }}
+        />
+        
+        {/* Gradient overlays for depth */}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/30 via-secondary/20 to-accent/30" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-black/40 via-transparent to-black/30" />
+        
+        {/* Floating decorative elements */}
+        <div className="absolute top-20 left-10 w-40 h-40 bg-gradient-to-br from-secondary/20 to-primary/10 rounded-full blur-3xl animate-[float_6s_ease-in-out_infinite]" />
+        <div className="absolute bottom-32 right-20 w-32 h-32 bg-gradient-to-br from-accent/20 to-secondary/15 rounded-full blur-2xl animate-[float_7s_ease-in-out_infinite_reverse]" />
+        <div className="absolute top-1/3 right-1/4 w-24 h-24 bg-gradient-to-br from-primary/15 to-accent/10 rounded-full blur-xl animate-[float_5s_ease-in-out_infinite]" style={{ animationDelay: '1s' }} />
       </div>
 
-      {/* Scroll Container */}
-      <div className="relative max-w-3xl w-full">
-        {/* Top Decorative Rod */}
-        <div className="flex justify-center mb-4">
-          <div className="w-3/4 h-3 bg-gradient-to-r from-transparent via-secondary to-transparent rounded-full shadow-lg"></div>
-        </div>
-
-        {/* Main Scroll Paper */}
-        <div className="relative bg-gradient-to-br from-amber-100 via-yellow-50 to-amber-50 rounded-lg shadow-2xl border-8 border-secondary/30 p-8 md:p-12 transform hover:scale-[1.01] transition-transform duration-500">
-          {/* Ornate Border Pattern - Top */}
-          <div className="absolute top-0 left-0 right-0 h-16 overflow-hidden">
-            <svg className="w-full h-full" viewBox="0 0 800 60" preserveAspectRatio="xMidYMid slice">
-              {/* Paisley pattern across top */}
-              {[...Array(8)].map((_, i) => (
-                <g key={i} transform={`translate(${i * 100}, 0)`}>
-                  <path
-                    d="M50 10 Q 60 15, 60 25 Q 60 35, 50 40 Q 45 35, 45 25 Q 45 15, 50 10 Z"
-                    fill="url(#gradient1)"
-                    opacity="0.3"
-                  />
-                  <circle cx="50" cy="25" r="3" fill="#C5A03C" opacity="0.5" />
-                </g>
-              ))}
-              <defs>
-                <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#800020" />
-                  <stop offset="100%" stopColor="#C5A03C" />
-                </linearGradient>
-              </defs>
-            </svg>
-          </div>
-
-          {/* Ornate Border Pattern - Bottom */}
-          <div className="absolute bottom-0 left-0 right-0 h-16 overflow-hidden rotate-180">
-            <svg className="w-full h-full" viewBox="0 0 800 60" preserveAspectRatio="xMidYMid slice">
-              {[...Array(8)].map((_, i) => (
-                <g key={i} transform={`translate(${i * 100}, 0)`}>
-                  <path
-                    d="M50 10 Q 60 15, 60 25 Q 60 35, 50 40 Q 45 35, 45 25 Q 45 15, 50 10 Z"
-                    fill="url(#gradient2)"
-                    opacity="0.3"
-                  />
-                  <circle cx="50" cy="25" r="3" fill="#C5A03C" opacity="0.5" />
-                </g>
-              ))}
-              <defs>
-                <linearGradient id="gradient2" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#800020" />
-                  <stop offset="100%" stopColor="#C5A03C" />
-                </linearGradient>
-              </defs>
-            </svg>
-          </div>
-
-          {/* Left Decorative Border */}
-          <div className="absolute left-0 top-16 bottom-16 w-12 flex flex-col justify-center items-center space-y-4">
-            {[...Array(5)].map((_, i) => (
-              <div key={i} className="w-6 h-6 rounded-full border-2 border-secondary/40 bg-secondary/10"></div>
-            ))}
-          </div>
-
-          {/* Right Decorative Border */}
-          <div className="absolute right-0 top-16 bottom-16 w-12 flex flex-col justify-center items-center space-y-4">
-            {[...Array(5)].map((_, i) => (
-              <div key={i} className="w-6 h-6 rounded-full border-2 border-secondary/40 bg-secondary/10"></div>
-            ))}
-          </div>
-
-          {/* Content */}
-          <div className="relative z-10 text-center space-y-8 px-4 md:px-8 py-8">
-            {/* Decorative Top Flourish */}
-            <div className="flex justify-center">
-              <svg width="150" height="40" viewBox="0 0 150 40">
-                <path
-                  d="M10 20 Q 35 5, 75 20 Q 115 35, 140 20"
-                  stroke="#800020"
-                  strokeWidth="2"
+      {/* Ancient Scroll/Book Container */}
+      <div className="relative z-10 min-h-screen flex items-center justify-center px-4 py-16">
+        <div className="max-w-4xl w-full">
+          {/* Scroll/Book Paper Effect */}
+          <div className="relative animate-fade-in">
+            {/* Ornate Border Frame - Top */}
+            <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 w-64 h-16">
+              <svg viewBox="0 0 200 40" className="w-full h-full text-secondary/80 drop-shadow-lg">
+                <path d="M10,20 Q30,5 50,20 T90,20 Q110,5 130,20 T170,20 Q190,5 190,20" 
+                  stroke="currentColor" 
+                  strokeWidth="2" 
                   fill="none"
-                  opacity="0.6"
+                  className="animate-pulse-subtle"
                 />
-                <circle cx="75" cy="20" r="4" fill="#C5A03C" />
-                <circle cx="30" cy="15" r="2" fill="#C5A03C" opacity="0.7" />
-                <circle cx="120" cy="15" r="2" fill="#C5A03C" opacity="0.7" />
+                <circle cx="100" cy="20" r="8" fill="currentColor" className="opacity-60" />
+                <circle cx="50" cy="20" r="5" fill="currentColor" className="opacity-40" />
+                <circle cx="150" cy="20" r="5" fill="currentColor" className="opacity-40" />
               </svg>
             </div>
 
-            {/* Main Text */}
-            <div className="space-y-6">
-              <h1 className="font-playfair text-5xl md:text-7xl font-bold text-primary tracking-wide animate-fade-in">
-                Coming Soon
-              </h1>
-              
-              <div className="flex justify-center">
-                <div className="h-1 w-32 bg-gradient-to-r from-transparent via-secondary to-transparent"></div>
+            {/* Main Scroll Paper */}
+            <div className="relative bg-gradient-to-br from-amber-50/95 via-orange-50/90 to-yellow-50/95 backdrop-blur-md rounded-lg shadow-2xl overflow-hidden border-4 border-secondary/30">
+              {/* Paper texture overlay */}
+              <div className="absolute inset-0 opacity-30 mix-blend-multiply"
+                style={{
+                  backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c5a03c' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+                }}
+              />
+
+              {/* Decorative side borders with Indian motifs */}
+              <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-secondary/20 to-transparent">
+                <div className="flex flex-col items-center justify-around h-full py-8">
+                  {[...Array(5)].map((_, i) => (
+                    <div key={i} className="w-6 h-6 rounded-full border-2 border-primary/40 flex items-center justify-center">
+                      <div className="w-2 h-2 rounded-full bg-secondary/60" />
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-secondary/20 to-transparent">
+                <div className="flex flex-col items-center justify-around h-full py-8">
+                  {[...Array(5)].map((_, i) => (
+                    <div key={i} className="w-6 h-6 rounded-full border-2 border-primary/40 flex items-center justify-center">
+                      <div className="w-2 h-2 rounded-full bg-secondary/60" />
+                    </div>
+                  ))}
+                </div>
               </div>
 
-              <p className="font-playfair text-xl md:text-2xl text-foreground/80 italic leading-relaxed max-w-xl mx-auto">
-                Discover the master artisans and designers who bring tradition to life with every thread
-              </p>
+              {/* Content */}
+              <div className="relative px-12 md:px-20 py-16 md:py-24">
+                {/* Decorative mandala at top */}
+                <div className="flex justify-center mb-8">
+                  <div className="w-24 h-24 relative animate-[spin_20s_linear_infinite]">
+                    <svg viewBox="0 0 100 100" className="w-full h-full text-primary/60">
+                      <circle cx="50" cy="50" r="40" stroke="currentColor" strokeWidth="1" fill="none" />
+                      <circle cx="50" cy="50" r="30" stroke="currentColor" strokeWidth="1" fill="none" />
+                      <circle cx="50" cy="50" r="20" stroke="currentColor" strokeWidth="1" fill="none" />
+                      {[...Array(8)].map((_, i) => (
+                        <g key={i} transform={`rotate(${i * 45} 50 50)`}>
+                          <circle cx="50" cy="10" r="4" fill="currentColor" />
+                          <line x1="50" y1="20" x2="50" y2="30" stroke="currentColor" strokeWidth="1.5" />
+                        </g>
+                      ))}
+                    </svg>
+                  </div>
+                </div>
 
-              {/* Decorative Mandala */}
-              <div className="flex justify-center my-8">
-                <svg width="100" height="100" viewBox="0 0 100 100" className="animate-spin-slow">
-                  <defs>
-                    <radialGradient id="mandalaGradient">
-                      <stop offset="0%" stopColor="#800020" />
-                      <stop offset="50%" stopColor="#C5A03C" />
-                      <stop offset="100%" stopColor="#17494D" />
-                    </radialGradient>
-                  </defs>
-                  {/* Outer circle */}
-                  <circle cx="50" cy="50" r="45" stroke="url(#mandalaGradient)" strokeWidth="1" fill="none" opacity="0.3" />
-                  {/* Middle circle */}
-                  <circle cx="50" cy="50" r="30" stroke="url(#mandalaGradient)" strokeWidth="1" fill="none" opacity="0.4" />
-                  {/* Inner circle */}
-                  <circle cx="50" cy="50" r="15" stroke="url(#mandalaGradient)" strokeWidth="1" fill="none" opacity="0.5" />
-                  {/* Petals */}
-                  {[...Array(8)].map((_, i) => {
-                    const angle = (i * 45 * Math.PI) / 180;
-                    const x = 50 + 35 * Math.cos(angle);
-                    const y = 50 + 35 * Math.sin(angle);
-                    return (
-                      <circle key={i} cx={x} cy={y} r="4" fill="#C5A03C" opacity="0.6" />
-                    );
-                  })}
-                  <circle cx="50" cy="50" r="8" fill="#800020" opacity="0.7" />
-                </svg>
+                {/* Main text content */}
+                <div className="text-center space-y-8">
+                  <h1 className="text-5xl md:text-7xl font-playfair font-bold text-primary animate-fade-in" 
+                    style={{ 
+                      textShadow: '2px 2px 4px rgba(0,0,0,0.1)',
+                      letterSpacing: '0.05em'
+                    }}
+                  >
+                    Coming Soon
+                  </h1>
+                  
+                  <div className="w-32 h-1 bg-gradient-to-r from-transparent via-secondary to-transparent mx-auto" />
+                  
+                  <div className="max-w-2xl mx-auto space-y-6 animate-fade-in" style={{ animationDelay: '0.2s' }}>
+                    <p className="text-lg md:text-xl text-gray-700 font-medium leading-relaxed">
+                      Where threads tell stories of ancient looms and skilled hands shape precious metals into timeless treasures
+                    </p>
+                    
+                    <p className="text-base md:text-lg text-gray-600 leading-relaxed italic">
+                      From the silk weavers of Banaras to the temple jewelers of Tamil Nadu,
+                      from the Bandhani artists of Gujarat to the Kundan craftsmen of Rajasthan —
+                      we are curating India's finest artisan-designer collaborations
+                    </p>
+                    
+                    <div className="pt-4">
+                      <p className="text-sm md:text-base text-gray-500 font-medium tracking-wider uppercase">
+                        A celebration of raw craftsmanship meets luxury design
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Bottom decorative element */}
+                <div className="flex justify-center mt-12 animate-fade-in" style={{ animationDelay: '0.4s' }}>
+                  <div className="flex items-center gap-4">
+                    <div className="w-16 h-px bg-gradient-to-r from-transparent to-secondary/60" />
+                    <div className="w-3 h-3 rounded-full bg-secondary/60 animate-pulse-subtle" />
+                    <div className="w-2 h-2 rounded-full bg-primary/40" />
+                    <div className="w-3 h-3 rounded-full bg-secondary/60 animate-pulse-subtle" style={{ animationDelay: '1s' }} />
+                    <div className="w-16 h-px bg-gradient-to-l from-transparent to-secondary/60" />
+                  </div>
+                </div>
               </div>
-
-              <p className="text-muted-foreground text-sm md:text-base tracking-wider">
-                Curating an exclusive collection of India's finest craftspeople
-              </p>
             </div>
 
-            {/* Decorative Bottom Flourish */}
-            <div className="flex justify-center">
-              <svg width="150" height="40" viewBox="0 0 150 40">
-                <path
-                  d="M10 20 Q 35 35, 75 20 Q 115 5, 140 20"
-                  stroke="#800020"
-                  strokeWidth="2"
+            {/* Ornate Border Frame - Bottom */}
+            <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 w-64 h-16">
+              <svg viewBox="0 0 200 40" className="w-full h-full text-secondary/80 drop-shadow-lg rotate-180">
+                <path d="M10,20 Q30,5 50,20 T90,20 Q110,5 130,20 T170,20 Q190,5 190,20" 
+                  stroke="currentColor" 
+                  strokeWidth="2" 
                   fill="none"
-                  opacity="0.6"
+                  className="animate-pulse-subtle"
                 />
-                <circle cx="75" cy="20" r="4" fill="#C5A03C" />
-                <circle cx="30" cy="25" r="2" fill="#C5A03C" opacity="0.7" />
-                <circle cx="120" cy="25" r="2" fill="#C5A03C" opacity="0.7" />
+                <circle cx="100" cy="20" r="8" fill="currentColor" className="opacity-60" />
+                <circle cx="50" cy="20" r="5" fill="currentColor" className="opacity-40" />
+                <circle cx="150" cy="20" r="5" fill="currentColor" className="opacity-40" />
               </svg>
             </div>
           </div>
-
-          {/* Paper Texture Overlay */}
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-amber-100/20 to-transparent pointer-events-none rounded-lg"></div>
-        </div>
-
-        {/* Bottom Decorative Rod */}
-        <div className="flex justify-center mt-4">
-          <div className="w-3/4 h-3 bg-gradient-to-r from-transparent via-secondary to-transparent rounded-full shadow-lg"></div>
-        </div>
-
-        {/* Hanging Tassels */}
-        <div className="flex justify-between px-8 mt-2">
-          <div className="flex flex-col items-center">
-            <div className="w-1 h-8 bg-secondary/60"></div>
-            <div className="w-3 h-3 rounded-full bg-secondary"></div>
-          </div>
-          <div className="flex flex-col items-center">
-            <div className="w-1 h-8 bg-secondary/60"></div>
-            <div className="w-3 h-3 rounded-full bg-secondary"></div>
-          </div>
         </div>
       </div>
-
-      <style>{`
-        @keyframes spin-slow {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-        .animate-spin-slow {
-          animation: spin-slow 20s linear infinite;
-        }
-      `}</style>
     </div>
   );
-}
+};
+
+export default Designers;

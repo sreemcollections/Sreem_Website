@@ -9,7 +9,6 @@ import { ProtectedRoute } from "@/components/shared/ProtectedRoute";
 import Home from "./pages/Home";
 import Sarees from "./pages/Sarees";
 import Jewelry from "./pages/Jewelry";
-import Cart from "./pages/Cart";
 import Login from "./pages/Login";
 import ProductDetail from "./pages/ProductDetail";
 import Designers from "./pages/Designers";
@@ -46,7 +45,6 @@ const App = () => (
             <Route path="privacy" element={<PrivacyPolicy />} />
             <Route path="terms" element={<TermsOfService />} />
             <Route path="gst" element={<GSTPolicy />} />
-            <Route path="cart" element={<Cart />} />
             <Route path="login" element={<Login />} />
           </Route>
 
@@ -57,24 +55,12 @@ const App = () => (
                 <div>Profile (Phase 3)</div>
               </ProtectedRoute>
             } />
-            <Route path="orders" element={
-              <ProtectedRoute>
-                <div>Orders (Phase 6)</div>
-              </ProtectedRoute>
-            } />
             <Route path="addresses" element={
               <ProtectedRoute>
                 <div>Addresses (Phase 4)</div>
               </ProtectedRoute>
             } />
           </Route>
-
-          {/* Standalone Protected Routes */}
-          <Route path="/checkout" element={
-            <ProtectedRoute>
-              <div>Checkout (Phase 4)</div>
-            </ProtectedRoute>
-          } />
 
           {/* Catch-all route */}
           <Route path="*" element={<NotFound />} />

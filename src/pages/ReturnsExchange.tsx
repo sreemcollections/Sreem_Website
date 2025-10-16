@@ -3,7 +3,23 @@ export default function ReturnsExchange() {
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-16 max-w-4xl">
         <h1 className="text-4xl font-playfair font-bold text-primary mb-4">Returns & Exchange Policy</h1>
-        <p className="text-sm text-muted-foreground mb-8">We want you to love your purchase. If you're not completely satisfied, we're here to help.</p>
+        <p className="text-sm text-muted-foreground mb-8">Learn about our product return and exchange guidelines for future purchases.</p>
+
+        {/* Catalog-Only Notice */}
+        <div className="bg-gradient-to-r from-primary/10 to-secondary/10 border-l-4 border-primary p-6 rounded-lg mb-8">
+          <h3 className="text-xl font-semibold text-primary mb-2">📢 Catalog Showcase</h3>
+          <p className="text-foreground/90 leading-relaxed mb-4">
+            Currently, our website is a showcase of our exquisite handcrafted sarees and jewelry collection. 
+            Online ordering is not yet available. The policy below will apply when we launch our e-commerce platform. 
+            For current purchases, please contact us directly to discuss return/exchange terms.
+          </p>
+          <div className="space-y-1 text-sm">
+            <p className="text-foreground/90"><strong>📧 Email:</strong> support@sreem.com</p>
+            <p className="text-foreground/90"><strong>📞 Phone:</strong> +91-XXXX-XXXXXX</p>
+            <p className="text-foreground/90"><strong>💬 WhatsApp:</strong> +91-XXXX-XXXXXX</p>
+            <p className="text-foreground/90"><strong>⏰ Hours:</strong> Monday-Saturday, 10:00 AM - 6:00 PM IST</p>
+          </div>
+        </div>
 
         <div className="prose prose-sm max-w-none space-y-6">
           <section>

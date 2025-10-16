@@ -5,6 +5,21 @@ export default function GSTPolicy() {
         <h1 className="text-4xl font-playfair font-bold text-primary mb-4">GST Policy</h1>
         <p className="text-sm text-muted-foreground mb-8">Last Updated: October 16, 2025</p>
 
+        {/* Catalog-Only Notice */}
+        <div className="bg-gradient-to-r from-primary/10 to-secondary/10 border-l-4 border-primary p-6 rounded-lg mb-8">
+          <h3 className="text-xl font-semibold text-primary mb-2">📢 Informational Purpose</h3>
+          <p className="text-foreground/90 leading-relaxed mb-4">
+            This page provides information about GST (Goods and Services Tax) applicable to our products. 
+            While online ordering is not yet available, this information helps you understand the pricing structure 
+            when you make purchases by contacting us directly.
+          </p>
+          <div className="space-y-1 text-sm">
+            <p className="text-foreground/90"><strong>📧 Email:</strong> support@sreem.com</p>
+            <p className="text-foreground/90"><strong>📞 Phone:</strong> +91-XXXX-XXXXXX</p>
+            <p className="text-foreground/90"><strong>💬 WhatsApp:</strong> +91-XXXX-XXXXXX</p>
+          </div>
+        </div>
+
         <div className="prose prose-sm max-w-none space-y-6">
           <section>
             <h2 className="text-2xl font-semibold text-primary mb-3">1. Introduction</h2>

@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Search, ShoppingCart, User, Menu, X } from 'lucide-react';
+import { Search, User, Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { useCartStore } from '@/store/cartStore';
 import { useAuthStore } from '@/store/authStore';
 import elephantProcession from '@/assets/elephant-procession.png';
 import flowerPathway from '@/assets/flower-pathway.png';
@@ -12,7 +11,6 @@ export const Navbar = () => {
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
-  const totalItems = useCartStore(state => state.getTotalItems());
   const {
     isAuthenticated
   } = useAuthStore();
@@ -102,21 +100,6 @@ export const Navbar = () => {
                 aria-label="Toggle search"
               >
                 <Search className="h-5 w-5 text-gray-700" />
-              </Button>
-
-              {/* Cart */}
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                className="relative hover:bg-gray-100 transition-colors duration-200 h-10 w-10 lg:h-11 lg:w-11" 
-                onClick={() => navigate('/cart')}
-              >
-                <ShoppingCart className="h-5 w-5 lg:h-5 lg:w-5 text-gray-700" />
-                {totalItems > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-primary text-white text-[10px] rounded-full h-5 w-5 flex items-center justify-center font-semibold">
-                    {totalItems}
-                  </span>
-                )}
               </Button>
 
               {/* User Account */}

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Mail, Phone, MapPin, Instagram, Facebook, Twitter } from 'lucide-react';
+import { Mail, Phone, MapPin } from 'lucide-react';
 
 export const Footer = () => {
   return (
@@ -17,11 +17,6 @@ export const Footer = () => {
             <p className="text-muted-foreground text-sm">
               Elegance Woven in Tradition. Authentic Indian ethnic fashion with handcrafted sarees and jewelry.
             </p>
-            <div className="flex space-x-4">
-              <Instagram className="h-5 w-5 text-muted-foreground hover:text-primary cursor-pointer transition-colors" />
-              <Facebook className="h-5 w-5 text-muted-foreground hover:text-primary cursor-pointer transition-colors" />
-              <Twitter className="h-5 w-5 text-muted-foreground hover:text-primary cursor-pointer transition-colors" />
-            </div>
           </div>
 
           {/* Quick Links */}

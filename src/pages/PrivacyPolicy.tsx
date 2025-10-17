@@ -22,7 +22,7 @@ export default function PrivacyPolicy() {
             <p className="text-foreground/90 leading-relaxed mb-2">We collect personal information that you voluntarily provide to us when you:</p>
             <ul className="list-disc pl-6 space-y-1 text-foreground/90">
               <li>Register for an account</li>
-              <li>Make a purchase</li>
+              <li>Inquire about our products</li>
               <li>Subscribe to our newsletter</li>
               <li>Contact customer support</li>
               <li>Participate in surveys or promotions</li>
@@ -31,10 +31,9 @@ export default function PrivacyPolicy() {
             <h3 className="text-xl font-semibold text-foreground mt-4 mb-2">2.2 Information Collected Includes:</h3>
             <ul className="list-disc pl-6 space-y-1 text-foreground/90">
               <li>Name and contact information (email, phone number, address)</li>
-              <li>Billing and shipping addresses</li>
-              <li>Payment information (processed securely through payment gateways)</li>
-              <li>Order history and preferences</li>
-              <li>GST number (if applicable for business purchases)</li>
+              <li>Product inquiries and preferences</li>
+              <li>Communication history with our team</li>
+              <li>GST number (if applicable for business inquiries)</li>
             </ul>
 
             <h3 className="text-xl font-semibold text-foreground mt-4 mb-2">2.3 Automatic Information</h3>
@@ -48,14 +47,14 @@ export default function PrivacyPolicy() {
             <h2 className="text-2xl font-semibold text-primary mb-3">3. How We Use Your Information</h2>
             <p className="text-foreground/90 leading-relaxed mb-2">We use your information to:</p>
             <ul className="list-disc pl-6 space-y-1 text-foreground/90">
-              <li>Process and fulfill your orders</li>
-              <li>Communicate with you about your orders and account</li>
+              <li>Respond to your product inquiries and questions</li>
+              <li>Communicate with you about our collection and services</li>
               <li>Provide customer support</li>
-              <li>Send promotional emails (with your consent)</li>
+              <li>Send promotional emails and catalog updates (with your consent)</li>
               <li>Improve our website and services</li>
-              <li>Comply with legal obligations including GST and tax requirements</li>
+              <li>Comply with legal obligations</li>
               <li>Prevent fraud and enhance security</li>
-              <li>Personalize your shopping experience</li>
+              <li>Personalize your browsing experience</li>
             </ul>
           </section>
 
@@ -63,7 +62,7 @@ export default function PrivacyPolicy() {
             <h2 className="text-2xl font-semibold text-primary mb-3">4. Information Sharing and Disclosure</h2>
             <p className="text-foreground/90 leading-relaxed mb-2">We may share your information with:</p>
             <ul className="list-disc pl-6 space-y-1 text-foreground/90">
-              <li><strong>Service Providers:</strong> Payment processors, shipping companies, and technology service providers</li>
+              <li><strong>Service Providers:</strong> Technology service providers who help us operate our website</li>
               <li><strong>Legal Requirements:</strong> When required by law, court order, or government authorities</li>
               <li><strong>Business Transfers:</strong> In connection with mergers, acquisitions, or sale of business assets</li>
               <li><strong>With Your Consent:</strong> When you explicitly authorize us to share your information</li>

@@ -176,9 +176,9 @@ export default function Home() {
               <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Truck className="h-8 w-8 text-primary" />
               </div>
-              <h3 className="text-lg font-semibold mb-2">Free Shipping</h3>
+              <h3 className="text-lg font-semibold mb-2">Nationwide Showcase</h3>
               <p className="text-muted-foreground text-sm">
-                Complimentary shipping on orders above ₹2,999
+                Explore our collection from anywhere in India
               </p>
             </div>
             <div className="text-center">
@@ -187,7 +187,7 @@ export default function Home() {
               </div>
               <h3 className="text-lg font-semibold mb-2">Authentic Guarantee</h3>
               <p className="text-muted-foreground text-sm">
-                100% authentic products with quality assurance
+                100% authentic handcrafted products with certificates
               </p>
             </div>
             <div className="text-center">

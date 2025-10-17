@@ -9,6 +9,7 @@ import { ProtectedRoute } from "@/components/shared/ProtectedRoute";
 import Home from "./pages/Home";
 import Sarees from "./pages/Sarees";
 import Jewelry from "./pages/Jewelry";
+import JewelryCollections from "./pages/JewelryCollections";
 import Login from "./pages/Login";
 import ProductDetail from "./pages/ProductDetail";
 import Designers from "./pages/Designers";
@@ -34,7 +35,8 @@ const App = () => (
           <Route path="/" element={<MainLayout />}>
             <Route index element={<Home />} />
             <Route path="sarees" element={<Sarees />} />
-            <Route path="jewelry" element={<Jewelry />} />
+            <Route path="jewelry" element={<JewelryCollections />} />
+            <Route path="jewelry/:collection" element={<Jewelry />} />
             <Route path="product/:slug" element={<ProductDetail />} />
             <Route path="designers" element={<Designers />} />
             <Route path="artisans" element={<div>Artisans (Phase 9)</div>} />

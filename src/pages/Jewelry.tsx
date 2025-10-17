@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -8,8 +9,26 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Filter, Grid, List } from 'lucide-react';
 
 export default function Jewelry() {
+  const { collection } = useParams<{ collection: string }>();
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [showFilters, setShowFilters] = useState(false);
+
+  const collectionTitles: Record<string, string> = {
+    'panchaloham': 'Panchaloham Collection',
+    'silver': 'Silver Collection',
+    'gold': 'Gold Collection',
+    'temple': 'Temple Jewelry Collection'
+  };
+
+  const collectionDescription: Record<string, string> = {
+    'panchaloham': 'Sacred five-metal traditional jewelry crafted with ancient techniques',
+    'silver': 'Exquisite sterling silver jewelry with intricate craftsmanship',
+    'gold': 'Timeless 22K gold jewelry with traditional and contemporary designs',
+    'temple': 'Divine temple-style jewelry inspired by South Indian traditions'
+  };
+
+  const currentTitle = collection ? collectionTitles[collection] || 'Handcrafted Jewelry' : 'Handcrafted Jewelry';
+  const currentDescription = collection ? collectionDescription[collection] || 'Discover our exquisite collection of traditional and contemporary jewelry pieces' : 'Discover our exquisite collection of traditional and contemporary jewelry pieces';
 
   return (
     <div className="min-h-screen">
@@ -17,10 +36,10 @@ export default function Jewelry() {
       <section className="bg-gradient-to-r from-accent/10 to-secondary/10 py-16">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-playfair font-bold text-foreground mb-4">
-            Handcrafted Jewelry
+            {currentTitle}
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Discover our exquisite collection of traditional and contemporary jewelry pieces
+            {currentDescription}
           </p>
         </div>
       </section>
@@ -134,23 +153,23 @@ export default function Jewelry() {
             </div>
 
             <div>
-              <h3 className="font-semibold mb-3">Style</h3>
+              <h3 className="font-semibold mb-3">Collection</h3>
               <div className="space-y-2">
+                <div className="flex items-center space-x-2">
+                  <Checkbox id="panchaloham" />
+                  <label htmlFor="panchaloham" className="text-sm">Panchaloham</label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox id="silver" />
+                  <label htmlFor="silver" className="text-sm">Silver</label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox id="gold" />
+                  <label htmlFor="gold" className="text-sm">Gold</label>
+                </div>
                 <div className="flex items-center space-x-2">
                   <Checkbox id="temple" />
                   <label htmlFor="temple" className="text-sm">Temple</label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Checkbox id="kundan" />
-                  <label htmlFor="kundan" className="text-sm">Kundan</label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Checkbox id="oxidized" />
-                  <label htmlFor="oxidized" className="text-sm">Oxidized</label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Checkbox id="antique" />
-                  <label htmlFor="antique" className="text-sm">Antique</label>
                 </div>
               </div>
             </div>

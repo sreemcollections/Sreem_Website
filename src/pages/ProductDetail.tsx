@@ -137,22 +137,29 @@ export default function ProductDetail() {
               </div>
             </div>
 
-            {/* Action Buttons */}
+            {/* Action Buttons - Catalog Mode */}
             <div className="space-y-3">
+              <div className="bg-muted/50 border border-primary/20 rounded-lg p-4 text-center">
+                <p className="text-sm font-medium text-muted-foreground mb-2">
+                  This is a catalog showcase
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  Please contact us for pricing and availability
+                </p>
+              </div>
+              
               <div className="flex gap-3">
-                <Button className="flex-1" size="lg">
-                  <ShoppingCart className="h-4 w-4 mr-2" />
-                  Add to Cart
-                </Button>
-                <Button variant="outline" size="lg">
-                  <Heart className="h-4 w-4" />
+                <Button className="flex-1" size="lg" variant="outline">
+                  <Heart className="h-4 w-4 mr-2" />
+                  Save to Wishlist
                 </Button>
                 <Button variant="outline" size="lg">
                   <Share2 className="h-4 w-4" />
                 </Button>
               </div>
-              <Button variant="secondary" className="w-full" size="lg">
-                Buy Now
+              
+              <Button className="w-full" size="lg">
+                Request Information
               </Button>
             </div>
 

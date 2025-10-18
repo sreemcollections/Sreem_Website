@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Checkbox } from '@/components/ui/checkbox';
 import { Filter, Grid, List, Loader2 } from 'lucide-react';
 import { useCartStore } from '@/store/cartStore';
+import sareesImage from '@/assets/sarees.png';
 
 export default function Sarees() {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
@@ -29,40 +30,64 @@ export default function Sarees() {
 
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="bg-gradient-to-r from-primary/10 to-secondary/10 py-16">
-        <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-playfair font-bold text-foreground mb-4">
-            Exquisite Sarees
-          </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Discover our curated collection of handwoven sarees from master craftsmen across India
-          </p>
+      {/* Hero Section with Traditional Motion Background */}
+      <section className="relative h-[35vh] md:h-[45vh] overflow-hidden">
+        {/* Animated Background */}
+        <div className="absolute inset-0">
+          <div 
+            className="absolute inset-0 bg-cover bg-center animate-[float_8s_ease-in-out_infinite]"
+            style={{
+              backgroundImage: `url(${sareesImage})`,
+              filter: 'brightness(0.45) blur(0.5px)'
+            }}
+          />
+          {/* Luxurious Dark Gradient Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-br from-slate-900/60 via-slate-800/40 to-amber-900/50" />
+          
+          {/* Floating Decorative Elements with Golden Tones */}
+          <div className="absolute top-16 left-8 w-40 h-40 bg-gradient-to-br from-amber-500/15 to-yellow-600/10 rounded-full blur-2xl animate-[float_5s_ease-in-out_infinite_reverse]" />
+          <div className="absolute bottom-24 right-12 w-32 h-32 bg-gradient-to-br from-amber-400/15 to-orange-500/10 rounded-full blur-2xl animate-[float_6s_ease-in-out_infinite]" />
+          <div className="absolute top-1/3 right-1/4 w-28 h-28 bg-gradient-to-br from-yellow-500/10 to-amber-600/15 rounded-full blur-xl animate-[float_7s_ease-in-out_infinite]" />
+        </div>
+        
+        {/* Hero Content */}
+        <div className="relative z-10 container mx-auto px-4 sm:px-6 h-full flex items-center justify-center text-center">
+          <div className="max-w-3xl w-full">
+            <Badge variant="secondary" className="mb-3 sm:mb-4 bg-amber-600/90 text-white border-amber-500/50 backdrop-blur-sm px-3 py-1 sm:px-4 sm:py-1.5 text-xs sm:text-sm font-medium">
+              Handwoven Heritage
+            </Badge>
+            <h1 className="text-2xl sm:text-3xl md:text-5xl font-playfair font-bold text-white mb-3 sm:mb-4 animate-fade-in drop-shadow-2xl px-2">
+              Exquisite <span className="text-amber-400">Sarees</span>
+            </h1>
+            <p className="text-sm sm:text-base md:text-lg text-white/95 max-w-2xl mx-auto animate-fade-in drop-shadow-lg leading-relaxed px-4">
+              Discover our curated collection of handwoven sarees from master craftsmen across India
+            </p>
+          </div>
         </div>
       </section>
 
       {/* Filter & Sort Bar */}
       <section className="border-b bg-background sticky top-16 z-40">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-            <div className="flex items-center gap-4">
+        <div className="container mx-auto px-3 sm:px-4 py-3 sm:py-4">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 sm:gap-4">
+            <div className="flex items-center gap-3 sm:gap-4 w-full md:w-auto">
               <Button
                 variant="outline"
                 size="sm"
                 onClick={() => setShowFilters(!showFilters)}
-                className="md:hidden"
+                className="md:hidden text-xs sm:text-sm"
               >
-                <Filter className="h-4 w-4 mr-2" />
+                <Filter className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-2" />
                 Filters
               </Button>
-              <span className="text-sm text-muted-foreground">
+              <span className="text-xs sm:text-sm text-muted-foreground">
                 Showing 1-20 of 150 sarees
               </span>
             </div>
             
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3 sm:gap-4 w-full md:w-auto">
               <Select defaultValue="featured">
-                <SelectTrigger className="w-40">
+                <SelectTrigger className="w-32 sm:w-40 text-xs sm:text-sm">
                   <SelectValue placeholder="Sort by" />
                 </SelectTrigger>
                 <SelectContent>
@@ -101,11 +126,6 @@ export default function Sarees() {
           {/* Filters Sidebar */}
           <aside className={`w-64 space-y-6 ${showFilters ? 'block' : 'hidden'} md:block`}>
             <div>
-              <h3 className="font-semibold mb-3">Search</h3>
-              <Input placeholder="Search sarees..." />
-            </div>
-
-            <div>
               <h3 className="font-semibold mb-3">Price Range</h3>
               <div className="space-y-2">
                 <div className="flex items-center space-x-2">
@@ -123,28 +143,6 @@ export default function Sarees() {
                 <div className="flex items-center space-x-2">
                   <Checkbox id="above-25000" />
                   <label htmlFor="above-25000" className="text-sm">Above ₹25,000</label>
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <h3 className="font-semibold mb-3">Fabric</h3>
-              <div className="space-y-2">
-                <div className="flex items-center space-x-2">
-                  <Checkbox id="silk" />
-                  <label htmlFor="silk" className="text-sm">Silk</label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Checkbox id="cotton" />
-                  <label htmlFor="cotton" className="text-sm">Cotton</label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Checkbox id="georgette" />
-                  <label htmlFor="georgette" className="text-sm">Georgette</label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Checkbox id="chiffon" />
-                  <label htmlFor="chiffon" className="text-sm">Chiffon</label>
                 </div>
               </div>
             </div>

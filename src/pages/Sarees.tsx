@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Filter, Grid, List, Loader2 } from 'lucide-react';
 import { useCartStore } from '@/store/cartStore';
+import ProductCard from '@/components/ProductCard';
 import sareesImage from '@/assets/sarees.png';
 
 export default function Sarees() {
@@ -175,51 +175,22 @@ export default function Sarees() {
             }`}>
               {/* Sample Products */}
               {Array.from({ length: 12 }, (_, i) => {
-                const productId = `product-${i}`;
-                const isItemLoading = loadingItems instanceof Set ? loadingItems.has(productId) : false;
+                const productId = `saree-${i}`;
                 const discountPercentage = [20, 25, 15, 30, 10, 35][i % 6];
+                const price = [15999, 12999, 18999, 22999, 9999, 28999][i % 6];
+                const originalPrice = Math.round(price / (1 - discountPercentage / 100));
                 
                 return (
-                  <Card key={i} className="group overflow-hidden hover:shadow-lg transition-shadow">
-                    <CardContent className="p-0">
-                      <div className="aspect-[3/4] bg-gradient-to-br from-primary/10 to-secondary/10 relative">
-                        <Badge className="absolute top-3 left-3 bg-destructive text-destructive-foreground">
-                          {discountPercentage}% OFF
-                        </Badge>
-                        <div className="absolute bottom-3 right-3">
-                          <Button 
-                            size="sm" 
-                            className="opacity-0 group-hover:opacity-100 transition-opacity"
-                            onClick={() => handleQuickView(productId)}
-                            disabled={isItemLoading}
-                          >
-                            {isItemLoading ? (
-                              <>
-                                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                                Loading
-                              </>
-                            ) : (
-                              'Quick View'
-                            )}
-                          </Button>
-                        </div>
-                      </div>
-                      
-                      <div className="p-4">
-                        <h3 className="font-semibold mb-1">Royal Banarasi Silk Saree</h3>
-                        <p className="text-sm text-muted-foreground mb-2">Handwoven with golden zari</p>
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-2">
-                            <span className="text-lg font-bold text-primary">₹15,999</span>
-                            <span className="text-sm text-muted-foreground line-through">₹19,999</span>
-                          </div>
-                          <Badge variant="outline" className="text-xs">
-                            GST Included
-                          </Badge>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
+                  <ProductCard
+                    key={i}
+                    id={productId}
+                    name="Royal Banarasi Silk Saree"
+                    description="Handwoven with golden zari work"
+                    price={price}
+                    originalPrice={originalPrice}
+                    discount={discountPercentage}
+                    onQuickView={handleQuickView}
+                  />
                 );
               })}
             </div>

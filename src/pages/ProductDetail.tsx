@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Heart, Share2, ShoppingCart, Truck, Shield, RotateCcw } from 'lucide-react';
+import ProductCard from '@/components/ProductCard';
 
 export default function ProductDetail() {
   const { slug } = useParams();
@@ -193,7 +194,7 @@ export default function ProductDetail() {
         <Separator className="my-12" />
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <Card>
+          <Card className="transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
             <CardContent className="pt-6">
               <h3 className="font-semibold mb-3">Care Instructions</h3>
               <p className="text-sm text-muted-foreground">
@@ -202,7 +203,7 @@ export default function ProductDetail() {
             </CardContent>
           </Card>
           
-          <Card>
+          <Card className="transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
             <CardContent className="pt-6">
               <h3 className="font-semibold mb-3">Shipping Info</h3>
               <p className="text-sm text-muted-foreground">
@@ -211,7 +212,7 @@ export default function ProductDetail() {
             </CardContent>
           </Card>
           
-          <Card>
+          <Card className="transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
             <CardContent className="pt-6">
               <h3 className="font-semibold mb-3">Return Policy</h3>
               <p className="text-sm text-muted-foreground">
@@ -219,6 +220,43 @@ export default function ProductDetail() {
               </p>
             </CardContent>
           </Card>
+        </div>
+
+        {/* Related Products */}
+        <Separator className="my-12" />
+        
+        <div className="mb-12">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl md:text-3xl font-playfair font-bold text-foreground mb-3 relative inline-block">
+              You May Also Like
+              <span className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-16 h-1 bg-gradient-to-r from-primary to-secondary rounded-full"></span>
+            </h2>
+            <p className="text-muted-foreground mt-4">Handpicked pieces to complement your style</p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {Array.from({ length: 4 }, (_, i) => {
+              const relatedProducts = [
+                { id: 'related-1', name: 'Kanjivaram Silk Saree', description: 'Rich temple border design', price: 18999, originalPrice: 23999, discount: 21 },
+                { id: 'related-2', name: 'Chanderi Cotton Saree', description: 'Lightweight festive wear', price: 8999, originalPrice: 11999, discount: 25 },
+                { id: 'related-3', name: 'Tant Cotton Saree', description: 'Bengal handloom classic', price: 5999, originalPrice: 7999, discount: 25 },
+                { id: 'related-4', name: 'Patola Silk Saree', description: 'Double ikat masterpiece', price: 32999, originalPrice: 42999, discount: 23 }
+              ];
+              
+              const product = relatedProducts[i];
+              return (
+                <ProductCard
+                  key={product.id}
+                  id={product.id}
+                  name={product.name}
+                  description={product.description}
+                  price={product.price}
+                  originalPrice={product.originalPrice}
+                  discount={product.discount}
+                />
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>

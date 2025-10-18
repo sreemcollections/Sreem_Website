@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Filter, Grid, List } from 'lucide-react';
+import ProductCard from '@/components/ProductCard';
 import panchalohamJewelry from '@/assets/panchaloham-jewelry.png';
 import silverJewelry from '@/assets/jewlery.png';
 
@@ -220,36 +220,24 @@ export default function Jewelry() {
                 : 'grid-cols-1'
             }`}>
               {/* Sample Products */}
-              {Array.from({ length: 12 }, (_, i) => (
-                <Card key={i} className="group overflow-hidden hover:shadow-lg transition-shadow">
-                  <CardContent className="p-0">
-                    <div className="aspect-square bg-gradient-to-br from-accent/10 to-secondary/10 relative">
-                      <Badge className="absolute top-3 left-3 bg-secondary text-secondary-foreground">
-                        Handcrafted
-                      </Badge>
-                      <div className="absolute bottom-3 right-3">
-                        <Button size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity">
-                          Quick View
-                        </Button>
-                      </div>
-                    </div>
-                    
-                    <div className="p-4">
-                      <h3 className="font-semibold mb-1">Temple Gold Necklace</h3>
-                      <p className="text-sm text-muted-foreground mb-2">Traditional Lakshmi design</p>
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <span className="text-lg font-bold text-primary">₹25,999</span>
-                          <span className="text-sm text-muted-foreground line-through">₹29,999</span>
-                        </div>
-                        <Badge variant="outline" className="text-xs">
-                          GST Included
-                        </Badge>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
+              {Array.from({ length: 12 }, (_, i) => {
+                const productId = `jewelry-${i}`;
+                const price = [25999, 18999, 32999, 42999, 15999, 38999][i % 6];
+                const originalPrice = [29999, 21999, 37999, 48999, 18999, 44999][i % 6];
+                const discount = Math.round(((originalPrice - price) / originalPrice) * 100);
+                
+                return (
+                  <ProductCard
+                    key={i}
+                    id={productId}
+                    name="Temple Gold Necklace"
+                    description="Traditional Lakshmi design"
+                    price={price}
+                    originalPrice={originalPrice}
+                    discount={discount}
+                  />
+                );
+              })}
             </div>
 
             {/* Load More */}

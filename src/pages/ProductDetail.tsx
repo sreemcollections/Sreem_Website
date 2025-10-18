@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { Heart, Share2, ShoppingCart, Truck, Shield, RotateCcw } from 'lucide-react';
+import { Heart, Share2 } from 'lucide-react';
 import ProductCard from '@/components/ProductCard';
 
 export default function ProductDetail() {
@@ -81,14 +80,6 @@ export default function ProductDetail() {
                 <span className="text-lg text-muted-foreground line-through">₹{product.originalPrice.toLocaleString()}</span>
                 <Badge variant="secondary">20% OFF</Badge>
               </div>
-              <div className="text-sm text-muted-foreground space-y-1">
-                <p>Price: ₹{(totalPrice - gstAmount).toLocaleString()}</p>
-                <p>GST (5%): ₹{gstAmount.toLocaleString()}</p>
-                <p className="font-semibold">Total (Inclusive of GST): ₹{totalPrice.toLocaleString()}</p>
-              </div>
-              <Badge variant="outline" className="text-xs">
-                GST Invoice Available
-              </Badge>
             </div>
 
             {/* Product Details */}
@@ -111,31 +102,6 @@ export default function ProductDetail() {
               </div>
             </div>
 
-            {/* Pincode Check */}
-            <div className="space-y-3">
-              <h3 className="font-semibold">Delivery & Serviceability</h3>
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  placeholder="Enter PIN code"
-                  value={pincode}
-                  onChange={(e) => setPincode(e.target.value)}
-                  className="flex-1 px-3 py-2 border rounded-md"
-                  maxLength={6}
-                />
-                <Button variant="outline" size="sm">Check</Button>
-              </div>
-              <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                <div className="flex items-center gap-1">
-                  <Truck className="h-4 w-4" />
-                  <span>Free delivery above ₹1,499</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <RotateCcw className="h-4 w-4" />
-                  <span>7-day easy returns</span>
-                </div>
-              </div>
-            </div>
 
             {/* Action Buttons - Catalog Mode */}
             <div className="space-y-3">
@@ -162,71 +128,7 @@ export default function ProductDetail() {
                 Request Information
               </Button>
             </div>
-
-            {/* Trust Badges */}
-            <div className="flex items-center justify-around py-4 border-t">
-              <div className="text-center">
-                <Shield className="h-6 w-6 mx-auto mb-1 text-primary" />
-                <span className="text-xs text-muted-foreground">Authentic</span>
-              </div>
-              <div className="text-center">
-                <Truck className="h-6 w-6 mx-auto mb-1 text-primary" />
-                <span className="text-xs text-muted-foreground">Fast Delivery</span>
-              </div>
-              <div className="text-center">
-                <RotateCcw className="h-6 w-6 mx-auto mb-1 text-primary" />
-                <span className="text-xs text-muted-foreground">Easy Returns</span>
-              </div>
-            </div>
-
-            {/* Artisan Info */}
-            <Card>
-              <CardContent className="pt-6">
-                <h3 className="font-semibold mb-2">Meet the Artisan</h3>
-                <p className="text-sm text-muted-foreground mb-1">
-                  Crafted by <strong>{product.artisan}</strong>
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  From {product.region}
-                </p>
-                <Button variant="link" className="px-0 text-primary">
-                  View Artisan Profile →
-                </Button>
-              </CardContent>
-            </Card>
           </div>
-        </div>
-
-        {/* Product Description Tabs */}
-        <Separator className="my-12" />
-        
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <Card className="transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
-            <CardContent className="pt-6">
-              <h3 className="font-semibold mb-3">Care Instructions</h3>
-              <p className="text-sm text-muted-foreground">
-                {product.care}. Store in a cool, dry place away from direct sunlight.
-              </p>
-            </CardContent>
-          </Card>
-          
-          <Card className="transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
-            <CardContent className="pt-6">
-              <h3 className="font-semibold mb-3">Shipping Info</h3>
-              <p className="text-sm text-muted-foreground">
-                Ships within 2-3 business days. Express delivery available.
-              </p>
-            </CardContent>
-          </Card>
-          
-          <Card className="transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
-            <CardContent className="pt-6">
-              <h3 className="font-semibold mb-3">Return Policy</h3>
-              <p className="text-sm text-muted-foreground">
-                7-day easy returns. Item should be unused with original tags.
-              </p>
-            </CardContent>
-          </Card>
         </div>
 
         {/* Related Products */}

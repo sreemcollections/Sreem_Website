@@ -129,9 +129,6 @@ export default function ProductCard({
                   <span className="text-sm text-muted-foreground line-through">₹{originalPrice.toLocaleString()}</span>
                 )}
               </div>
-              <Badge variant="outline" className="text-xs transition-colors duration-300 group-hover:border-primary group-hover:text-primary">
-                GST Included
-              </Badge>
             </div>
           </div>
         </CardContent>

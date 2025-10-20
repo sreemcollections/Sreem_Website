@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -27,17 +27,61 @@ export default function ProductCard({
   onQuickView
 }: ProductCardProps) {
   const [isHovered, setIsHovered] = useState(false);
+  const [isTouched, setIsTouched] = useState(false);
+  const [isInView, setIsInView] = useState(false);
   const [imageIndex, setImageIndex] = useState(0);
+  const cardRef = useRef<HTMLDivElement>(null);
   
   // Mock multiple images for slider effect
   const images = [0, 1, 2, 3];
 
+  // Intersection Observer for mobile - show preview when card is in view
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsInView(true);
+            // Show preview for 2 seconds when card comes into view on mobile
+            setTimeout(() => {
+              setIsInView(false);
+            }, 2000);
+          }
+        });
+      },
+      {
+        threshold: 0.5, // Trigger when 50% of card is visible
+        rootMargin: '0px'
+      }
+    );
+
+    if (cardRef.current) {
+      observer.observe(cardRef.current);
+    }
+
+    return () => {
+      if (cardRef.current) {
+        observer.unobserve(cardRef.current);
+      }
+    };
+  }, []);
+
+  const handleTouch = () => {
+    setIsTouched(true);
+    setTimeout(() => setIsTouched(false), 2000);
+  };
+
+  // Determine if preview should show: hover (desktop) or touch or in view (mobile)
+  const showPreview = isHovered || isTouched || (isInView && window.innerWidth < 768);
+
   return (
     <Link to={`/product/${id}`}>
       <Card 
-        className="group overflow-hidden cursor-pointer transition-all duration-500 hover:shadow-2xl border-transparent hover:border-primary/20"
+        ref={cardRef}
+        className="group overflow-hidden cursor-pointer transition-all duration-500 md:hover:shadow-2xl border-transparent md:hover:border-primary/20 active:scale-95 md:active:scale-100"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
+        onTouchStart={handleTouch}
       >
         <CardContent className="p-0">
           {/* Image Container with Zoom */}
@@ -45,7 +89,7 @@ export default function ProductCard({
             {/* Placeholder for actual image with zoom effect */}
             <div 
               className={`absolute inset-0 flex items-center justify-center bg-gradient-to-br from-primary/5 to-secondary/5 transition-transform duration-700 ease-out ${
-                isHovered ? 'scale-110' : 'scale-100'
+                isHovered ? 'md:scale-105' : 'scale-100'
               }`}
             >
               <span className="text-sm text-muted-foreground/50">Product Image {imageIndex + 1}</span>
@@ -63,8 +107,8 @@ export default function ProductCard({
               </Badge>
             )}
             
-            {/* Image Slider Dots */}
-            {isHovered && (
+            {/* Image Slider Dots - Show on preview */}
+            {showPreview && (
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex gap-2 z-20 animate-fade-in">
                 {images.map((_, idx) => (
                   <button
@@ -84,17 +128,17 @@ export default function ProductCard({
               </div>
             )}
             
-            {/* Hover Overlay with View Details */}
+            {/* Hover Overlay with View Details - Show on preview */}
             <div className={`absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent transition-all duration-500 ${
-              isHovered ? 'opacity-100' : 'opacity-0'
+              showPreview ? 'opacity-100' : 'opacity-0'
             }`}>
               {/* View Details Button */}
               <div className={`absolute inset-x-0 bottom-0 p-4 transition-all duration-500 ${
-                isHovered ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
+                showPreview ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
               }`}>
                 <Button 
                   size="sm" 
-                  className="w-full bg-white text-primary hover:bg-white/90 transition-all duration-300 shadow-lg"
+                  className="w-full bg-white text-primary hover:bg-white/90 active:bg-white/80 transition-all duration-300 shadow-lg"
                   onClick={(e) => {
                     e.preventDefault();
                   }}
@@ -102,7 +146,9 @@ export default function ProductCard({
                   <Eye className="h-4 w-4 mr-2" />
                   View Details
                 </Button>
-                <p className="text-xs text-white/80 text-center mt-2">Click to explore this item</p>
+                <p className="text-xs text-white/80 text-center mt-2">
+                  {window.innerWidth < 768 ? 'Scroll to see preview' : 'Click to explore this item'}
+                </p>
               </div>
             </div>
 

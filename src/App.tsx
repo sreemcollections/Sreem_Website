@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { MainLayout } from "@/components/layouts/MainLayout";
 import ScrollToTop from "@/components/shared/ScrollToTop";
+import PageLoader from "@/components/shared/PageLoader";
 import Home from "./pages/Home";
 import Sarees from "./pages/Sarees";
 import Jewelry from "./pages/Jewelry";
@@ -29,6 +30,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <ScrollToTop />
+        <PageLoader />
         <Routes>
           {/* Main Layout Routes */}
           <Route path="/" element={<MainLayout />}>

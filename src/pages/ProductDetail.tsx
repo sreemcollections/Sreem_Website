@@ -1,15 +1,19 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { Heart, Share2 } from 'lucide-react';
+import { Heart, Share2, ChevronLeft, ChevronRight } from 'lucide-react';
 import ProductCard from '@/components/ProductCard';
 
 export default function ProductDetail() {
   const { slug } = useParams();
   const [selectedImage, setSelectedImage] = useState(0);
   const [pincode, setPincode] = useState('');
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
+  const [swipeDirection, setSwipeDirection] = useState<'left' | 'right' | null>(null);
+  const imageContainerRef = useRef<HTMLDivElement>(null);
 
   // Mock product data
   const product = {
@@ -35,25 +39,157 @@ export default function ProductDetail() {
   const gstAmount = Math.round(product.price * 0.05); // 5% GST
   const totalPrice = product.price;
 
+  // Handle swipe gestures for mobile with improved smoothness
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientX);
+    setTouchEnd(e.targetTouches[0].clientX); // Initialize touchEnd
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    // Prevent page scroll while swiping on image
+    if (imageContainerRef.current) {
+      e.preventDefault();
+    }
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+
+    // Circular navigation - wrap around to first/last image
+    if (isLeftSwipe) {
+      setSwipeDirection('left');
+      setTimeout(() => setSwipeDirection(null), 300);
+      setSelectedImage((prev) => (prev + 1) % product.images.length);
+    }
+    if (isRightSwipe) {
+      setSwipeDirection('right');
+      setTimeout(() => setSwipeDirection(null), 300);
+      setSelectedImage((prev) => (prev - 1 + product.images.length) % product.images.length);
+    }
+
+    // Reset values
+    setTouchStart(0);
+    setTouchEnd(0);
+  };
+
+  const nextImage = () => {
+    setSwipeDirection('left');
+    setTimeout(() => setSwipeDirection(null), 300);
+    setSelectedImage((prev) => (prev + 1) % product.images.length);
+  };
+
+  const prevImage = () => {
+    setSwipeDirection('right');
+    setTimeout(() => setSwipeDirection(null), 300);
+    setSelectedImage((prev) => (prev - 1 + product.images.length) % product.images.length);
+  };
+
   return (
     <div className="min-h-screen">
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Image Gallery */}
           <div className="space-y-4">
-            <div className="aspect-square bg-gradient-to-br from-primary/10 to-secondary/10 rounded-lg">
-              <div className="w-full h-full flex items-center justify-center">
+            {/* Main Image with Swipe Support */}
+            <div 
+              ref={imageContainerRef}
+              className="relative aspect-square bg-gradient-to-br from-primary/10 to-secondary/10 rounded-lg overflow-hidden group touch-pan-y select-none"
+              style={{ touchAction: 'pan-y' }}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+            >
+              <div className={`w-full h-full flex items-center justify-center transition-all duration-300 ease-out ${
+                swipeDirection === 'left' ? 'animate-slide-left' : swipeDirection === 'right' ? 'animate-slide-right' : ''
+              }`}>
                 <span className="text-muted-foreground">Product Image {selectedImage + 1}</span>
               </div>
+              
+              {/* Swipe direction indicators */}
+              {touchStart > 0 && touchEnd > 0 && Math.abs(touchStart - touchEnd) > 10 && (
+                <div className="absolute inset-0 pointer-events-none">
+                  {touchStart > touchEnd ? (
+                    // Swiping left (next)
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2 animate-fade-in">
+                      <ChevronLeft className="h-12 w-12 text-white/80 drop-shadow-lg" />
+                    </div>
+                  ) : (
+                    // Swiping right (previous)
+                    <div className="absolute left-4 top-1/2 -translate-y-1/2 animate-fade-in">
+                      <ChevronRight className="h-12 w-12 text-white/80 drop-shadow-lg" />
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Navigation Arrows - Hidden on mobile, visible on desktop */}
+              <button
+                onClick={prevImage}
+                className="absolute left-2 top-1/2 -translate-y-1/2 p-2 bg-white/90 rounded-full shadow-lg opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 hover:bg-white"
+                aria-label="Previous image"
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </button>
+              <button
+                onClick={nextImage}
+                className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-white/90 rounded-full shadow-lg opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 hover:bg-white"
+                aria-label="Next image"
+              >
+                <ChevronRight className="h-5 w-5" />
+              </button>
+
+              {/* Swipe Indicator for Mobile */}
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5 md:hidden bg-black/50 px-3 py-1.5 rounded-full backdrop-blur-sm">
+                {product.images.map((_, index) => (
+                  <div
+                    key={index}
+                    className={`h-1.5 rounded-full transition-all duration-300 ${
+                      selectedImage === index ? 'bg-white w-6' : 'bg-white/40 w-1.5'
+                    }`}
+                  />
+                ))}
+              </div>
+
+              {/* Swipe hint text for mobile - shows on first and last image */}
+              {(selectedImage === 0 || selectedImage === product.images.length - 1) && (
+                <div className="absolute top-4 left-1/2 -translate-x-1/2 md:hidden animate-fade-in">
+                  <Badge variant="secondary" className="bg-black/70 text-white text-xs backdrop-blur-sm">
+                    {selectedImage === 0 ? '← Swipe to view more →' : '← Swipe loops back to start'}
+                  </Badge>
+                </div>
+              )}
             </div>
             
-            <div className="grid grid-cols-4 gap-2">
+            {/* Thumbnail Grid - Desktop and Tablet */}
+            <div className="hidden md:grid grid-cols-4 gap-2">
               {product.images.map((_, index) => (
                 <button
                   key={index}
                   onClick={() => setSelectedImage(index)}
-                  className={`aspect-square bg-gradient-to-br from-primary/5 to-secondary/5 rounded border-2 transition-colors ${
-                    selectedImage === index ? 'border-primary' : 'border-transparent'
+                  className={`aspect-square bg-gradient-to-br from-primary/5 to-secondary/5 rounded border-2 transition-all duration-300 ${
+                    selectedImage === index ? 'border-primary scale-105' : 'border-transparent hover:border-primary/50'
+                  }`}
+                >
+                  <div className="w-full h-full flex items-center justify-center">
+                    <span className="text-xs text-muted-foreground">{index + 1}</span>
+                  </div>
+                </button>
+              ))}
+            </div>
+
+            {/* Mobile Thumbnail Slider */}
+            <div className="flex md:hidden gap-2 overflow-x-auto pb-2 scrollbar-hide">
+              {product.images.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setSelectedImage(index)}
+                  className={`flex-shrink-0 w-16 h-16 bg-gradient-to-br from-primary/5 to-secondary/5 rounded border-2 transition-all duration-300 ${
+                    selectedImage === index ? 'border-primary scale-105' : 'border-transparent'
                   }`}
                 >
                   <div className="w-full h-full flex items-center justify-center">

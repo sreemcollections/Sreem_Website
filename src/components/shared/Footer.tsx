@@ -34,9 +34,7 @@ export const Footer = () => {
             <h3 className="font-semibold text-foreground">Customer Care</h3>
             <ul className="space-y-2 text-sm">
               <li><Link to="/help" className="text-muted-foreground hover:text-primary transition-colors">Help & FAQ</Link></li>
-              <li><Link to="/returns" className="text-muted-foreground hover:text-primary transition-colors">Returns & Exchange</Link></li>
               <li><Link to="/care-guide" className="text-muted-foreground hover:text-primary transition-colors">Care Guide</Link></li>
-              <li><Link to="/size-guide" className="text-muted-foreground hover:text-primary transition-colors">Size Guide</Link></li>
             </ul>
           </div>
 
@@ -54,7 +52,7 @@ export const Footer = () => {
               </div>
               <div className="flex items-center space-x-2">
                 <MapPin className="h-4 w-4" />
-                <span>Mumbai, Maharashtra, India</span>
+                <span>India</span>
               </div>
             </div>
           </div>

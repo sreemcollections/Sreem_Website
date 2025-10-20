@@ -12,7 +12,7 @@ export default function CareGuide() {
             
             {/* Silk Sarees */}
             <div className="bg-gradient-to-r from-primary/5 to-secondary/5 p-6 rounded-lg mb-6">
-              <h3 className="text-xl font-semibold text-foreground mb-3">🌟 Silk Sarees (Banarasi, Kanjivaram, Patola)</h3>
+              <h3 className="text-xl font-semibold text-foreground mb-3">Silk Sarees (Banarasi, Kanjivaram, Patola)</h3>
               
               <h4 className="text-lg font-semibold text-foreground mt-4 mb-2">Washing</h4>
               <ul className="list-disc pl-6 space-y-2 text-foreground/90">
@@ -44,7 +44,7 @@ export default function CareGuide() {
 
             {/* Cotton Sarees */}
             <div className="bg-muted/30 p-6 rounded-lg mb-6">
-              <h3 className="text-xl font-semibold text-foreground mb-3">🌿 Cotton Sarees (Handloom, Khadi, Chanderi)</h3>
+              <h3 className="text-xl font-semibold text-foreground mb-3">Cotton Sarees (Handloom, Khadi, Chanderi)</h3>
               
               <h4 className="text-lg font-semibold text-foreground mt-4 mb-2">Washing</h4>
               <ul className="list-disc pl-6 space-y-2 text-foreground/90">
@@ -75,7 +75,7 @@ export default function CareGuide() {
 
             {/* Georgette & Chiffon */}
             <div className="bg-muted/30 p-6 rounded-lg mb-6">
-              <h3 className="text-xl font-semibold text-foreground mb-3">✨ Georgette & Chiffon Sarees</h3>
+              <h3 className="text-xl font-semibold text-foreground mb-3">Georgette & Chiffon Sarees</h3>
               
               <h4 className="text-lg font-semibold text-foreground mt-4 mb-2">Washing</h4>
               <ul className="list-disc pl-6 space-y-2 text-foreground/90">
@@ -100,7 +100,7 @@ export default function CareGuide() {
             
             {/* Gold Jewelry */}
             <div className="bg-gradient-to-r from-yellow-50 to-amber-50 border-l-4 border-secondary p-6 rounded-lg mb-6">
-              <h3 className="text-xl font-semibold text-foreground mb-3">👑 Gold Jewelry</h3>
+              <h3 className="text-xl font-semibold text-foreground mb-3">Gold Jewelry</h3>
               
               <h4 className="text-lg font-semibold text-foreground mt-4 mb-2">Daily Care</h4>
               <ul className="list-disc pl-6 space-y-2 text-foreground/90">
@@ -132,7 +132,7 @@ export default function CareGuide() {
 
             {/* Silver Jewelry */}
             <div className="bg-gray-50 border-l-4 border-gray-400 p-6 rounded-lg mb-6">
-              <h3 className="text-xl font-semibold text-foreground mb-3">⚪ Silver Jewelry</h3>
+              <h3 className="text-xl font-semibold text-foreground mb-3">Silver Jewelry</h3>
               
               <h4 className="text-lg font-semibold text-foreground mt-4 mb-2">Preventing Tarnish</h4>
               <ul className="list-disc pl-6 space-y-2 text-foreground/90">
@@ -153,7 +153,7 @@ export default function CareGuide() {
 
             {/* Temple Jewelry & Kundan */}
             <div className="bg-red-50 border-l-4 border-primary p-6 rounded-lg mb-6">
-              <h3 className="text-xl font-semibold text-foreground mb-3">🕉️ Temple Jewelry & Kundan Work</h3>
+              <h3 className="text-xl font-semibold text-foreground mb-3">Temple Jewelry & Kundan Work</h3>
               
               <ul className="list-disc pl-6 space-y-2 text-foreground/90">
                 <li><strong>No Water Contact:</strong> Never wash or immerse in water</li>
@@ -167,7 +167,7 @@ export default function CareGuide() {
 
             {/* Pearl Jewelry */}
             <div className="bg-pink-50 border-l-4 border-pink-400 p-6 rounded-lg mb-6">
-              <h3 className="text-xl font-semibold text-foreground mb-3">🦪 Pearl Jewelry</h3>
+              <h3 className="text-xl font-semibold text-foreground mb-3">Pearl Jewelry</h3>
               
               <h4 className="text-lg font-semibold text-foreground mt-4 mb-2">Special Care for Pearls</h4>
               <ul className="list-disc pl-6 space-y-2 text-foreground/90">
@@ -187,11 +187,11 @@ export default function CareGuide() {
             <h2 className="text-2xl font-semibold text-primary mb-4">General Care Tips</h2>
             
             <div className="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-lg">
-              <h3 className="text-lg font-semibold text-foreground mb-3">📋 Do's and Don'ts</h3>
+              <h3 className="text-lg font-semibold text-foreground mb-3">Do's and Don'ts</h3>
               
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <h4 className="font-semibold text-green-700 mb-2">✅ DO:</h4>
+                  <h4 className="font-semibold text-green-700 mb-2">DO:</h4>
                   <ul className="space-y-1 text-sm text-foreground/90">
                     <li>• Read care labels carefully</li>
                     <li>• Test cleaning methods on small areas first</li>
@@ -205,7 +205,7 @@ export default function CareGuide() {
                 </div>
                 
                 <div>
-                  <h4 className="font-semibold text-red-700 mb-2">❌ DON'T:</h4>
+                  <h4 className="font-semibold text-red-700 mb-2">DON'T:</h4>
                   <ul className="space-y-1 text-sm text-foreground/90">
                     <li>• Use harsh chemicals or bleach</li>
                     <li>• Store in plastic bags long-term</li>
@@ -227,7 +227,7 @@ export default function CareGuide() {
             
             <div className="space-y-4">
               <div className="bg-yellow-50 border-l-4 border-yellow-500 p-4">
-                <h3 className="text-lg font-semibold text-foreground mb-2">🚨 Stain on Saree?</h3>
+                <h3 className="text-lg font-semibold text-foreground mb-2">Stain on Saree?</h3>
                 <p className="text-foreground/90">
                   Blot immediately with a clean cloth. Don't rub. For silk and delicate fabrics, take to professional 
                   cleaner immediately. For cotton, pre-treat with mild soap before washing.
@@ -235,7 +235,7 @@ export default function CareGuide() {
               </div>
 
               <div className="bg-yellow-50 border-l-4 border-yellow-500 p-4">
-                <h3 className="text-lg font-semibold text-foreground mb-2">🚨 Jewelry Tangled?</h3>
+                <h3 className="text-lg font-semibold text-foreground mb-2">Jewelry Tangled?</h3>
                 <p className="text-foreground/90">
                   Place on flat surface, use two pins/needles to gently work out tangles. Never force or pull aggressively. 
                   Apply baby powder to lubricate if needed.
@@ -243,31 +243,11 @@ export default function CareGuide() {
               </div>
 
               <div className="bg-yellow-50 border-l-4 border-yellow-500 p-4">
-                <h3 className="text-lg font-semibold text-foreground mb-2">🚨 Stone Loose or Missing?</h3>
+                <h3 className="text-lg font-semibold text-foreground mb-2">Stone Loose or Missing?</h3>
                 <p className="text-foreground/90">
                   Stop wearing immediately. Keep loose stones safe. Contact us or a professional jeweler for repair. 
                   Don't use glue or attempt DIY fixes.
                 </p>
-              </div>
-            </div>
-          </section>
-
-          {/* Professional Services */}
-          <section>
-            <h2 className="text-2xl font-semibold text-primary mb-4">Professional Services</h2>
-            <div className="bg-gradient-to-r from-primary/5 to-secondary/5 p-6 rounded-lg">
-              <p className="text-foreground/90 leading-relaxed mb-4">
-                Need expert help? We offer professional care services for products purchased from us:
-              </p>
-              <ul className="space-y-2 text-foreground/90">
-                <li>✨ <strong>Saree Cleaning & Restoration</strong> - Partner dry cleaners specializing in handloom fabrics</li>
-                <li>✨ <strong>Jewelry Cleaning & Polishing</strong> - Professional jeweler services</li>
-                <li>✨ <strong>Repair Services</strong> - Zari work repair, stone replacement, thread work restoration</li>
-                <li>✨ <strong>Blouse Stitching & Alterations</strong> - Expert tailoring services</li>
-              </ul>
-              <div className="mt-4 pt-4 border-t border-primary/20">
-                <p className="text-foreground/90"><strong>📧 Contact:</strong> care@sreem.com</p>
-                <p className="text-foreground/90"><strong>📞 Phone:</strong> +91-XXXX-XXXXXX</p>
               </div>
             </div>
           </section>

@@ -163,6 +163,36 @@ All colors MUST be HSL.
   }
 }
 
+@keyframes slide-left {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(-20px);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-right {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(20px);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
 /* Utility classes */
 .animate-fade-in {
   animation: fadeIn 0.3s ease-in-out;
@@ -176,6 +206,14 @@ All colors MUST be HSL.
   animation: float-gentle 4s ease-in-out infinite;
 }
 
+.animate-slide-left {
+  animation: slide-left 0.3s ease-out;
+}
+
+.animate-slide-right {
+  animation: slide-right 0.3s ease-out;
+}
+
 /* Collection card image blending */
 .collection-image-blend {
   mix-blend-mode: soft-light;
@@ -187,6 +225,32 @@ All colors MUST be HSL.
   background: rgba(255, 255, 255, 0.15);
   border: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+}
+
+/* Hide scrollbar for mobile thumbnail slider */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Smooth swipe experience */
+.touch-pan-y {
+  touch-action: pan-y;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+/* Disable text selection during swipe */
+.select-none {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 /* Mobile touch optimizations */
@@ -206,5 +270,10 @@ All colors MUST be HSL.
   /* Better touch targets */
   .group {
     -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Prevent zoom on mobile when tapping cards */
+  .group:active {
+    transform: scale(0.98);
   }
 }

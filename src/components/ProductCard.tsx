@@ -34,6 +34,7 @@ export default function ProductCard({
   const [isTouched, setIsTouched] = useState(false);
   const [isInView, setIsInView] = useState(false);
   const [imageIndex, setImageIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
   // Intersection Observer for mobile - show preview when card is in view
@@ -79,6 +80,15 @@ export default function ProductCard({
   const displayImages = images && images.length > 0 ? images : [0, 1, 2, 3];
   const productSlug = slug || id;
 
+  const handleImageChange = (newIndex: number) => {
+    if (newIndex === imageIndex) return;
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setImageIndex(newIndex);
+      setTimeout(() => setIsTransitioning(false), 50);
+    }, 300);
+  };
+
   return (
     <Link to={`/product/${productSlug}`}>
       <Card 
@@ -91,18 +101,25 @@ export default function ProductCard({
         <CardContent className="p-0">
           {/* Image Container with Zoom */}
           <div className="relative aspect-[3/4] bg-gradient-to-br from-primary/10 to-secondary/10 overflow-hidden">
-            {/* Product Image with zoom effect */}
+            {/* Product Image with zoom effect and crossfade */}
             {images && images.length > 0 ? (
-              <img
-                src={images[imageIndex]}
-                alt={name}
-                className={`absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out ${
-                  isHovered ? 'md:scale-110' : 'scale-100'
-                }`}
-              />
+              <div className="absolute inset-0 w-full h-full">
+                <img
+                  key={imageIndex}
+                  src={images[imageIndex]}
+                  alt={name}
+                  className={`absolute inset-0 w-full h-full object-cover transform ${
+                    isHovered ? 'md:scale-110' : 'scale-100'
+                  }`}
+                  style={{ 
+                    opacity: isTransitioning ? 0 : 1,
+                    transition: 'transform 700ms cubic-bezier(0.4, 0, 0.2, 1), opacity 600ms cubic-bezier(0.4, 0, 0.2, 1)'
+                  }}
+                />
+              </div>
             ) : (
               <div 
-                className={`absolute inset-0 flex items-center justify-center bg-gradient-to-br from-primary/5 to-secondary/5 transition-transform duration-700 ease-out ${
+                className={`absolute inset-0 flex items-center justify-center bg-gradient-to-br from-primary/5 to-secondary/5 transition-all duration-700 ease-in-out ${
                   isHovered ? 'md:scale-105' : 'scale-100'
                 }`}
               >
@@ -130,12 +147,13 @@ export default function ProductCard({
                     key={idx}
                     onClick={(e) => {
                       e.preventDefault();
-                      setImageIndex(idx);
+                      e.stopPropagation();
+                      handleImageChange(idx);
                     }}
-                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                    className={`rounded-full transition-all duration-500 ease-in-out ${
                       imageIndex === idx 
-                        ? 'bg-white w-6' 
-                        : 'bg-white/50 hover:bg-white/75'
+                        ? 'bg-white w-6 h-2' 
+                        : 'bg-white/50 hover:bg-white/75 w-2 h-2'
                     }`}
                     aria-label={`View image ${idx + 1}`}
                   />
@@ -144,22 +162,22 @@ export default function ProductCard({
             )}
             
             {/* Hover Overlay with View Details - Show on preview */}
-            <div className={`absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent transition-all duration-500 ${
+            <div className={`absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent transition-all duration-700 ease-in-out ${
               showPreview ? 'opacity-100' : 'opacity-0'
             }`}>
               {/* View Details Button */}
-              <div className={`absolute inset-x-0 bottom-0 p-4 transition-all duration-500 ${
+              <div className={`absolute inset-x-0 bottom-0 p-4 transition-all duration-700 ease-in-out ${
                 showPreview ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
               }`}>
                 <Button 
                   size="sm" 
-                  className="w-full bg-white text-primary hover:bg-white/90 active:bg-white/80 transition-all duration-300 shadow-lg"
-                  onClick={(e) => {
-                    e.preventDefault();
-                  }}
+                  className="w-full bg-white text-primary hover:bg-white/90 active:bg-white/80 transition-all duration-500 ease-in-out shadow-lg"
+                  asChild
                 >
-                  <Eye className="h-4 w-4 mr-2" />
-                  View Details
+                  <span>
+                    <Eye className="h-4 w-4 mr-2" />
+                    View Details
+                  </span>
                 </Button>
                 <p className="text-xs text-white/80 text-center mt-2">
                   {window.innerWidth < 768 ? 'Scroll to see preview' : 'Click to explore this item'}
@@ -168,7 +186,7 @@ export default function ProductCard({
             </div>
 
             {/* Shimmer Effect */}
-            <div className={`absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-1000 ${
+            <div className={`absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-1500 ease-in-out ${
               isHovered ? 'translate-x-full' : '-translate-x-full'
             }`} />
           </div>

@@ -1,7 +1,7 @@
 ﻿import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Product } from '@/lib/supabase-products';
+import { Product } from '@/lib/sanity-products';
 import { Link } from 'react-router-dom';
 import { Heart } from 'lucide-react';
 
@@ -18,8 +18,8 @@ export function QuickViewModal({ isOpen, onClose, product }: QuickViewModalProps
     ? product.images[0] 
     : '/placeholder.svg';
 
-  const discount = product.original_price 
-    ? Math.round(((product.original_price - product.price) / product.original_price) * 100)
+  const discount = product.originalPrice 
+    ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
     : 0;
 
   return (
@@ -46,8 +46,8 @@ export function QuickViewModal({ isOpen, onClose, product }: QuickViewModalProps
               {product.featured && (
                 <Badge>Featured</Badge>
               )}
-              <Badge variant={product.in_stock ? 'default' : 'secondary'}>
-                {product.in_stock ? 'In Stock' : 'Out of Stock'}
+              <Badge variant={product.inStock ? 'default' : 'secondary'}>
+                {product.inStock ? 'In Stock' : 'Out of Stock'}
               </Badge>
             </div>
 
@@ -58,37 +58,32 @@ export function QuickViewModal({ isOpen, onClose, product }: QuickViewModalProps
             <div className='space-y-2'>
               <div className='flex items-baseline gap-2'>
                 <span className='text-3xl font-bold'>
-                  {product.price.toLocaleString('en-IN')}
+                  ₹{product.price.toLocaleString('en-IN')}
                 </span>
-                {product.original_price && (
+                {product.originalPrice && (
                   <span className='text-lg text-muted-foreground line-through'>
-                    {product.original_price.toLocaleString('en-IN')}
+                    ₹{product.originalPrice.toLocaleString('en-IN')}
                   </span>
                 )}
               </div>
             </div>
 
-            {product.category === 'sarees' && (
+            {product.category === 'sarees' && product.fabric && (
               <div className='space-y-1 text-sm'>
-                {product.fabric && <p><strong>Fabric:</strong> {product.fabric}</p>}
-                {product.length && <p><strong>Length:</strong> {product.length}</p>}
-                {product.blouse_piece !== undefined && (
-                  <p><strong>Blouse Piece:</strong> {product.blouse_piece ? 'Yes' : 'No'}</p>
-                )}
+                <p><strong>Fabric:</strong> {product.fabric}</p>
               </div>
             )}
 
             {product.category === 'jewelry' && (
               <div className='space-y-1 text-sm'>
                 {product.material && <p><strong>Material:</strong> {product.material}</p>}
-                {product.weight && <p><strong>Weight:</strong> {product.weight}</p>}
-                {product.purity && <p><strong>Purity:</strong> {product.purity}</p>}
+                {product.collection && <p><strong>Collection:</strong> {product.collection}</p>}
               </div>
             )}
 
             <div className='flex gap-2 pt-4'>
               <Button asChild className='flex-1'>
-                <Link to={/product/}>View Full Details</Link>
+                <Link to={`/product/${product.slug?.current || product._id}`}>View Full Details</Link>
               </Button>
               <Button variant='outline' size='icon'>
                 <Heart className='h-4 w-4' />

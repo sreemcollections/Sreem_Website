@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { Heart, Share2, ChevronLeft, ChevronRight, ArrowLeft } from 'lucide-react';
+import { Heart, Share2, ChevronLeft, ChevronRight, ArrowLeft, Copy, Mail, MessageCircle, X } from 'lucide-react';
 import ProductCard from '@/components/ProductCard';
 import { fetchProductBySlug, fetchProducts, getImageUrl, type Product } from '@/lib/sanity-products';
 
@@ -15,11 +15,11 @@ export default function ProductDetail() {
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(0);
   const [isZoomModalOpen, setIsZoomModalOpen] = useState(false);
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [pincode, setPincode] = useState('');
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
   const [swipeDirection, setSwipeDirection] = useState<'left' | 'right' | null>(null);
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const imageContainerRef = useRef<HTMLDivElement>(null);
   
   // Fullscreen zoom states
@@ -30,26 +30,6 @@ export default function ProductDetail() {
   const [fullscreenIsPinching, setFullscreenIsPinching] = useState(false);
   const [fullscreenLastPanX, setFullscreenLastPanX] = useState(0);
   const [fullscreenLastPanY, setFullscreenLastPanY] = useState(0);
-
-  // Auto-swipe effect
-  useEffect(() => {
-    if (!isAutoPlaying || !product || !product.images || product.images.length <= 1) return;
-
-    const interval = setInterval(() => {
-      setSwipeDirection('left');
-      setTimeout(() => setSwipeDirection(null), 800);
-      setSelectedImage((prev) => (prev + 1) % product.images.length);
-    }, 10000); // Change image every 10 seconds
-
-    return () => clearInterval(interval);
-  }, [isAutoPlaying, product]);
-
-  // Pause auto-play on user interaction
-  const pauseAutoPlay = () => {
-    setIsAutoPlaying(false);
-    // Resume after 5 seconds of inactivity
-    setTimeout(() => setIsAutoPlaying(true), 5000);
-  };
 
   useEffect(() => {
     const loadProduct = async () => {
@@ -127,7 +107,6 @@ export default function ProductDetail() {
   const handleTouchStart = (e: React.TouchEvent) => {
     if (e.touches.length === 1) {
       // Single finger swipe
-      pauseAutoPlay();
       setTouchStart(e.targetTouches[0].clientX);
       setTouchEnd(e.targetTouches[0].clientX);
     }
@@ -169,7 +148,6 @@ export default function ProductDetail() {
 
   const nextImage = () => {
     if (!product.images || product.images.length === 0) return;
-    pauseAutoPlay();
     setSwipeDirection('left');
     setTimeout(() => setSwipeDirection(null), 800);
     setSelectedImage((prev) => (prev + 1) % product.images.length);
@@ -177,7 +155,6 @@ export default function ProductDetail() {
 
   const prevImage = () => {
     if (!product.images || product.images.length === 0) return;
-    pauseAutoPlay();
     setSwipeDirection('right');
     setTimeout(() => setSwipeDirection(null), 800);
     setSelectedImage((prev) => (prev - 1 + product.images.length) % product.images.length);
@@ -187,12 +164,122 @@ export default function ProductDetail() {
     ? product.images.map(img => getImageUrl(img))
     : ['/placeholder.svg'];
 
+  const handleShare = () => {
+    if (!product) return;
+    setIsShareModalOpen(true);
+  };
+
+  const getShareUrl = () => {
+    if (!product) return '';
+    const productionDomain = 'https://sreem-collection.lovable.app';
+    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname.startsWith('192.168');
+    
+    return isLocalhost 
+      ? `${productionDomain}/product/${product.slug.current}`
+      : window.location.href;
+  };
+
+  const handleNativeShare = async () => {
+    if (!product) return;
+    
+    const shareUrl = getShareUrl();
+    const shareData = {
+      title: product.name,
+      text: `Check out ${product.name} - ${product.description || 'Beautiful handcrafted product from Sreem Collection'}`,
+      url: shareUrl
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+        setIsShareModalOpen(false);
+      }
+    } catch (error) {
+      if ((error as Error).name !== 'AbortError') {
+        console.error('Error sharing:', error);
+      }
+    }
+  };
+
+  const handleWhatsAppShare = () => {
+    const shareUrl = getShareUrl();
+    const text = encodeURIComponent(`Check out ${product?.name}! ${shareUrl}`);
+    window.open(`https://wa.me/?text=${text}`, '_blank');
+    setIsShareModalOpen(false);
+  };
+
+  const handleEmailShare = () => {
+    const shareUrl = getShareUrl();
+    const subject = encodeURIComponent(product?.name || 'Check out this product');
+    const body = encodeURIComponent(`I thought you might like this:\n\n${product?.name}\n${product?.description || ''}\n\n${shareUrl}`);
+    window.location.href = `mailto:?subject=${subject}&body=${body}`;
+    setIsShareModalOpen(false);
+  };
+
+  const handleSMSShare = () => {
+    const shareUrl = getShareUrl();
+    const text = encodeURIComponent(`Check out ${product?.name}! ${shareUrl}`);
+    window.open(`sms:?body=${text}`, '_blank');
+    setIsShareModalOpen(false);
+  };
+
+  const handleRequestInformation = () => {
+    if (!product) return;
+    
+    // Your business WhatsApp number (replace with actual number)
+    // Format: country code + number (no + sign, no spaces, no dashes)
+    const businessWhatsAppNumber = 'sudo'; // Replace with your actual WhatsApp number
+    
+    const shareUrl = getShareUrl();
+    
+    // Create a professional inquiry message
+    const message = encodeURIComponent(
+      `Hello! I'm interested in the following product:\n\n` +
+      `*${product.name}*\n` +
+      `${product.description || ''}\n\n` +
+      `Price: ₹${product.price.toLocaleString()}` +
+      `${product.originalPrice ? ` (was ₹${product.originalPrice.toLocaleString()})` : ''}\n\n` +
+      `Product Link: ${shareUrl}\n\n` +
+      `Could you please provide more information about this product?`
+    );
+    
+    // Open WhatsApp with pre-filled message to business number
+    window.open(`https://wa.me/${businessWhatsAppNumber}?text=${message}`, '_blank');
+  };
+
+  const copyToClipboard = async (url: string) => {
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(url);
+        alert('Link copied to clipboard!');
+      } else {
+        // Final fallback: Create temporary input element
+        const textArea = document.createElement('textarea');
+        textArea.value = url;
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-999999px';
+        document.body.appendChild(textArea);
+        textArea.select();
+        try {
+          document.execCommand('copy');
+          alert('Link copied to clipboard!');
+        } catch (err) {
+          alert(`Share this link: ${url}`);
+        }
+        document.body.removeChild(textArea);
+      }
+    } catch (error) {
+      console.error('Clipboard error:', error);
+      alert(`Share this link: ${url}`);
+    }
+  };
+
   return (
     <div className="min-h-screen">
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-4">
         {/* Go Back Button - Luxurious Design */}
         {product && (
-          <div className="mb-8">
+          <div className="mb-2">
             <button
               onClick={handleGoBack}
               className="group inline-flex items-center gap-3 text-sm font-medium text-muted-foreground hover:text-primary transition-all duration-300 relative"
@@ -210,7 +297,7 @@ export default function ProductDetail() {
           </div>
         )}
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-12">
           {/* Image Gallery */}
           <div className="space-y-4">
             {/* Main Image with Swipe Support */}
@@ -222,7 +309,6 @@ export default function ProductDetail() {
               onTouchMove={handleTouchMove}
               onTouchEnd={handleTouchEnd}
               onClick={() => {
-                pauseAutoPlay();
                 setIsZoomModalOpen(true);
               }}
             >
@@ -246,13 +332,6 @@ export default function ProductDetail() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" />
                   </svg>
                 </div>
-              </div>
-
-              {/* Tap to view fullscreen hint - Mobile only */}
-              <div className="absolute bottom-20 left-1/2 -translate-x-1/2 md:hidden">
-                <Badge variant="secondary" className="bg-black/60 text-white text-xs backdrop-blur-sm border-0">
-                  Tap to view fullscreen
-                </Badge>
               </div>
               
               {/* Swipe direction indicators */}
@@ -302,13 +381,19 @@ export default function ProductDetail() {
 
             </div>
             
+            {/* Tap to view fullscreen hint - Mobile only - Outside image */}
+            <div className="flex md:hidden justify-center -mt-2 mb-2">
+              <Badge variant="secondary" className="bg-black/60 text-white text-xs backdrop-blur-sm border-0">
+                Tap to view fullscreen
+              </Badge>
+            </div>
+            
             {/* Thumbnail Grid - Desktop and Tablet */}
             <div className="hidden md:grid grid-cols-4 gap-2">
               {productImages.map((img, index) => (
                 <button
                   key={index}
                   onClick={() => {
-                    pauseAutoPlay();
                     setSelectedImage(index);
                   }}
                   className={`aspect-square bg-gradient-to-br from-primary/5 to-secondary/5 rounded border-2 transition-all duration-300 overflow-hidden ${
@@ -330,7 +415,6 @@ export default function ProductDetail() {
                 <button
                   key={index}
                   onClick={() => {
-                    pauseAutoPlay();
                     setSelectedImage(index);
                   }}
                   className={`flex-shrink-0 w-16 h-16 bg-gradient-to-br from-primary/5 to-secondary/5 rounded border-2 transition-all duration-300 overflow-hidden ${
@@ -348,12 +432,12 @@ export default function ProductDetail() {
           </div>
 
           {/* Product Info */}
-          <div className="space-y-6">
+          <div className="space-y-4">
             <div>
-              <h1 className="text-3xl font-playfair font-bold text-foreground mb-2">
+              <h1 className="text-2xl font-serif font-medium text-foreground mb-1.5 leading-tight">
                 {product.name}
               </h1>
-              <p className="text-muted-foreground">{product.description}</p>
+              <p className="text-sm text-muted-foreground">{product.description}</p>
             </div>
 
             {/* Price */}
@@ -422,18 +506,23 @@ export default function ProductDetail() {
               </div>
               
               <div className="flex gap-3">
-                <Button className="flex-1" size="lg" variant="outline">
-                  <Heart className="h-4 w-4 mr-2" />
-                  Save to Wishlist
+                <Button 
+                  className="flex-1" 
+                  size="lg"
+                  onClick={handleRequestInformation}
+                >
+                  Request Information
                 </Button>
-                <Button variant="outline" size="lg">
+                <Button 
+                  variant="outline" 
+                  size="lg" 
+                  onClick={handleShare}
+                  type="button"
+                  aria-label="Share product"
+                >
                   <Share2 className="h-4 w-4" />
                 </Button>
               </div>
-              
-              <Button className="w-full" size="lg">
-                Request Information
-              </Button>
             </div>
           </div>
         </div>
@@ -636,6 +725,135 @@ export default function ProductDetail() {
               </Badge>
             </div>
           )}
+        </div>
+      )}
+
+      {/* Share Modal */}
+      {isShareModalOpen && product && (
+        <div 
+          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-end md:items-center justify-center"
+          onClick={() => setIsShareModalOpen(false)}
+        >
+          <div 
+            className="bg-background rounded-t-2xl md:rounded-2xl w-full md:max-w-md max-h-[80vh] overflow-y-auto animate-slide-up shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header */}
+            <div className="sticky top-0 bg-background border-b px-6 py-4 flex items-center justify-between z-10">
+              <h3 className="text-lg font-semibold">Share this product</h3>
+              <button
+                onClick={() => setIsShareModalOpen(false)}
+                className="p-2 hover:bg-muted rounded-full transition-colors"
+                aria-label="Close"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            {/* Product Preview */}
+            <div className="px-6 py-4 border-b">
+              <div className="flex gap-4 items-center">
+                <div className="w-24 h-24 rounded-lg overflow-hidden bg-muted flex-shrink-0">
+                  <img 
+                    src={productImages[selectedImage]} 
+                    alt={product.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h4 className="font-medium text-sm line-clamp-2 mb-1">
+                    {product.name}
+                  </h4>
+                  <p className="text-lg font-bold text-primary">
+                    ₹{product.price.toLocaleString()}
+                  </p>
+                  {product.originalPrice && (
+                    <p className="text-sm text-muted-foreground line-through">
+                      ₹{product.originalPrice.toLocaleString()}
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Share Options */}
+            <div className="p-6 space-y-4">
+              {/* Native Share (Mobile) */}
+              {navigator.share && (
+                <button
+                  onClick={handleNativeShare}
+                  className="w-full flex items-center gap-4 p-4 rounded-lg hover:bg-muted transition-colors text-left"
+                >
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center flex-shrink-0">
+                    <Share2 className="h-6 w-6 text-white" />
+                  </div>
+                  <div>
+                    <p className="font-medium">More options</p>
+                    <p className="text-sm text-muted-foreground">Share via other apps</p>
+                  </div>
+                </button>
+              )}
+
+              {/* WhatsApp */}
+              <button
+                onClick={handleWhatsAppShare}
+                className="w-full flex items-center gap-4 p-4 rounded-lg hover:bg-muted transition-colors text-left"
+              >
+                <div className="w-12 h-12 rounded-full bg-[#25D366] flex items-center justify-center flex-shrink-0">
+                  <MessageCircle className="h-6 w-6 text-white" />
+                </div>
+                <div>
+                  <p className="font-medium">WhatsApp</p>
+                  <p className="text-sm text-muted-foreground">Share via WhatsApp</p>
+                </div>
+              </button>
+
+              {/* Email */}
+              <button
+                onClick={handleEmailShare}
+                className="w-full flex items-center gap-4 p-4 rounded-lg hover:bg-muted transition-colors text-left"
+              >
+                <div className="w-12 h-12 rounded-full bg-red-500 flex items-center justify-center flex-shrink-0">
+                  <Mail className="h-6 w-6 text-white" />
+                </div>
+                <div>
+                  <p className="font-medium">Email</p>
+                  <p className="text-sm text-muted-foreground">Share via email</p>
+                </div>
+              </button>
+
+              {/* SMS */}
+              <button
+                onClick={handleSMSShare}
+                className="w-full flex items-center gap-4 p-4 rounded-lg hover:bg-muted transition-colors text-left"
+              >
+                <div className="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center flex-shrink-0">
+                  <MessageCircle className="h-6 w-6 text-white" />
+                </div>
+                <div>
+                  <p className="font-medium">Messages</p>
+                  <p className="text-sm text-muted-foreground">Share via SMS</p>
+                </div>
+              </button>
+
+              {/* Copy Link */}
+              <button
+                onClick={async () => {
+                  await copyToClipboard(getShareUrl());
+                  setIsShareModalOpen(false);
+                }}
+                className="w-full flex items-center gap-4 p-4 rounded-lg hover:bg-muted transition-colors text-left"
+              >
+                <div className="w-12 h-12 rounded-full bg-gray-500 flex items-center justify-center flex-shrink-0">
+                  <Copy className="h-6 w-6 text-white" />
+                </div>
+                <div>
+                  <p className="font-medium">Copy link</p>
+                  <p className="text-sm text-muted-foreground">Copy to clipboard</p>
+                </div>
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

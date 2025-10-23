@@ -4,7 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Filter, Grid, List, Loader2, ArrowRight } from 'lucide-react';
+import { Filter, Loader2, ArrowRight } from 'lucide-react';
 import { useCartStore } from '@/store/cartStore';
 import ProductCard from '@/components/ProductCard';
 import sareesImage from '@/assets/sarees.png';
@@ -14,7 +14,6 @@ import { fetchProducts, Product, getImageUrl } from '@/lib/sanity-products';
 import { Link } from 'react-router-dom';
 
 export default function Sarees() {
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [showFilters, setShowFilters] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
@@ -182,25 +181,6 @@ export default function Sarees() {
                   <SelectItem value="newest">Newest First</SelectItem>
                 </SelectContent>
               </Select>
-              
-              <div className="flex border rounded-md">
-                <Button
-                  variant={viewMode === 'grid' ? 'default' : 'ghost'}
-                  size="sm"
-                  onClick={() => setViewMode('grid')}
-                  className="rounded-r-none"
-                >
-                  <Grid className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant={viewMode === 'list' ? 'default' : 'ghost'}
-                  size="sm"
-                  onClick={() => setViewMode('list')}
-                  className="rounded-l-none"
-                >
-                  <List className="h-4 w-4" />
-                </Button>
-              </div>
             </div>
           </div>
         </div>
@@ -290,11 +270,7 @@ export default function Sarees() {
                 <p className="text-lg text-muted-foreground">No sarees found matching your filters.</p>
               </div>
             ) : (
-              <div className={`grid gap-6 ${
-                viewMode === 'grid' 
-                  ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3' 
-                  : 'grid-cols-1'
-              }`}>
+              <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                 {filteredProducts.map((product) => {
                   const discount = product.originalPrice 
                     ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)

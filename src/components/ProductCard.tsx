@@ -10,9 +10,11 @@ interface ProductCardProps {
   name: string;
   description: string;
   price: number;
-  originalPrice: number;
+  originalPrice?: number;
   discount?: number;
   image?: string;
+  images?: string[];
+  slug?: string;
   onQuickView?: (id: string) => void;
 }
 
@@ -24,6 +26,8 @@ export default function ProductCard({
   originalPrice,
   discount,
   image,
+  images,
+  slug,
   onQuickView
 }: ProductCardProps) {
   const [isHovered, setIsHovered] = useState(false);
@@ -31,9 +35,6 @@ export default function ProductCard({
   const [isInView, setIsInView] = useState(false);
   const [imageIndex, setImageIndex] = useState(0);
   const cardRef = useRef<HTMLDivElement>(null);
-  
-  // Mock multiple images for slider effect
-  const images = [0, 1, 2, 3];
 
   // Intersection Observer for mobile - show preview when card is in view
   useEffect(() => {
@@ -74,8 +75,12 @@ export default function ProductCard({
   // Determine if preview should show: hover (desktop) or touch or in view (mobile)
   const showPreview = isHovered || isTouched || (isInView && window.innerWidth < 768);
 
+  // Use provided images or mock images
+  const displayImages = images && images.length > 0 ? images : [0, 1, 2, 3];
+  const productSlug = slug || id;
+
   return (
-    <Link to={`/product/${id}`}>
+    <Link to={`/product/${productSlug}`}>
       <Card 
         ref={cardRef}
         className="group overflow-hidden cursor-pointer transition-all duration-500 md:hover:shadow-2xl border-transparent md:hover:border-primary/20 active:scale-95 md:active:scale-100"
@@ -86,14 +91,24 @@ export default function ProductCard({
         <CardContent className="p-0">
           {/* Image Container with Zoom */}
           <div className="relative aspect-[3/4] bg-gradient-to-br from-primary/10 to-secondary/10 overflow-hidden">
-            {/* Placeholder for actual image with zoom effect */}
-            <div 
-              className={`absolute inset-0 flex items-center justify-center bg-gradient-to-br from-primary/5 to-secondary/5 transition-transform duration-700 ease-out ${
-                isHovered ? 'md:scale-105' : 'scale-100'
-              }`}
-            >
-              <span className="text-sm text-muted-foreground/50">Product Image {imageIndex + 1}</span>
-            </div>
+            {/* Product Image with zoom effect */}
+            {images && images.length > 0 ? (
+              <img
+                src={images[imageIndex]}
+                alt={name}
+                className={`absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out ${
+                  isHovered ? 'md:scale-110' : 'scale-100'
+                }`}
+              />
+            ) : (
+              <div 
+                className={`absolute inset-0 flex items-center justify-center bg-gradient-to-br from-primary/5 to-secondary/5 transition-transform duration-700 ease-out ${
+                  isHovered ? 'md:scale-105' : 'scale-100'
+                }`}
+              >
+                <span className="text-sm text-muted-foreground/50">Product Image {imageIndex + 1}</span>
+              </div>
+            )}
             
             {/* Catalog Badge */}
             <Badge className="absolute top-3 right-3 bg-background/90 text-foreground border border-primary/20 shadow-lg z-10 backdrop-blur-sm">
@@ -108,9 +123,9 @@ export default function ProductCard({
             )}
             
             {/* Image Slider Dots - Show on preview */}
-            {showPreview && (
+            {showPreview && displayImages.length > 1 && (
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex gap-2 z-20 animate-fade-in">
-                {images.map((_, idx) => (
+                {displayImages.map((_, idx) => (
                   <button
                     key={idx}
                     onClick={(e) => {

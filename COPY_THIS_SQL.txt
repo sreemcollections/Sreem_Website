@@ -1,0 +1,56 @@
+﻿-- Create products table for Sreem catalog
+CREATE TABLE IF NOT EXISTS public.products (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  name TEXT NOT NULL,
+  slug TEXT UNIQUE NOT NULL,
+  description TEXT,
+  price DECIMAL(10, 2) NOT NULL,
+  original_price DECIMAL(10, 2),
+  category TEXT NOT NULL CHECK (category IN ('sarees', 'jewelry')),
+  collection TEXT,
+  material TEXT,
+  fabric TEXT,
+  length TEXT,
+  blouse_piece BOOLEAN DEFAULT false,
+  weight TEXT,
+  purity TEXT,
+  featured BOOLEAN DEFAULT false,
+  in_stock BOOLEAN DEFAULT true,
+  images TEXT[] DEFAULT '{}',
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_products_slug ON public.products(slug);
+CREATE INDEX IF NOT EXISTS idx_products_category ON public.products(category);
+CREATE INDEX IF NOT EXISTS idx_products_collection ON public.products(collection);
+CREATE INDEX IF NOT EXISTS idx_products_featured ON public.products(featured);
+CREATE INDEX IF NOT EXISTS idx_products_in_stock ON public.products(in_stock);
+
+ALTER TABLE public.products ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Allow public read access" ON public.products FOR SELECT TO anon USING (true);
+CREATE POLICY "Allow authenticated read access" ON public.products FOR SELECT TO authenticated USING (true);
+CREATE POLICY "Allow authenticated insert" ON public.products FOR INSERT TO authenticated WITH CHECK (true);
+CREATE POLICY "Allow authenticated update" ON public.products FOR UPDATE TO authenticated USING (true);
+CREATE POLICY "Allow authenticated delete" ON public.products FOR DELETE TO authenticated USING (true);
+
+CREATE OR REPLACE FUNCTION public.handle_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = timezone('utc'::text, now());
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER set_updated_at BEFORE UPDATE ON public.products FOR EACH ROW EXECUTE FUNCTION public.handle_updated_at();
+
+INSERT INTO public.products (name, slug, description, price, original_price, category, collection, material, fabric, length, blouse_piece, weight, purity, featured, in_stock, images)
+VALUES 
+('Royal Blue Banarasi Silk Saree', 'royal-blue-banarasi-silk-saree', 'Exquisite handwoven Banarasi silk saree in royal blue with intricate gold zari work. Perfect for weddings and special occasions.', 8999, 12999, 'sarees', 'Banarasi', 'Silk', 'Pure Banarasi Silk', '6.5 meters', true, NULL, NULL, true, true, ARRAY['https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=800&auto=format&fit=crop', 'https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=800&auto=format&fit=crop']),
+('Temple Gold Necklace Set', 'temple-gold-necklace-set', 'Traditional temple jewelry necklace set with intricate deity carvings. Comes with matching earrings.', 15999, 19999, 'jewelry', 'Temple', 'Gold Plated', NULL, NULL, NULL, '45 grams', '22K Gold Plated', true, true, ARRAY['https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=800&auto=format&fit=crop', 'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=800&auto=format&fit=crop']),
+('Pink Kanjivaram Silk Saree', 'pink-kanjivaram-silk-saree', 'Beautiful pink Kanjivaram silk saree with traditional motifs and contrast pallu. Ideal for festivals.', 12999, 16999, 'sarees', 'Kanjivaram', 'Silk', 'Pure Kanjivaram Silk', '6.3 meters', true, NULL, NULL, true, true, ARRAY['https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=800&auto=format&fit=crop']),
+('Pearl Choker Necklace', 'pearl-choker-necklace', 'Elegant pearl choker necklace with gold accents. Perfect for both traditional and contemporary looks.', 9999, NULL, 'jewelry', 'Pearl', 'Pearl', NULL, NULL, NULL, '28 grams', 'Natural Pearls', false, true, ARRAY['https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=800&auto=format&fit=crop']);
+
+GRANT SELECT ON public.products TO anon;
+GRANT ALL ON public.products TO authenticated;

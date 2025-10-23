@@ -1,0 +1,131 @@
+// Copy this schema to your Sanity Studio project
+// File location in Sanity Studio: schemas/product.ts
+
+export default {
+  name: 'product',
+  title: 'Product',
+  type: 'document',
+  fields: [
+    {
+      name: 'name',
+      title: 'Product Name',
+      type: 'string',
+      validation: (Rule: any) => Rule.required(),
+    },
+    {
+      name: 'slug',
+      title: 'Slug',
+      type: 'slug',
+      options: {
+        source: 'name',
+        maxLength: 96,
+      },
+      validation: (Rule: any) => Rule.required(),
+    },
+    {
+      name: 'description',
+      title: 'Description',
+      type: 'text',
+    },
+    {
+      name: 'price',
+      title: 'Price',
+      type: 'number',
+      validation: (Rule: any) => Rule.required().positive(),
+    },
+    {
+      name: 'originalPrice',
+      title: 'Original Price',
+      type: 'number',
+      validation: (Rule: any) => Rule.positive(),
+    },
+    {
+      name: 'category',
+      title: 'Category',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Sarees', value: 'sarees' },
+          { title: 'Jewelry', value: 'jewelry' },
+        ],
+      },
+      validation: (Rule: any) => Rule.required(),
+    },
+    {
+      name: 'collection',
+      title: 'Collection',
+      type: 'string',
+    },
+    {
+      name: 'material',
+      title: 'Material',
+      type: 'string',
+      hidden: ({ document }: any) => document?.category !== 'jewelry',
+    },
+    {
+      name: 'fabric',
+      title: 'Fabric',
+      type: 'string',
+      hidden: ({ document }: any) => document?.category !== 'sarees',
+    },
+    {
+      name: 'length',
+      title: 'Length',
+      type: 'string',
+      hidden: ({ document }: any) => document?.category !== 'sarees',
+    },
+    {
+      name: 'blousePiece',
+      title: 'Blouse Piece Included',
+      type: 'boolean',
+      hidden: ({ document }: any) => document?.category !== 'sarees',
+    },
+    {
+      name: 'weight',
+      title: 'Weight',
+      type: 'string',
+      hidden: ({ document }: any) => document?.category !== 'jewelry',
+    },
+    {
+      name: 'purity',
+      title: 'Purity',
+      type: 'string',
+      hidden: ({ document }: any) => document?.category !== 'jewelry',
+    },
+    {
+      name: 'featured',
+      title: 'Featured Product',
+      type: 'boolean',
+      initialValue: false,
+    },
+    {
+      name: 'inStock',
+      title: 'In Stock',
+      type: 'boolean',
+      initialValue: true,
+    },
+    {
+      name: 'images',
+      title: 'Product Images',
+      type: 'array',
+      of: [{ type: 'image', options: { hotspot: true } }],
+      validation: (Rule: any) => Rule.required().min(1),
+    },
+  ],
+  preview: {
+    select: {
+      title: 'name',
+      media: 'images.0',
+      price: 'price',
+      category: 'category',
+    },
+    prepare(selection: any) {
+      const { title, media, price, category } = selection;
+      return {
+        title: title,
+        subtitle: `${category} - ₹${price.toLocaleString('en-IN')}`,
+        media: media,
+      };
+    },
+  },
+};

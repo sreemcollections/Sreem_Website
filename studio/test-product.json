@@ -1,0 +1,17 @@
+{
+  "_type": "product",
+  "name": "Test Banarasi Saree",
+  "slug": {
+    "current": "test-banarasi-saree"
+  },
+  "description": "Beautiful traditional Banarasi silk saree",
+  "price": 5999,
+  "category": "sarees",
+  "collection": "Banarasi",
+  "fabric": "Silk",
+  "length": "6.5 meters",
+  "blousePiece": true,
+  "featured": true,
+  "inStock": true,
+  "images": []
+}

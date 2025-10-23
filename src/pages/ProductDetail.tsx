@@ -1,41 +1,95 @@
 import { useState, useRef, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { Heart, Share2, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Heart, Share2, ChevronLeft, ChevronRight, ArrowLeft } from 'lucide-react';
 import ProductCard from '@/components/ProductCard';
+import { fetchProductBySlug, fetchProducts, getImageUrl, type Product } from '@/lib/sanity-products';
 
 export default function ProductDetail() {
   const { slug } = useParams();
+  const navigate = useNavigate();
+  const [product, setProduct] = useState<Product | null>(null);
+  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(0);
+  const [isZoomModalOpen, setIsZoomModalOpen] = useState(false);
   const [pincode, setPincode] = useState('');
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
   const [swipeDirection, setSwipeDirection] = useState<'left' | 'right' | null>(null);
   const imageContainerRef = useRef<HTMLDivElement>(null);
 
-  // Mock product data
-  const product = {
-    name: "Royal Banarasi Silk Saree",
-    price: 15999,
-    originalPrice: 19999,
-    description: "Exquisite handwoven Banarasi silk saree with intricate golden zari work, perfect for weddings and special occasions.",
-    fabric: "Pure Silk",
-    weave: "Banarasi",
-    length: "6.3 meters",
-    blouse: "0.8 meters",
-    care: "Dry clean only",
-    artisan: "Master Weaver Ramlal",
-    region: "Varanasi, Uttar Pradesh",
-    images: [
-      "/placeholder.svg",
-      "/placeholder.svg", 
-      "/placeholder.svg",
-      "/placeholder.svg"
-    ]
+  useEffect(() => {
+    const loadProduct = async () => {
+      if (!slug) return;
+      setLoading(true);
+      const data = await fetchProductBySlug(slug);
+      setProduct(data);
+      
+      // Fetch related products from the same category
+      if (data) {
+        const related = await fetchProducts({ 
+          category: data.category, 
+          limit: 4 
+        });
+        // Filter out the current product
+        setRelatedProducts(related.filter(p => p._id !== data._id).slice(0, 4));
+      }
+      
+      setLoading(false);
+    };
+
+    loadProduct();
+  }, [slug]);
+
+  const handleGoBack = () => {
+    if (!product) return;
+    
+    // Navigate back to the appropriate section based on product category and collection
+    if (product.category === 'sarees') {
+      navigate('/sarees');
+    } else if (product.category === 'jewelry') {
+      // Navigate to specific jewelry collection
+      if (product.collection === 'Panchaloha') {
+        navigate('/jewelry/panchaloham');
+      } else if (product.collection === 'Silver') {
+        navigate('/jewelry/silver');
+      } else {
+        navigate('/jewelry');
+      }
+    } else {
+      // Fallback to browser back
+      navigate(-1);
+    }
   };
 
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading product...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!product) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold mb-2">Product not found</h1>
+          <p className="text-muted-foreground">The product you're looking for doesn't exist.</p>
+        </div>
+      </div>
+    );
+  }
+
+  const discount = product.originalPrice 
+    ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
+    : 0;
   const gstAmount = Math.round(product.price * 0.05); // 5% GST
   const totalPrice = product.price;
 
@@ -78,36 +132,77 @@ export default function ProductDetail() {
   };
 
   const nextImage = () => {
+    if (!product.images || product.images.length === 0) return;
     setSwipeDirection('left');
     setTimeout(() => setSwipeDirection(null), 300);
     setSelectedImage((prev) => (prev + 1) % product.images.length);
   };
 
   const prevImage = () => {
+    if (!product.images || product.images.length === 0) return;
     setSwipeDirection('right');
     setTimeout(() => setSwipeDirection(null), 300);
     setSelectedImage((prev) => (prev - 1 + product.images.length) % product.images.length);
   };
 
+  const productImages = product.images && product.images.length > 0 
+    ? product.images.map(img => getImageUrl(img))
+    : ['/placeholder.svg'];
+
   return (
     <div className="min-h-screen">
       <div className="container mx-auto px-4 py-8">
+        {/* Go Back Button - Luxurious Design */}
+        {product && (
+          <div className="mb-8">
+            <button
+              onClick={handleGoBack}
+              className="group inline-flex items-center gap-3 text-sm font-medium text-muted-foreground hover:text-primary transition-all duration-300 relative"
+            >
+              <div className="flex items-center justify-center w-8 h-8 rounded-full border border-muted-foreground/20 group-hover:border-primary/40 transition-all duration-300 group-hover:shadow-md">
+                <ArrowLeft className="h-4 w-4 group-hover:-translate-x-0.5 transition-transform duration-300" />
+              </div>
+              <span className="relative">
+                Back to {product.category === 'sarees' ? 'Sarees Collection' : 
+                         product.collection === 'Panchaloha' ? 'Panchaloha Collection' : 
+                         product.collection === 'Silver' ? 'Silver Collection' : 'Jewelry'}
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-secondary group-hover:w-full transition-all duration-300"></span>
+              </span>
+            </button>
+          </div>
+        )}
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Image Gallery */}
           <div className="space-y-4">
             {/* Main Image with Swipe Support */}
             <div 
               ref={imageContainerRef}
-              className="relative aspect-square bg-gradient-to-br from-primary/10 to-secondary/10 rounded-lg overflow-hidden group touch-pan-y select-none"
+              className="relative aspect-square bg-gradient-to-br from-primary/10 to-secondary/10 rounded-lg overflow-hidden group touch-pan-y select-none cursor-zoom-in"
               style={{ touchAction: 'pan-y' }}
               onTouchStart={handleTouchStart}
               onTouchMove={handleTouchMove}
               onTouchEnd={handleTouchEnd}
+              onClick={() => setIsZoomModalOpen(true)}
             >
               <div className={`w-full h-full flex items-center justify-center transition-all duration-300 ease-out ${
                 swipeDirection === 'left' ? 'animate-slide-left' : swipeDirection === 'right' ? 'animate-slide-right' : ''
               }`}>
-                <span className="text-muted-foreground">Product Image {selectedImage + 1}</span>
+                <img 
+                  src={productImages[selectedImage]} 
+                  alt={`${product.name} - Image ${selectedImage + 1}`}
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+              
+              {/* Zoom indicator overlay */}
+              <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300 bg-black/10 pointer-events-none">
+                <div className="bg-white/90 rounded-full p-3 shadow-lg">
+                  <svg className="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" />
+                  </svg>
+                </div>
               </div>
               
               {/* Swipe direction indicators */}
@@ -145,7 +240,7 @@ export default function ProductDetail() {
 
               {/* Swipe Indicator for Mobile */}
               <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5 md:hidden bg-black/50 px-3 py-1.5 rounded-full backdrop-blur-sm">
-                {product.images.map((_, index) => (
+                {productImages.map((_, index) => (
                   <div
                     key={index}
                     className={`h-1.5 rounded-full transition-all duration-300 ${
@@ -156,7 +251,7 @@ export default function ProductDetail() {
               </div>
 
               {/* Swipe hint text for mobile - shows on first and last image */}
-              {(selectedImage === 0 || selectedImage === product.images.length - 1) && (
+              {(selectedImage === 0 || selectedImage === productImages.length - 1) && (
                 <div className="absolute top-4 left-1/2 -translate-x-1/2 md:hidden animate-fade-in">
                   <Badge variant="secondary" className="bg-black/70 text-white text-xs backdrop-blur-sm">
                     {selectedImage === 0 ? '← Swipe to view more →' : '← Swipe loops back to start'}
@@ -167,34 +262,38 @@ export default function ProductDetail() {
             
             {/* Thumbnail Grid - Desktop and Tablet */}
             <div className="hidden md:grid grid-cols-4 gap-2">
-              {product.images.map((_, index) => (
+              {productImages.map((img, index) => (
                 <button
                   key={index}
                   onClick={() => setSelectedImage(index)}
-                  className={`aspect-square bg-gradient-to-br from-primary/5 to-secondary/5 rounded border-2 transition-all duration-300 ${
+                  className={`aspect-square bg-gradient-to-br from-primary/5 to-secondary/5 rounded border-2 transition-all duration-300 overflow-hidden ${
                     selectedImage === index ? 'border-primary scale-105' : 'border-transparent hover:border-primary/50'
                   }`}
                 >
-                  <div className="w-full h-full flex items-center justify-center">
-                    <span className="text-xs text-muted-foreground">{index + 1}</span>
-                  </div>
+                  <img 
+                    src={img} 
+                    alt={`${product.name} thumbnail ${index + 1}`}
+                    className="w-full h-full object-cover"
+                  />
                 </button>
               ))}
             </div>
 
             {/* Mobile Thumbnail Slider */}
             <div className="flex md:hidden gap-2 overflow-x-auto pb-2 scrollbar-hide">
-              {product.images.map((_, index) => (
+              {productImages.map((img, index) => (
                 <button
                   key={index}
                   onClick={() => setSelectedImage(index)}
-                  className={`flex-shrink-0 w-16 h-16 bg-gradient-to-br from-primary/5 to-secondary/5 rounded border-2 transition-all duration-300 ${
+                  className={`flex-shrink-0 w-16 h-16 bg-gradient-to-br from-primary/5 to-secondary/5 rounded border-2 transition-all duration-300 overflow-hidden ${
                     selectedImage === index ? 'border-primary scale-105' : 'border-transparent'
                   }`}
                 >
-                  <div className="w-full h-full flex items-center justify-center">
-                    <span className="text-xs text-muted-foreground">{index + 1}</span>
-                  </div>
+                  <img 
+                    src={img} 
+                    alt={`${product.name} thumbnail ${index + 1}`}
+                    className="w-full h-full object-cover"
+                  />
                 </button>
               ))}
             </div>
@@ -213,30 +312,54 @@ export default function ProductDetail() {
             <div className="space-y-2">
               <div className="flex items-center gap-4">
                 <span className="text-3xl font-bold text-primary">₹{totalPrice.toLocaleString()}</span>
-                <span className="text-lg text-muted-foreground line-through">₹{product.originalPrice.toLocaleString()}</span>
-                <Badge variant="secondary">20% OFF</Badge>
+                {product.originalPrice && (
+                  <>
+                    <span className="text-lg text-muted-foreground line-through">₹{product.originalPrice.toLocaleString()}</span>
+                    <Badge variant="secondary">{discount}% OFF</Badge>
+                  </>
+                )}
               </div>
             </div>
 
             {/* Product Details */}
             <div className="grid grid-cols-2 gap-4 py-4 border-y">
-              <div>
-                <span className="text-sm font-semibold">Fabric:</span>
-                <p className="text-sm text-muted-foreground">{product.fabric}</p>
-              </div>
-              <div>
-                <span className="text-sm font-semibold">Weave:</span>
-                <p className="text-sm text-muted-foreground">{product.weave}</p>
-              </div>
-              <div>
-                <span className="text-sm font-semibold">Length:</span>
-                <p className="text-sm text-muted-foreground">{product.length}</p>
-              </div>
-              <div>
-                <span className="text-sm font-semibold">Blouse:</span>
-                <p className="text-sm text-muted-foreground">{product.blouse}</p>
-              </div>
+              {product.fabric && (
+                <div>
+                  <span className="text-sm font-semibold">Fabric:</span>
+                  <p className="text-sm text-muted-foreground">{product.fabric}</p>
+                </div>
+              )}
+              {product.collection && (
+                <div>
+                  <span className="text-sm font-semibold">Collection:</span>
+                  <p className="text-sm text-muted-foreground">{product.collection}</p>
+                </div>
+              )}
+              {product.material && (
+                <div>
+                  <span className="text-sm font-semibold">Material:</span>
+                  <p className="text-sm text-muted-foreground">{product.material}</p>
+                </div>
+              )}
+              {product.inStock !== undefined && (
+                <div>
+                  <span className="text-sm font-semibold">Availability:</span>
+                  <p className={`text-sm ${product.inStock ? 'text-green-600' : 'text-red-600'}`}>
+                    {product.inStock ? 'In Stock' : 'Out of Stock'}
+                  </p>
+                </div>
+              )}
             </div>
+
+            {/* Panchaloha Information Banner */}
+            {product.collection === 'Panchaloha' && (
+              <div className="bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200 rounded-lg p-4">
+                <h4 className="text-sm font-semibold text-amber-900 mb-1">About Panchaloha</h4>
+                <p className="text-xs text-amber-800 leading-relaxed">
+                  Panchaloha is a sacred alloy of five metals: gold, silver, copper, iron, and tin. This traditional combination is revered in temple jewelry and religious artifacts for its spiritual significance and durability.
+                </p>
+              </div>
+            )}
 
 
             {/* Action Buttons - Catalog Mode */}
@@ -280,30 +403,101 @@ export default function ProductDetail() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {Array.from({ length: 4 }, (_, i) => {
-              const relatedProducts = [
-                { id: 'related-1', name: 'Kanjivaram Silk Saree', description: 'Rich temple border design', price: 18999, originalPrice: 23999, discount: 21 },
-                { id: 'related-2', name: 'Chanderi Cotton Saree', description: 'Lightweight festive wear', price: 8999, originalPrice: 11999, discount: 25 },
-                { id: 'related-3', name: 'Tant Cotton Saree', description: 'Bengal handloom classic', price: 5999, originalPrice: 7999, discount: 25 },
-                { id: 'related-4', name: 'Patola Silk Saree', description: 'Double ikat masterpiece', price: 32999, originalPrice: 42999, discount: 23 }
-              ];
-              
-              const product = relatedProducts[i];
-              return (
-                <ProductCard
-                  key={product.id}
-                  id={product.id}
-                  name={product.name}
-                  description={product.description}
-                  price={product.price}
-                  originalPrice={product.originalPrice}
-                  discount={product.discount}
-                />
-              );
-            })}
+            {relatedProducts.length > 0 ? (
+              relatedProducts.map((relatedProduct) => {
+                const discount = relatedProduct.originalPrice 
+                  ? Math.round(((relatedProduct.originalPrice - relatedProduct.price) / relatedProduct.originalPrice) * 100)
+                  : 0;
+                
+                return (
+                  <ProductCard
+                    key={relatedProduct._id}
+                    id={relatedProduct._id}
+                    name={relatedProduct.name}
+                    description={relatedProduct.description || ''}
+                    price={relatedProduct.price}
+                    originalPrice={relatedProduct.originalPrice}
+                    discount={discount}
+                    slug={relatedProduct.slug.current}
+                    images={relatedProduct.images?.map(img => getImageUrl(img)) || []}
+                  />
+                );
+              })
+            ) : (
+              <div className="col-span-full text-center py-8">
+                <p className="text-muted-foreground">No related products available</p>
+              </div>
+            )}
           </div>
         </div>
       </div>
+
+      {/* Zoom Modal */}
+      {isZoomModalOpen && (
+        <div 
+          className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center"
+          onClick={() => setIsZoomModalOpen(false)}
+        >
+          <button
+            onClick={() => setIsZoomModalOpen(false)}
+            className="absolute top-4 right-4 z-50 bg-white/10 hover:bg-white/20 text-white rounded-full p-2 backdrop-blur-sm"
+            aria-label="Close zoom"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+
+          {/* Navigation arrows */}
+          {productImages.length > 1 && (
+            <>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  prevImage();
+                }}
+                className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white rounded-full p-3 backdrop-blur-sm z-50"
+                aria-label="Previous image"
+              >
+                <ChevronLeft className="h-6 w-6" />
+              </button>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  nextImage();
+                }}
+                className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white rounded-full p-3 backdrop-blur-sm z-50"
+                aria-label="Next image"
+              >
+                <ChevronRight className="h-6 w-6" />
+              </button>
+            </>
+          )}
+
+          {/* Zoomable Image */}
+          <div 
+            className="relative w-full h-full flex items-center justify-center p-4 overflow-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img 
+              src={productImages[selectedImage]} 
+              alt={`${product.name} - Zoom view ${selectedImage + 1}`}
+              className="max-w-full max-h-full object-contain cursor-zoom-out"
+              style={{ 
+                maxWidth: '200%',
+                maxHeight: '200%',
+                touchAction: 'pinch-zoom'
+              }}
+              onClick={() => setIsZoomModalOpen(false)}
+            />
+          </div>
+
+          {/* Image counter */}
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white/10 text-white px-4 py-2 rounded-full backdrop-blur-sm text-sm">
+            {selectedImage + 1} / {productImages.length}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

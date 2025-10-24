@@ -22,6 +22,15 @@ export default function ProductDetail() {
   const [swipeDirection, setSwipeDirection] = useState<'left' | 'right' | null>(null);
   const imageContainerRef = useRef<HTMLDivElement>(null);
   
+  // Main image zoom states (before fullscreen)
+  const [mainScale, setMainScale] = useState(1);
+  const [mainPosX, setMainPosX] = useState(0);
+  const [mainPosY, setMainPosY] = useState(0);
+  const [mainLastDistance, setMainLastDistance] = useState(0);
+  const [mainIsPinching, setMainIsPinching] = useState(false);
+  const [mainLastPanX, setMainLastPanX] = useState(0);
+  const [mainLastPanY, setMainLastPanY] = useState(0);
+  
   // Fullscreen zoom states
   const [fullscreenScale, setFullscreenScale] = useState(1);
   const [fullscreenPosX, setFullscreenPosX] = useState(0);
@@ -30,6 +39,11 @@ export default function ProductDetail() {
   const [fullscreenIsPinching, setFullscreenIsPinching] = useState(false);
   const [fullscreenLastPanX, setFullscreenLastPanX] = useState(0);
   const [fullscreenLastPanY, setFullscreenLastPanY] = useState(0);
+  
+  // Cache for touch events - stores all active touches
+  const touchCacheRef = useRef<React.Touch[]>([]);
+  const mainTouchCacheRef = useRef<React.Touch[]>([]);
+  const pinchCenterRef = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
     const loadProduct = async () => {
@@ -228,7 +242,7 @@ export default function ProductDetail() {
     
     // Your business WhatsApp number (replace with actual number)
     // Format: country code + number (no + sign, no spaces, no dashes)
-    const businessWhatsAppNumber = 'sudo'; // Replace with your actual WhatsApp number
+    const businessWhatsAppNumber = '917995963919'; // Replace with your actual WhatsApp number
     
     const shareUrl = getShareUrl();
     
@@ -303,27 +317,174 @@ export default function ProductDetail() {
             {/* Main Image with Swipe Support */}
             <div 
               ref={imageContainerRef}
-              className="relative aspect-square bg-gradient-to-br from-primary/10 to-secondary/10 rounded-lg overflow-hidden group touch-pan-y select-none cursor-pointer"
-              style={{ touchAction: 'pan-y' }}
-              onTouchStart={handleTouchStart}
-              onTouchMove={handleTouchMove}
-              onTouchEnd={handleTouchEnd}
+              className={`relative bg-gradient-to-br from-primary/10 to-secondary/10 overflow-hidden group select-none cursor-pointer ${
+                mainScale > 1.05 ? 'fixed inset-0 z-50 bg-black rounded-none' : 'aspect-square rounded-lg'
+              }`}
+              style={{ 
+                touchAction: 'none',
+                transition: mainScale > 1.05 ? 'background-color 0.2s ease-out' : 'all 0.35s cubic-bezier(0.4, 0, 0.2, 1)'
+              }}
+              onTouchStart={(e) => {
+                // Cache all touches
+                mainTouchCacheRef.current = Array.from(e.touches);
+                
+                if (e.touches.length === 2) {
+                  // Two-finger pinch start
+                  e.preventDefault();
+                  setMainIsPinching(true);
+                  
+                  // Calculate initial distance
+                  const dx = e.touches[0].clientX - e.touches[1].clientX;
+                  const dy = e.touches[0].clientY - e.touches[1].clientY;
+                  const distance = Math.sqrt(dx * dx + dy * dy);
+                  setMainLastDistance(distance);
+                } else if (e.touches.length === 1) {
+                  if (mainScale > 1) {
+                    // Pan start when zoomed
+                    e.preventDefault();
+                    setMainLastPanX(e.touches[0].clientX);
+                    setMainLastPanY(e.touches[0].clientY);
+                  } else {
+                    // Swipe for image navigation
+                    handleTouchStart(e);
+                  }
+                }
+              }}
+              onTouchMove={(e) => {
+                mainTouchCacheRef.current = Array.from(e.touches);
+                
+                if (e.touches.length === 2 && mainIsPinching) {
+                  // Two-finger pinch zoom
+                  e.preventDefault();
+                  
+                  const dx = e.touches[0].clientX - e.touches[1].clientX;
+                  const dy = e.touches[0].clientY - e.touches[1].clientY;
+                  const distance = Math.sqrt(dx * dx + dy * dy);
+                  
+                  if (mainLastDistance > 0) {
+                    const scaleChange = distance / mainLastDistance;
+                    const newScale = mainScale * scaleChange;
+                    // Smooth clamping with better limits
+                    const clampedScale = Math.max(1, Math.min(3.5, newScale));
+                    
+                    // Gradually reduce pan as we zoom out
+                    if (clampedScale < mainScale) {
+                      // Zooming out - proportionally reduce pan
+                      const scaleFactor = clampedScale / mainScale;
+                      setMainPosX(mainPosX * scaleFactor);
+                      setMainPosY(mainPosY * scaleFactor);
+                    }
+                    
+                    setMainScale(clampedScale);
+                    setMainLastDistance(distance);
+                  }
+                } else if (e.touches.length === 1 && mainScale > 1 && !mainIsPinching) {
+                  // Single finger pan when zoomed
+                  e.preventDefault();
+                  
+                  const touch = e.touches[0];
+                  
+                  if (mainLastPanX !== 0 || mainLastPanY !== 0) {
+                    const deltaX = (touch.clientX - mainLastPanX);
+                    const deltaY = (touch.clientY - mainLastPanY);
+                    
+                    // Dynamic pan limits based on zoom level and viewport
+                    const viewportWidth = window.innerWidth;
+                    const viewportHeight = window.innerHeight;
+                    const maxPanX = Math.min((mainScale - 1) * (viewportWidth / 2), viewportWidth);
+                    const maxPanY = Math.min((mainScale - 1) * (viewportHeight / 2), viewportHeight);
+                    
+                    const newPosX = Math.max(-maxPanX, Math.min(maxPanX, mainPosX + deltaX));
+                    const newPosY = Math.max(-maxPanY, Math.min(maxPanY, mainPosY + deltaY));
+                    
+                    setMainPosX(newPosX);
+                    setMainPosY(newPosY);
+                  }
+                  
+                  setMainLastPanX(touch.clientX);
+                  setMainLastPanY(touch.clientY);
+                } else if (e.touches.length === 1 && mainScale === 1) {
+                  // Swipe for navigation
+                  handleTouchMove(e);
+                }
+              }}
+              onTouchEnd={(e) => {
+                mainTouchCacheRef.current = Array.from(e.touches);
+                
+                if (e.touches.length < 2) {
+                  setMainIsPinching(false);
+                  setMainLastDistance(0);
+                }
+                
+                if (e.touches.length === 0) {
+                  setMainLastPanX(0);
+                  setMainLastPanY(0);
+                  
+                  // Smooth transition back to normal when zoom is minimal
+                  if (mainScale < 1.15) {
+                    // Enable smooth transition
+                    setTimeout(() => {
+                      setMainScale(1);
+                      setMainPosX(0);
+                      setMainPosY(0);
+                    }, 0);
+                  } else if (mainScale === 1) {
+                    // Always reset position when at 1x zoom
+                    setMainPosX(0);
+                    setMainPosY(0);
+                  }
+                  
+                  // Handle swipe for navigation only when not zoomed
+                  if (mainScale === 1 || mainScale < 1.15) {
+                    handleTouchEnd();
+                  }
+                }
+              }}
               onClick={() => {
-                setIsZoomModalOpen(true);
+                // Tap to open fullscreen modal only when not zoomed
+                if (mainScale === 1) {
+                  setIsZoomModalOpen(true);
+                }
               }}
             >
               <div 
-                className={`w-full h-full flex items-center justify-center transition-all duration-700 ease-in-out ${
-                  swipeDirection === 'left' ? 'animate-slide-left' : swipeDirection === 'right' ? 'animate-slide-right' : ''
+                className={`w-full h-full flex items-center justify-center ${
+                  mainScale === 1 && (swipeDirection === 'left' ? 'animate-slide-left' : swipeDirection === 'right' ? 'animate-slide-right' : '')
                 }`}
+                style={{
+                  transform: `scale(${mainScale}) translate(${mainPosX / mainScale}px, ${mainPosY / mainScale}px)`,
+                  transition: mainIsPinching || (mainScale > 1.15) ? 'none' : 'transform 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
+                  willChange: 'transform'
+                }}
               >
                 <img 
                   src={productImages[selectedImage]} 
                   alt={`${product.name} - Image ${selectedImage + 1}`}
-                  className="w-full h-full object-cover"
+                  className={mainScale > 1.05 ? 'max-w-full max-h-full object-contain' : 'w-full h-full object-cover'}
+                  style={{
+                    transition: 'object-fit 0.2s ease-out'
+                  }}
                   loading="lazy"
+                  draggable={false}
                 />
               </div>
+              
+              {/* Close button when zoomed */}
+              {mainScale > 1.05 && (
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    // Smooth zoom out
+                    setMainScale(1);
+                    setMainPosX(0);
+                    setMainPosY(0);
+                  }}
+                  className="absolute top-4 right-4 w-10 h-10 bg-white/10 hover:bg-white/20 text-white rounded-full backdrop-blur-sm transition-all flex items-center justify-center z-10 animate-fade-in"
+                  aria-label="Close zoom"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              )}
               
               {/* Zoom indicator overlay - Desktop only */}
               <div className="hidden md:flex absolute inset-0 items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300 bg-black/10 pointer-events-none">
@@ -572,47 +733,47 @@ export default function ProductDetail() {
       {/* Zoom Modal */}
       {isZoomModalOpen && (
         <div 
-          className="fixed inset-0 z-50 bg-black flex items-center justify-center"
+          className="fixed inset-0 z-50 bg-black flex flex-col"
           style={{ touchAction: 'none' }}
         >
-          {/* Close Button */}
-          <button
-            onClick={() => {
-              setIsZoomModalOpen(false);
-              setFullscreenScale(1);
-              setFullscreenPosX(0);
-              setFullscreenPosY(0);
-            }}
-            className="absolute top-4 right-4 z-50 bg-white/20 hover:bg-white/30 text-white rounded-full p-3 backdrop-blur-sm transition-all"
-            aria-label="Close fullscreen"
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-
-          {/* Zoom level indicator */}
-          {fullscreenScale > 1 && (
-            <div className="absolute top-4 left-4 z-50">
-              <Badge className="bg-white/20 text-white backdrop-blur-sm border-0 text-base px-3 py-1">
-                {fullscreenScale.toFixed(1)}x
+          {/* Header with Close Button */}
+          <div className="flex items-center justify-between px-4 py-3 bg-black/50 backdrop-blur-sm">
+            <div className="flex items-center gap-3">
+              <Badge className="bg-white/10 text-white backdrop-blur-sm border-0 text-sm px-3 py-1">
+                {selectedImage + 1} / {productImages.length}
               </Badge>
             </div>
-          )}
-
-          {/* Reset Zoom Button */}
-          {fullscreenScale > 1 && (
-            <button
-              onClick={() => {
-                setFullscreenScale(1);
-                setFullscreenPosX(0);
-                setFullscreenPosY(0);
-              }}
-              className="absolute top-4 left-1/2 -translate-x-1/2 z-50 bg-white/20 hover:bg-white/30 text-white rounded-full px-4 py-2 backdrop-blur-sm transition-all text-sm"
-            >
-              Reset Zoom
-            </button>
-          )}
+            
+            <div className="flex items-center gap-2">
+              {/* Reset Zoom Button */}
+              {fullscreenScale > 1 && (
+                <button
+                  onClick={() => {
+                    setFullscreenScale(1);
+                    setFullscreenPosX(0);
+                    setFullscreenPosY(0);
+                  }}
+                  className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-full backdrop-blur-sm transition-all text-sm font-medium"
+                >
+                  Reset Zoom
+                </button>
+              )}
+              
+              {/* Close Button */}
+              <button
+                onClick={() => {
+                  setIsZoomModalOpen(false);
+                  setFullscreenScale(1);
+                  setFullscreenPosX(0);
+                  setFullscreenPosY(0);
+                }}
+                className="w-10 h-10 bg-white/10 hover:bg-white/20 text-white rounded-full backdrop-blur-sm transition-all flex items-center justify-center"
+                aria-label="Close fullscreen"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+          </div>
 
           {/* Navigation arrows */}
           {productImages.length > 1 && fullscreenScale === 1 && (
@@ -622,7 +783,7 @@ export default function ProductDetail() {
                   e.stopPropagation();
                   prevImage();
                 }}
-                className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 text-white rounded-full p-3 backdrop-blur-sm z-50 transition-all"
+                className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 text-white rounded-full p-4 backdrop-blur-sm z-10 transition-all shadow-lg"
                 aria-label="Previous image"
               >
                 <ChevronLeft className="h-6 w-6" />
@@ -632,7 +793,7 @@ export default function ProductDetail() {
                   e.stopPropagation();
                   nextImage();
                 }}
-                className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 text-white rounded-full p-3 backdrop-blur-sm z-50 transition-all"
+                className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 text-white rounded-full p-4 backdrop-blur-sm z-10 transition-all shadow-lg"
                 aria-label="Next image"
               >
                 <ChevronRight className="h-6 w-6" />
@@ -640,91 +801,169 @@ export default function ProductDetail() {
             </>
           )}
 
-          {/* Zoomable Image Container */}
+          {/* Main Image Container - Takes remaining space */}
           <div 
-            className="relative w-full h-full flex items-center justify-center overflow-hidden"
+            className="flex-1 relative overflow-hidden bg-black"
+            style={{ touchAction: 'none' }}
             onTouchStart={(e) => {
+              // Cache all touches
+              touchCacheRef.current = Array.from(e.touches);
+              
               if (e.touches.length === 2) {
-                // Pinch start
+                // Two-finger pinch start
+                e.preventDefault();
                 setFullscreenIsPinching(true);
+                
+                // Calculate initial distance
                 const dx = e.touches[0].clientX - e.touches[1].clientX;
                 const dy = e.touches[0].clientY - e.touches[1].clientY;
-                setFullscreenLastDistance(Math.sqrt(dx * dx + dy * dy));
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                setFullscreenLastDistance(distance);
+                
+                // Calculate and store pinch center point
+                const centerX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+                const centerY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+                pinchCenterRef.current = { x: centerX, y: centerY };
               } else if (e.touches.length === 1 && fullscreenScale > 1) {
-                // Pan start
+                // Single finger pan start (only when zoomed)
+                e.preventDefault();
                 setFullscreenLastPanX(e.touches[0].clientX);
                 setFullscreenLastPanY(e.touches[0].clientY);
               }
             }}
             onTouchMove={(e) => {
+              // Update cache with current touches
+              touchCacheRef.current = Array.from(e.touches);
+              
               if (e.touches.length === 2 && fullscreenIsPinching) {
-                // Pinch zoom
+                // Two-finger pinch zoom
                 e.preventDefault();
+                
+                // Calculate current distance
                 const dx = e.touches[0].clientX - e.touches[1].clientX;
                 const dy = e.touches[0].clientY - e.touches[1].clientY;
                 const distance = Math.sqrt(dx * dx + dy * dy);
-                const newScale = fullscreenScale * (distance / fullscreenLastDistance);
-                const clampedScale = Math.max(1, Math.min(5, newScale));
-                setFullscreenScale(clampedScale);
-                setFullscreenLastDistance(distance);
-              } else if (e.touches.length === 1 && fullscreenScale > 1) {
-                // Pan when zoomed
+                
+                // Only update if we have a valid previous distance
+                if (fullscreenLastDistance > 0) {
+                  // Calculate scale change
+                  const scaleChange = distance / fullscreenLastDistance;
+                  const newScale = fullscreenScale * scaleChange;
+                  const clampedScale = Math.max(1, Math.min(5, newScale));
+                  
+                  setFullscreenScale(clampedScale);
+                  setFullscreenLastDistance(distance);
+                }
+              } else if (e.touches.length === 1 && fullscreenScale > 1 && !fullscreenIsPinching) {
+                // Single finger pan (only when zoomed and not pinching)
                 e.preventDefault();
+                
                 const touch = e.touches[0];
-                const deltaX = (touch.clientX - fullscreenLastPanX) * 2; // Faster panning
-                const deltaY = (touch.clientY - fullscreenLastPanY) * 2;
                 
-                const maxPan = 1000; // Large boundary for smooth panning
-                const newPosX = Math.max(-maxPan, Math.min(maxPan, fullscreenPosX + deltaX));
-                const newPosY = Math.max(-maxPan, Math.min(maxPan, fullscreenPosY + deltaY));
+                // Only pan if we have valid last positions
+                if (fullscreenLastPanX !== 0 || fullscreenLastPanY !== 0) {
+                  // Calculate delta with smooth multiplier
+                  const deltaX = (touch.clientX - fullscreenLastPanX);
+                  const deltaY = (touch.clientY - fullscreenLastPanY);
+                  
+                  // Calculate max pan based on zoom level
+                  // Higher zoom = more pan allowance
+                  const maxPanX = (fullscreenScale - 1) * 500;
+                  const maxPanY = (fullscreenScale - 1) * 500;
+                  
+                  const newPosX = Math.max(-maxPanX, Math.min(maxPanX, fullscreenPosX + deltaX));
+                  const newPosY = Math.max(-maxPanY, Math.min(maxPanY, fullscreenPosY + deltaY));
+                  
+                  setFullscreenPosX(newPosX);
+                  setFullscreenPosY(newPosY);
+                }
                 
-                setFullscreenPosX(newPosX);
-                setFullscreenPosY(newPosY);
+                // Update last positions
                 setFullscreenLastPanX(touch.clientX);
                 setFullscreenLastPanY(touch.clientY);
               }
             }}
-            onTouchEnd={() => {
-              setFullscreenIsPinching(false);
-              setFullscreenLastPanX(0);
-              setFullscreenLastPanY(0);
-              // Reset if zoomed out too much
-              if (fullscreenScale < 1.1) {
-                setFullscreenScale(1);
-                setFullscreenPosX(0);
-                setFullscreenPosY(0);
+            onTouchEnd={(e) => {
+              // Remove ended touches from cache
+              touchCacheRef.current = Array.from(e.touches);
+              
+              // If no more touches or less than 2 touches
+              if (e.touches.length < 2) {
+                setFullscreenIsPinching(false);
+                setFullscreenLastDistance(0);
+              }
+              
+              // If no more touches at all
+              if (e.touches.length === 0) {
+                setFullscreenLastPanX(0);
+                setFullscreenLastPanY(0);
+                
+                // Reset zoom and position to center if zoom is minimal
+                if (fullscreenScale < 1.1) {
+                  setFullscreenScale(1);
+                  setFullscreenPosX(0);
+                  setFullscreenPosY(0);
+                } else if (fullscreenScale === 1) {
+                  // Always reset position when at 1x zoom
+                  setFullscreenPosX(0);
+                  setFullscreenPosY(0);
+                }
               }
             }}
           >
-            <img 
-              src={productImages[selectedImage]} 
-              alt={`${product.name} - Zoom view ${selectedImage + 1}`}
-              className="max-w-none select-none"
-              draggable={false}
-              style={{ 
-                transform: `scale(${fullscreenScale}) translate(${fullscreenPosX / fullscreenScale}px, ${fullscreenPosY / fullscreenScale}px)`,
-                transition: fullscreenIsPinching ? 'none' : 'transform 0.2s ease-out',
-                maxWidth: '100vw',
-                maxHeight: '100vh',
-                objectFit: 'contain',
-                willChange: 'transform'
-              }}
-            />
-          </div>
-
-          {/* Image counter */}
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white/20 text-white px-4 py-2 rounded-full backdrop-blur-sm text-sm z-50">
-            {selectedImage + 1} / {productImages.length}
-          </div>
-
-          {/* Zoom hint */}
-          {fullscreenScale === 1 && (
-            <div className="absolute bottom-16 left-1/2 -translate-x-1/2 z-50 animate-fade-in">
-              <Badge variant="secondary" className="bg-white/20 text-white text-xs backdrop-blur-sm border-0">
-                Pinch to zoom • Drag to pan
-              </Badge>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <img 
+                src={productImages[selectedImage]} 
+                alt={`${product.name} - Zoom view ${selectedImage + 1}`}
+                className="select-none max-w-full max-h-full"
+                draggable={false}
+                style={{ 
+                  transform: `scale(${fullscreenScale}) translate(${fullscreenPosX / fullscreenScale}px, ${fullscreenPosY / fullscreenScale}px)`,
+                  transition: fullscreenIsPinching || fullscreenScale > 1 ? 'none' : 'transform 0.2s ease-out',
+                  objectFit: 'contain',
+                  willChange: 'transform',
+                  touchAction: 'none'
+                }}
+              />
             </div>
-          )}
+          </div>
+
+          {/* Thumbnail Slider at Bottom */}
+          <div className="bg-black/50 backdrop-blur-sm px-4 py-4">
+            <div className="flex gap-2 overflow-x-auto scrollbar-hide max-w-4xl mx-auto">
+              {productImages.map((img, index) => (
+                <button
+                  key={index}
+                  onClick={() => {
+                    setSelectedImage(index);
+                    setFullscreenScale(1);
+                    setFullscreenPosX(0);
+                    setFullscreenPosY(0);
+                  }}
+                  className={`flex-shrink-0 w-16 h-16 md:w-20 md:h-20 rounded-lg overflow-hidden border-2 transition-all duration-300 ${
+                    selectedImage === index 
+                      ? 'border-white shadow-lg scale-110' 
+                      : 'border-white/30 hover:border-white/60'
+                  }`}
+                >
+                  <img 
+                    src={img} 
+                    alt={`Thumbnail ${index + 1}`}
+                    className="w-full h-full object-cover"
+                  />
+                </button>
+              ))}
+            </div>
+            
+            {/* Zoom hint */}
+            {fullscreenScale === 1 && (
+              <div className="text-center mt-3">
+                <Badge variant="secondary" className="bg-white/10 text-white text-xs backdrop-blur-sm border-0">
+                  Pinch to zoom • Drag to pan • Tap thumbnails to switch
+                </Badge>
+              </div>
+            )}
+          </div>
         </div>
       )}
 

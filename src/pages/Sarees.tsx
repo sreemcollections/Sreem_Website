@@ -299,66 +299,76 @@ export default function Sarees() {
               <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-50 dark:from-amber-950 dark:via-yellow-950 dark:to-orange-950 border border-amber-200 dark:border-amber-800 shadow-2xl">
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer"></div>
                 
-                <div className="relative p-8 md:p-12">
-                  <div className="grid md:grid-cols-2 gap-8 items-center">
-                    <div className="space-y-6">
+                <div className="relative p-4 sm:p-6 md:p-8 lg:p-12">
+                  <div className="grid lg:grid-cols-2 gap-6 lg:gap-8 items-center">
+                    {/* Text Content */}
+                    <div className="space-y-4 md:space-y-6 text-center lg:text-left">
                       <div className="inline-block">
-                        <Badge className="bg-gradient-to-r from-amber-600 to-orange-600 text-white border-0 px-4 py-1.5 text-sm font-semibold shadow-lg">
+                        <Badge className="bg-gradient-to-r from-amber-600 to-orange-600 text-white border-0 px-3 sm:px-4 py-1 sm:py-1.5 text-xs sm:text-sm font-semibold shadow-lg">
                           Explore Our Jewelry
                         </Badge>
                       </div>
                       
-                      <h3 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-amber-900 via-orange-800 to-amber-900 dark:from-amber-200 dark:via-orange-200 dark:to-amber-200 bg-clip-text text-transparent leading-tight">
+                      <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-amber-900 via-orange-800 to-amber-900 dark:from-amber-200 dark:via-orange-200 dark:to-amber-200 bg-clip-text text-transparent leading-tight">
                         Discover Exquisite Jewelry Collections
                       </h3>
                       
-                      <p className="text-lg text-amber-800 dark:text-amber-200 leading-relaxed">
+                      <p className="text-sm sm:text-base lg:text-lg text-amber-800 dark:text-amber-200 leading-relaxed max-w-xl mx-auto lg:mx-0">
                         Complement your sarees with our stunning jewelry pieces - from sacred Panchaloha to elegant Silver collections, each crafted with timeless artistry.
                       </p>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4">
+                    {/* Image Grid */}
+                    <div className="grid grid-cols-2 gap-3 sm:gap-4 max-w-md mx-auto lg:max-w-none">
                       <Link 
                         to="/jewelry/panchaloham"
-                        className="relative rounded-xl overflow-hidden shadow-2xl transform hover:scale-105 transition-transform duration-300 cursor-pointer group"
+                        className="relative rounded-lg sm:rounded-xl overflow-hidden shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 cursor-pointer group aspect-[3/4]"
                       >
                         <img 
                           src={panchalohamJewelry} 
                           alt="Panchaloha Jewelry" 
-                          className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent group-hover:from-black/80 transition-all duration-300"></div>
-                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                          <div className="bg-amber-600 text-white px-6 py-3 rounded-full font-semibold shadow-xl flex items-center gap-2">
+                        
+                        {/* Desktop Hover Effect */}
+                        <div className="hidden md:flex absolute inset-0 items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          <div className="bg-amber-600 text-white px-4 lg:px-6 py-2 lg:py-3 rounded-full font-semibold shadow-xl flex items-center gap-2 text-sm lg:text-base">
                             Explore
-                            <ArrowRight className="h-5 w-5" />
+                            <ArrowRight className="h-4 w-4 lg:h-5 lg:w-5" />
                           </div>
                         </div>
-                        <div className="absolute bottom-4 left-4 right-4">
-                          <p className="text-white font-bold text-lg">Panchaloha</p>
-                          <p className="text-amber-200 text-sm">Sacred Five Metals</p>
+                        
+                        {/* Text Overlay */}
+                        <div className="absolute bottom-2 sm:bottom-3 lg:bottom-4 left-2 sm:left-3 lg:left-4 right-2 sm:right-3 lg:right-4">
+                          <p className="text-white font-bold text-sm sm:text-base lg:text-lg">Panchaloha</p>
+                          <p className="text-amber-200 text-xs sm:text-sm">Sacred Five Metals</p>
                         </div>
                       </Link>
                       
                       <Link 
                         to="/jewelry/silver"
-                        className="relative rounded-xl overflow-hidden shadow-2xl transform hover:scale-105 transition-transform duration-300 cursor-pointer group"
+                        className="relative rounded-lg sm:rounded-xl overflow-hidden shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 cursor-pointer group aspect-[3/4]"
                       >
                         <img 
                           src={silverJewelry} 
                           alt="Silver Jewelry" 
-                          className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent group-hover:from-black/80 transition-all duration-300"></div>
-                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                          <div className="bg-gray-600 text-white px-6 py-3 rounded-full font-semibold shadow-xl flex items-center gap-2">
+                        
+                        {/* Desktop Hover Effect */}
+                        <div className="hidden md:flex absolute inset-0 items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          <div className="bg-gray-600 text-white px-4 lg:px-6 py-2 lg:py-3 rounded-full font-semibold shadow-xl flex items-center gap-2 text-sm lg:text-base">
                             Explore
-                            <ArrowRight className="h-5 w-5" />
+                            <ArrowRight className="h-4 w-4 lg:h-5 lg:w-5" />
                           </div>
                         </div>
-                        <div className="absolute bottom-4 left-4 right-4">
-                          <p className="text-white font-bold text-lg">Silver</p>
-                          <p className="text-gray-200 text-sm">Elegant Sterling</p>
+                        
+                        {/* Text Overlay */}
+                        <div className="absolute bottom-2 sm:bottom-3 lg:bottom-4 left-2 sm:left-3 lg:left-4 right-2 sm:right-3 lg:right-4">
+                          <p className="text-white font-bold text-sm sm:text-base lg:text-lg">Silver</p>
+                          <p className="text-gray-200 text-xs sm:text-sm">Elegant Sterling</p>
                         </div>
                       </Link>
                     </div>

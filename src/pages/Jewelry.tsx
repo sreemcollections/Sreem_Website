@@ -320,46 +320,73 @@ export default function Jewelry() {
 
             {/* Explore Sarees Collection Banner */}
             <div className="mt-16 mb-12">
-              <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50 dark:from-rose-950 dark:via-pink-950 dark:to-purple-950 border border-rose-200 dark:border-rose-800 shadow-2xl">
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer"></div>
+              <div className="relative overflow-hidden rounded-2xl border-2 border-amber-300/50 dark:border-amber-700/50 shadow-2xl">
+                {/* Luxury Pattern Background */}
+                <div className="absolute inset-0 bg-gradient-to-br from-orange-600 via-amber-600 to-yellow-600" 
+                     style={{
+                       backgroundImage: `url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23FFD700' fill-opacity='0.15'%3E%3Cpath d='M40 40c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8zm0-12c-2.2 0-4 1.8-4 4s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4zm16 28c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4zm0-20c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4zM24 56c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4zm0-20c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4zM8 40c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4zm64 0c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4zM40 72c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4zM40 8c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+                       backgroundSize: '80px 80px'
+                     }}>
+                </div>
                 
-                <div className="relative p-8 md:p-12">
-                  <div className="grid md:grid-cols-2 gap-8 items-center">
-                    <div className="space-y-6">
+                {/* Ornamental Pattern Overlay */}
+                <div className="absolute inset-0"
+                     style={{
+                       backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 10 L55 25 L70 25 L58 35 L62 50 L50 40 L38 50 L42 35 L30 25 L45 25 Z M25 50 L30 60 L40 60 L32 68 L35 80 L25 72 L15 80 L18 68 L10 60 L20 60 Z M75 50 L80 60 L90 60 L82 68 L85 80 L75 72 L65 80 L68 68 L60 60 L70 60 Z M50 75 L53 85 L63 85 L55 92 L58 100 L50 94 L42 100 L45 92 L37 85 L47 85 Z' fill='%23FFFFFF' fill-opacity='0.08'/%3E%3C/svg%3E")`,
+                       backgroundSize: '100px 100px',
+                       backgroundPosition: 'center'
+                     }}>
+                </div>
+                
+                {/* Gold Shimmer Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-yellow-300/25 to-transparent animate-shimmer"></div>
+                
+                {/* Decorative Border Pattern */}
+                <div className="absolute inset-0 border-4 border-yellow-400/25 rounded-2xl m-2"></div>
+                
+                <div className="relative p-4 sm:p-6 md:p-8 lg:p-12 backdrop-blur-sm bg-gradient-to-br from-amber-50/40 via-orange-50/40 to-yellow-50/40 dark:from-amber-950/40 dark:via-orange-950/40 dark:to-yellow-950/40">
+                  <div className="grid lg:grid-cols-2 gap-6 lg:gap-8 items-center">
+                    {/* Text Content */}
+                    <div className="space-y-4 md:space-y-6 text-center lg:text-left">
                       <div className="inline-block">
-                        <Badge className="bg-gradient-to-r from-rose-600 to-pink-600 text-white border-0 px-4 py-1.5 text-sm font-semibold shadow-lg">
+                        <Badge className="bg-gradient-to-r from-rose-600 via-pink-600 to-rose-700 text-white border-0 px-3 sm:px-4 py-1 sm:py-1.5 text-xs sm:text-sm font-semibold shadow-lg">
                           Explore Our Sarees
                         </Badge>
                       </div>
                       
-                      <h3 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-rose-900 via-pink-800 to-purple-900 dark:from-rose-200 dark:via-pink-200 dark:to-purple-200 bg-clip-text text-transparent leading-tight">
+                      <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-rose-900 via-pink-800 to-purple-900 dark:from-rose-100 dark:via-pink-100 dark:to-purple-100 bg-clip-text text-transparent leading-tight drop-shadow-sm">
                         Discover Exquisite Saree Collections
                       </h3>
                       
-                      <p className="text-lg text-rose-800 dark:text-rose-200 leading-relaxed">
+                      <p className="text-sm sm:text-base lg:text-lg text-amber-950/90 dark:text-amber-50/90 leading-relaxed max-w-xl mx-auto lg:mx-0 font-medium">
                         Complete your jewelry look with our stunning saree collection. From traditional temple borders to contemporary designs, each piece tells a story of heritage and elegance.
                       </p>
                     </div>
 
+                    {/* Image Card */}
                     <Link 
                       to="/sarees"
-                      className="relative rounded-xl overflow-hidden shadow-2xl transform hover:scale-105 transition-transform duration-300 cursor-pointer group"
+                      className="relative rounded-lg sm:rounded-xl overflow-hidden shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 cursor-pointer group aspect-[4/3] sm:aspect-auto sm:h-auto max-w-md mx-auto lg:max-w-none"
                     >
                       <img 
                         src={sareesImage} 
                         alt="Sarees Collection" 
-                        className="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-500"
+                        className="w-full h-full sm:h-80 lg:h-96 object-cover group-hover:scale-110 transition-transform duration-500"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent group-hover:from-black/80 transition-all duration-300"></div>
-                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <div className="bg-rose-600 text-white px-8 py-4 rounded-full font-semibold shadow-xl flex items-center gap-2 text-lg">
+                      
+                      {/* Desktop Hover Effect */}
+                      <div className="hidden md:flex absolute inset-0 items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div className="bg-gradient-to-r from-rose-600 to-pink-600 text-white px-6 lg:px-8 py-3 lg:py-4 rounded-full font-semibold shadow-xl flex items-center gap-2 text-base lg:text-lg">
                           Explore
-                          <ArrowRight className="h-6 w-6" />
+                          <ArrowRight className="h-5 w-5 lg:h-6 lg:w-6" />
                         </div>
                       </div>
-                      <div className="absolute bottom-6 left-6 right-6">
-                        <p className="text-white font-bold text-2xl mb-2">Sarees Collection</p>
-                        <p className="text-rose-200 text-base">Traditional Elegance Meets Modern Grace</p>
+                      
+                      {/* Text Overlay */}
+                      <div className="absolute bottom-3 sm:bottom-4 lg:bottom-6 left-3 sm:left-4 lg:left-6 right-3 sm:right-4 lg:right-6">
+                        <p className="text-white font-bold text-lg sm:text-xl lg:text-2xl mb-1 sm:mb-2 drop-shadow-lg">Sarees Collection</p>
+                        <p className="text-rose-200 text-xs sm:text-sm lg:text-base drop-shadow-md">Traditional Elegance Meets Modern Grace</p>
                       </div>
                     </Link>
                   </div>

@@ -656,23 +656,28 @@ export default function ProductDetail() {
 
 
             {/* Action Buttons - Catalog Mode */}
-            <div className="space-y-3">
-              <div className="bg-muted/50 border border-primary/20 rounded-lg p-4 text-center">
-                <p className="text-sm font-medium text-muted-foreground mb-2">
+            <div className="space-y-4">
+              <div className="bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-950 dark:to-orange-950 border-2 border-amber-300/50 dark:border-amber-700/50 rounded-lg p-4 text-center shadow-sm">
+                <p className="text-sm font-semibold text-amber-900 dark:text-amber-100 mb-2">
                   This is a catalog showcase
                 </p>
-                <p className="text-xs text-muted-foreground">
+                <p className="text-xs text-amber-800 dark:text-amber-200">
                   Please contact us for pricing and availability
                 </p>
               </div>
               
               <div className="flex gap-3">
                 <Button 
-                  className="flex-1" 
+                  className="flex-1 group relative overflow-hidden bg-gradient-to-r from-primary via-rose-700 to-primary hover:from-primary/90 hover:via-rose-700/90 hover:to-primary/90 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] text-base sm:text-lg py-6 font-semibold" 
                   size="lg"
                   onClick={handleRequestInformation}
                 >
-                  Request Information
+                  <span className="relative z-10 flex items-center justify-center gap-2">
+                    <MessageCircle className="h-5 w-5 sm:h-6 sm:w-6 animate-bounce" />
+                    Request Information
+                  </span>
+                  {/* Shimmer effect */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out"></div>
                 </Button>
                 <Button 
                   variant="outline" 
@@ -680,9 +685,17 @@ export default function ProductDetail() {
                   onClick={handleShare}
                   type="button"
                   aria-label="Share product"
+                  className="hover:scale-105 transition-transform duration-200"
                 >
                   <Share2 className="h-4 w-4" />
                 </Button>
+              </div>
+              
+              {/* Helper Text */}
+              <div className="text-center">
+                <p className="text-xs text-muted-foreground">
+                  💬 Tap "Request Information" to inquire via WhatsApp
+                </p>
               </div>
             </div>
           </div>

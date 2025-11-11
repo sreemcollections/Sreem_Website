@@ -459,7 +459,7 @@ export default function ProductDetail() {
                 <img 
                   src={productImages[selectedImage]} 
                   alt={`${product.name} - Image ${selectedImage + 1}`}
-                  className={mainScale > 1.05 ? 'max-w-full max-h-full object-contain' : 'w-full h-full object-cover'}
+                  className={mainScale > 1.05 ? 'max-w-full max-h-full object-contain' : 'w-full h-full object-contain'}
                   style={{
                     transition: 'object-fit 0.2s ease-out'
                   }}

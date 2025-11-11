@@ -184,13 +184,12 @@ export default function ProductDetail() {
   };
 
   const getShareUrl = () => {
-    if (!product) return '';
-    const productionDomain = 'https://sreem-collection.lovable.app';
-    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname.startsWith('192.168');
-    
-    return isLocalhost 
-      ? `${productionDomain}/product/${product.slug.current}`
-      : window.location.href;
+    if (!product || !product.slug || !product.slug.current) return '';
+    // Use the current window location for production
+    // This will automatically use your Vercel domain or custom domain
+    // Ensure the slug is properly encoded to handle special characters
+    const encodedSlug = encodeURIComponent(product.slug.current);
+    return `${window.location.origin}/product/${encodedSlug}`;
   };
 
   const handleNativeShare = async () => {

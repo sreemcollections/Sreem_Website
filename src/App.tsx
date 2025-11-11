@@ -10,6 +10,7 @@ import Sarees from "./pages/Sarees";
 import Jewelry from "./pages/Jewelry";
 import JewelryCollections from "./pages/JewelryCollections";
 import ProductDetail from "./pages/ProductDetail";
+import SilverRedirect from "./pages/SilverRedirect";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 import GSTPolicy from "./pages/GSTPolicy";
@@ -32,6 +33,7 @@ const App = () => (
           <Route index element={<Home />} />
           <Route path="sarees" element={<Sarees />} />
           <Route path="jewelry" element={<JewelryCollections />} />
+          <Route path="jewelry/silver" element={<SilverRedirect />} />
           <Route path="jewelry/:collection" element={<Jewelry />} />
           <Route path="product/:slug" element={<ProductDetail />} />
           <Route path="artisans" element={<div>Artisans (Phase 9)</div>} />

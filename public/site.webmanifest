@@ -1,0 +1,21 @@
+{
+  "name": "Sreem Collections",
+  "short_name": "Sreem",
+  "description": "Authentic Indian ethnic fashion with handcrafted sarees and jewelry",
+  "icons": [
+    {
+      "src": "/Sreem_Logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/Sreem_Logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#8B1538",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "start_url": "/"
+}

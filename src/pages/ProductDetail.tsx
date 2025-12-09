@@ -209,7 +209,7 @@ export default function ProductDetail() {
       }
     } catch (error) {
       if ((error as Error).name !== 'AbortError') {
-        console.error('Error sharing:', error);
+        // Sharing cancelled or failed
       }
     }
   };
@@ -282,7 +282,6 @@ export default function ProductDetail() {
         document.body.removeChild(textArea);
       }
     } catch (error) {
-      console.error('Clipboard error:', error);
       alert(`Share this link: ${url}`);
     }
   };
@@ -649,17 +648,6 @@ export default function ProductDetail() {
               )}
             </div>
 
-            {/* Panchaloha Information Banner */}
-            {product.collection === 'Panchaloha' && (
-              <div className="bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200 rounded-lg p-4">
-                <h4 className="text-sm font-semibold text-amber-900 mb-1">About Panchaloha</h4>
-                <p className="text-xs text-amber-800 leading-relaxed">
-                  Panchaloha is a sacred alloy of five metals: gold, silver, copper, iron, and tin. This traditional combination is revered in temple jewelry and religious artifacts for its spiritual significance and durability.
-                </p>
-              </div>
-            )}
-
-
             {/* Action Buttons - Catalog Mode */}
             <div className="space-y-4">
               <div className="bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-950 dark:to-orange-950 border-2 border-amber-300/50 dark:border-amber-700/50 rounded-lg p-4 text-center shadow-sm">
@@ -699,10 +687,20 @@ export default function ProductDetail() {
               {/* Helper Text */}
               <div className="text-center">
                 <p className="text-xs text-muted-foreground">
-                  💬 Tap "Request Information" to inquire via WhatsApp
+                   Tap "Request Information" to inquire via WhatsApp
                 </p>
               </div>
             </div>
+
+            {/* Panchaloha Information Banner */}
+            {product.collection === 'Panchaloha' && (
+              <div className="bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200 rounded-lg p-4">
+                <h4 className="text-sm font-semibold text-amber-900 mb-1">About Panchaloha</h4>
+                <p className="text-xs text-amber-800 leading-relaxed">
+                  Panchaloha is a sacred alloy of five metals: gold, silver, copper, iron, and tin. This traditional combination is revered in temple jewelry and religious artifacts for its spiritual significance and durability.
+                </p>
+              </div>
+            )}
           </div>
         </div>
 

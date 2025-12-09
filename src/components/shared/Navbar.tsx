@@ -20,16 +20,14 @@ export const Navbar = () => {
             {/* Logo with Brand Name */}
             <div className="flex-shrink-0">
               <Link to="/" className="flex items-center gap-2 sm:gap-3 hover:opacity-90 transition-opacity duration-300">
+                {/* Logo */}
                 <img 
                   src="/Sreem_Logo.png" 
                   alt="Sreem Collections" 
-                  className="h-12 sm:h-12 md:h-13 lg:h-14 xl:h-16 w-auto object-contain"
-                  onError={(e) => {
-                    e.currentTarget.style.display = 'none';
-                    const fallback = e.currentTarget.nextElementSibling as HTMLElement;
-                    if (fallback) fallback.style.display = 'block';
-                  }}
+                  className="h-12 w-12 sm:h-14 sm:w-14 object-contain"
                 />
+                
+                {/* Brand Name */}
                 <div className="flex flex-col">
                   <div className="text-xl sm:text-2xl lg:text-3xl font-playfair font-bold text-primary leading-none">
                     Sreem Collections

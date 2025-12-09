@@ -1,21 +1,19 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Sparkles } from 'lucide-react';
+import { Gem } from 'lucide-react';
 
 export default function SilverRedirect() {
   const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
-    // Wait 5 seconds, then fade out
     const fadeTimer = setTimeout(() => {
       setIsVisible(false);
-    }, 5000);
+    }, 6000);
 
-    // After fade completes, redirect to Panchaloha
     const redirectTimer = setTimeout(() => {
       navigate('/jewelry/panchaloham');
-    }, 5700);
+    }, 6700);
 
     return () => {
       clearTimeout(fadeTimer);
@@ -24,75 +22,80 @@ export default function SilverRedirect() {
   }, [navigate]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-gray-50 to-slate-100 dark:from-slate-900 dark:via-gray-900 dark:to-slate-800 px-4">
-      <div
-        className={`max-w-2xl w-full transition-all duration-700 ${
-          isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
-        }`}
-      >
-        {/* Main Card */}
-        <div className="relative overflow-hidden rounded-3xl bg-white dark:bg-slate-800 shadow-2xl border border-slate-200 dark:border-slate-700">
-          {/* Decorative Background Pattern */}
-          <div className="absolute inset-0 opacity-5">
-            <div
-              className="absolute inset-0"
-              style={{
-                backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-                backgroundSize: '30px 30px',
-              }}
-            ></div>
-          </div>
+    <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Video Background */}
+      <div className="absolute inset-0 z-0">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+        >
+          <source src="/Jewlery_Trans.mp4" type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-black/40"></div>
+      </div>
 
-          {/* Content */}
-          <div className="relative p-8 sm:p-12 text-center">
-            {/* Icon */}
-            <div className="flex justify-center mb-6">
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-slate-400 to-gray-500 blur-xl opacity-30 animate-pulse"></div>
-                <div className="relative bg-gradient-to-br from-slate-100 to-gray-200 dark:from-slate-700 dark:to-gray-800 rounded-full p-6 shadow-lg">
-                  <Sparkles className="h-12 w-12 text-slate-600 dark:text-slate-300 animate-pulse" />
+      {/* Content */}
+      <div className="relative z-10 px-4 w-full">
+        <div
+          className={`max-w-2xl mx-auto transition-all duration-700 ${
+            isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
+          }`}
+        >
+          <div className="relative overflow-hidden rounded-3xl backdrop-blur-xl bg-white/10 border border-white/20 shadow-2xl">
+            <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-black/10"></div>
+            
+            <div className="relative p-8 sm:p-12 text-center">
+              {/* Icon */}
+              <div className="flex justify-center mb-6">
+                <div className="relative">
+                  <div className="absolute inset-0 bg-white blur-2xl opacity-50 animate-pulse"></div>
+                  <div className="relative bg-white/20 backdrop-blur-sm rounded-full p-6 border border-white/30 shadow-lg">
+                    <Gem className="h-12 w-12 text-white" />
+                  </div>
                 </div>
               </div>
+
+              {/* Title */}
+              <h1 className="text-4xl sm:text-5xl font-playfair font-bold mb-6 text-white drop-shadow-2xl">
+                Silver Collection
+              </h1>
+
+              {/* Coming Soon Badge */}
+              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-500/90 to-yellow-500/90 backdrop-blur-sm text-white px-6 py-2.5 rounded-full text-sm font-semibold mb-8 shadow-xl border border-amber-300/30">
+                <Gem className="h-4 w-4" />
+                Coming Soon
+              </div>
+
+              {/* Message */}
+              <p className="text-xl sm:text-2xl text-white font-light mb-4 leading-relaxed max-w-xl mx-auto drop-shadow-lg">
+                Our exquisite Silver Collection is arriving soon!
+              </p>
+
+              <p className="text-base sm:text-lg text-white/90 mb-8 drop-shadow-md">
+                In the meantime, explore our stunning{' '}
+                <span className="font-semibold text-amber-300">
+                  Panchaloha Collection
+                </span>
+              </p>
+
+              {/* Animated Dots */}
+              <div className="flex justify-center gap-2 mb-4">
+                <div className="w-2.5 h-2.5 bg-white rounded-full animate-bounce shadow-lg" style={{ animationDelay: '0s' }}></div>
+                <div className="w-2.5 h-2.5 bg-white rounded-full animate-bounce shadow-lg" style={{ animationDelay: '0.2s' }}></div>
+                <div className="w-2.5 h-2.5 bg-white rounded-full animate-bounce shadow-lg" style={{ animationDelay: '0.4s' }}></div>
+              </div>
+
+              {/* Redirect Message */}
+              <p className="text-sm text-white/80 drop-shadow-md">
+                Redirecting you to Panchaloha Collection...
+              </p>
             </div>
 
-            {/* Title */}
-            <h1 className="text-3xl sm:text-4xl font-playfair font-bold mb-4 bg-gradient-to-r from-slate-700 via-gray-600 to-slate-700 dark:from-slate-200 dark:via-gray-300 dark:to-slate-200 bg-clip-text text-transparent">
-              Silver Collection
-            </h1>
-
-            {/* Badge */}
-            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-100 to-yellow-100 dark:from-amber-900 dark:to-yellow-900 text-amber-800 dark:text-amber-200 px-4 py-2 rounded-full text-sm font-semibold mb-6 shadow-md">
-              <Sparkles className="h-4 w-4" />
-              Coming Soon
-            </div>
-
-            {/* Message */}
-            <p className="text-lg sm:text-xl text-slate-600 dark:text-slate-300 mb-4 leading-relaxed max-w-xl mx-auto">
-              Our exquisite Silver Collection is arriving soon!
-            </p>
-
-            <p className="text-base text-slate-500 dark:text-slate-400 mb-8">
-              In the meantime, explore our stunning{' '}
-              <span className="font-semibold text-amber-700 dark:text-amber-400">
-                Panchaloha Collection
-              </span>
-            </p>
-
-            {/* Progress Indicator */}
-            <div className="flex justify-center gap-2 mb-4">
-              <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0s' }}></div>
-              <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-              <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></div>
-            </div>
-
-            {/* Redirect Message */}
-            <p className="text-sm text-slate-400 dark:text-slate-500">
-              Redirecting you to Panchaloha Collection...
-            </p>
+            <div className="absolute inset-0 rounded-3xl border-2 border-white/10 pointer-events-none"></div>
           </div>
-
-          {/* Decorative Border */}
-          <div className="absolute inset-0 border-2 border-gradient-to-r from-transparent via-slate-200 dark:via-slate-600 to-transparent rounded-3xl pointer-events-none"></div>
         </div>
       </div>
     </div>
